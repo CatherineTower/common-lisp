@@ -52,13 +52,13 @@
 (defmethod convert ((color color) (type (eql 'alpha)))
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose color)))
-    (declare (u:ub16 r g b a))
+    (declare (u:ub16 a))
     (alpha (ash a -8))))
 
 (defmethod convert ((color color) (type (eql 'alpha16)))
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose color)))
-    (declare (u:ub16 r g b a))
+    (declare (u:ub16 a))
     (alpha16 a)))
 
 (defmethod convert ((color color) (type (eql 'gray)))
