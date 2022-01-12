@@ -26,7 +26,7 @@
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose color)))
     (declare (u:ub16 r g b a))
-    (rgba (ash r -8) (ash g -8) (ash b -8) (ash a -8))))
+    (rgba-pma (ash r -8) (ash g -8) (ash b -8) (ash a -8))))
 
 (defmethod convert ((color color) (type (eql 'rgba16)))
   (declare (optimize speed))
@@ -47,7 +47,7 @@
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose color)))
     (declare (u:ub16 r g b a))
-    (rgba16 r g b a)))
+    (rgba16-pma r g b a)))
 
 (defmethod convert ((color color) (type (eql 'alpha)))
   (declare (optimize speed))
