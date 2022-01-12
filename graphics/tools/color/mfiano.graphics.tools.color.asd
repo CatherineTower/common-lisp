@@ -11,5 +11,6 @@
   ((:file "package")
    (:file "utils")
    (:file "types")
-   (:file "decode")
+   (:file "constructors")
+   (:file "decompose")
    (:file "convert")))

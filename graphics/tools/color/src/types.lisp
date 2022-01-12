@@ -1,61 +1,67 @@
 (in-package #:mfiano.graphics.tools.color)
 
-;;; Abstract classes
+(defstruct (color
+            (:constructor nil)
+            (:conc-name nil)
+            (:predicate nil)
+            (:copier nil)))
 
-(defclass color ()
-  ((%data :reader data
-          :initarg :data)))
+(defstruct (rgba
+            (:include color)
+            (:constructor %rgba)
+            (:predicate nil)
+            (:copier nil))
+  (r 0 :type u:ub8)
+  (g 0 :type u:ub8)
+  (b 0 :type u:ub8)
+  (a 0 :type u:ub8))
 
-;;; Concrete classes
+(defstruct (rgba-pma
+            (:include rgba)
+            (:constructor %rgba-pma)
+            (:predicate nil)
+            (:copier nil)))
 
-(defclass rgba (color)
-  ((%pma :reader pma
-         :initarg :pma)))
+(defstruct (rgba16
+            (:include color)
+            (:constructor %rgba16)
+            (:predicate nil)
+            (:copier nil))
+  (r 0 :type u:ub16)
+  (g 0 :type u:ub16)
+  (b 0 :type u:ub16)
+  (a 0 :type u:ub16))
 
-(defclass rgba16 (rgba) ())
+(defstruct (rgba16-pma
+            (:include rgba16)
+            (:constructor %rgba16-pma)
+            (:predicate nil)
+            (:copier nil)))
 
-(defclass alpha (color) ())
+(defstruct (alpha
+            (:include color)
+            (:constructor %alpha)
+            (:predicate nil)
+            (:copier nil))
+  (value #xff :type u:ub8))
 
-(defclass alpha16 (color) ())
+(defstruct (alpha16
+            (:include color)
+            (:constructor %alpha16)
+            (:predicate nil)
+            (:copier nil))
+  (value #xffff :type u:ub16))
 
-(defclass gray (color) ())
+(defstruct (gray
+            (:include color)
+            (:constructor %gray)
+            (:predicate nil)
+            (:copier nil))
+  (value 0 :type u:ub8))
 
-(defclass gray16 (color) ())
-
-;;; Constructors
-
-(defun rgba (r g b a &key pma)
-  (declare (optimize speed))
-  (%check-ub8 r g b a)
-  (let* ((data (u:make-ub8-array 4))
-         (color (make-instance 'rgba :data data :pma pma)))
-    (%write-rgba data r g b a)
-    color))
-
-(defun rgba16 (r g b a &key pma)
-  (declare (optimize speed))
-  (%check-ub16 r g b a)
-  (let* ((data (u:make-ub16-array 4))
-         (color (make-instance 'rgba16 :data data :pma pma)))
-    (%write-rgba data r g b a)
-    color))
-
-(defun alpha (value)
-  (declare (optimize speed))
-  (%check-ub8 value)
-  (make-instance 'alpha :data value))
-
-(defun alpha16 (value)
-  (declare (optimize speed))
-  (%check-ub16 value)
-  (make-instance 'alpha16 :data value))
-
-(defun gray (value)
-  (declare (optimize speed))
-  (%check-ub8 value)
-  (make-instance 'gray :data value))
-
-(defun gray16 (value)
-  (declare (optimize speed))
-  (%check-ub16 value)
-  (make-instance 'gray16 :data value))
+(defstruct (gray16
+            (:include color)
+            (:constructor %gray16)
+            (:predicate nil)
+            (:copier nil))
+  (value 0 :type u:ub16))
