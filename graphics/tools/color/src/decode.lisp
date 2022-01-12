@@ -1,0 +1,43 @@
+(in-package #:mfiano.graphics.tools.color)
+
+(defgeneric decode (color))
+
+(defmethod decode ((color rgba))
+  (declare (optimize speed))
+  (flet ((%decode (value alpha)
+           (truncate (* (%or-shift value) alpha) #xff)))
+    (declare (inline %decode))
+    (u:mvlet ((r g b a (%decompose-rgba (the u:ub8a (data color)))))
+      (if (pma color)
+          (values (%or-shift r) (%or-shift g) (%or-shift b) (%or-shift a))
+          (values (%decode r a) (%decode g a) (%decode b a) (%or-shift a))))))
+
+(defmethod decode ((color rgba16))
+  (declare (optimize speed))
+  (flet ((%decode (value alpha)
+           (truncate (* value alpha) #xffff)))
+    (declare (inline %decode))
+    (u:mvlet ((r g b a (%decompose-rgba (the u:ub16a (data color)))))
+      (if (pma color)
+          (values r g b a)
+          (values (%decode r a) (%decode g a) (%decode b a) a)))))
+
+(defmethod decode ((color alpha))
+  (declare (optimize speed))
+  (let ((a (%or-shift (data color))))
+    (values a a a a)))
+
+(defmethod decode ((color alpha16))
+  (declare (optimize speed))
+  (let ((a (data color)))
+    (values a a a a)))
+
+(defmethod decode ((color gray))
+  (declare (optimize speed))
+  (let ((v (%or-shift (data color))))
+    (values v v v #xffff)))
+
+(defmethod decode ((color gray16))
+  (declare (optimize speed))
+  (let ((v (data color)))
+    (values v v v #xffff)))
