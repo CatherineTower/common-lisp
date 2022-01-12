@@ -4,4 +4,16 @@
   (:local-nicknames
    (#:u #:mfiano.misc.utils))
   (:use #:cl)
-  (:export))
+  ;; types
+  (:export
+   #:alpha
+   #:alpha16
+   #:gray
+   #:gray16
+   #:rgba
+   #:rgba-pma
+   #:rgba16
+   #:rgba16-pma)
+  ;; operations
+  (:export
+   #:convert))
