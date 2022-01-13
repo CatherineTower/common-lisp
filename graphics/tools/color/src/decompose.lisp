@@ -5,20 +5,20 @@
 (defmethod decompose ((color rgba))
   (declare (optimize speed))
   (flet ((%decompose (value alpha)
-           (truncate (* (%or-shift value) alpha) #xff)))
+           (truncate (* (%or-shift8 value) alpha) #xff)))
     (declare (inline %decompose))
     (let ((a (rgba-a color)))
       (values (%decompose (rgba-r color) a)
               (%decompose (rgba-g color) a)
               (%decompose (rgba-b color) a)
-              (%or-shift a)))))
+              (%or-shift8 a)))))
 
 (defmethod decompose ((color rgba-pma))
   (declare (optimize speed))
-  (values (%or-shift (rgba-r color))
-          (%or-shift (rgba-g color))
-          (%or-shift (rgba-b color))
-          (%or-shift (rgba-a color))))
+  (values (%or-shift8 (rgba-r color))
+          (%or-shift8 (rgba-g color))
+          (%or-shift8 (rgba-b color))
+          (%or-shift8 (rgba-a color))))
 
 (defmethod decompose ((color rgba16))
   (declare (optimize speed))
@@ -40,7 +40,7 @@
 
 (defmethod decompose ((color alpha))
   (declare (optimize speed))
-  (let ((a (%or-shift (alpha-value color))))
+  (let ((a (%or-shift8 (alpha-value color))))
     (values a a a a)))
 
 (defmethod decompose ((color alpha16))
@@ -50,7 +50,7 @@
 
 (defmethod decompose ((color gray))
   (declare (optimize speed))
-  (let ((v (%or-shift (gray-value color))))
+  (let ((v (%or-shift8 (gray-value color))))
     (values v v v #xffff)))
 
 (defmethod decompose ((color gray16))
