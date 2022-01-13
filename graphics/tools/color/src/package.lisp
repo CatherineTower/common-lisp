@@ -6,13 +6,17 @@
   (:use #:cl)
   ;; types
   (:export
-   #:alpha
+   #:alpha8
    #:alpha16
-   #:gray
+   #:gray8
    #:gray16
-   #:rgba
-   #:rgba-pma
+   #:gray-alpha8
+   #:gray-alpha16
+   #:rgb8
+   #:rgb16
+   #:rgba8
    #:rgba16
+   #:rgba8-pma
    #:rgba16-pma)
   ;; operations
   (:export
