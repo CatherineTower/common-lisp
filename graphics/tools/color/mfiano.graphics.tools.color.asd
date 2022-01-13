@@ -13,5 +13,5 @@
    (:file "types")
    (:file "decompose")
    (:file "convert")
-   (:file "palette")
-   (:file "palette-open-color")))
+   #++(:file "palette")
+   #++(:file "palette-open-color")))
