@@ -10,8 +10,10 @@
         source
         (call-next-method))))
 
-(defgeneric make-palette (type)
-  (:method :around (type)
+(defgeneric make-palette (name)
+  (:method (name)
+    (error "No such palette: ~s." name))
+  (:method :around (name)
     (u:if-let ((colors (call-next-method)))
       (progn
         (unless (every #'model-p colors)
