@@ -14,8 +14,8 @@
   (u:mvlet ((c1r c1g c1b c1a (decompose color1))
             (c2r c2g c2b c2a (decompose color2)))
     (declare (u:ub16 c1r c1g c1b c1a c2r c2g c2b c2a))
-    (ash (+ (expt (- c2r c1r) 2)
-            (expt (- c2g c1g) 2)
-            (expt (- c2b c1b) 2)
-            (expt (- c2a c1a) 2))
-         -2)))
+    ;; NOTE: Maximum bit width returned is 34. Callers should optimize for type FIXNUM.
+    (+ (expt (- c2r c1r) 2)
+       (expt (- c2g c1g) 2)
+       (expt (- c2b c1b) 2)
+       (expt (- c2a c1a) 2))))
