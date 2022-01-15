@@ -10,10 +10,16 @@
   (y 0 :type u:ub8)
   (k 0 :type u:ub8))
 
+;; Helper function for the CONVERT method below. This assumes 16-bit pre-multiplied alpha RGB input
+;; values, as returned by DECOMPOSE, also below. It does not make sense to export this, as the
+;; CONVERT function handles bi-directional conversions.
 (defun %rgb->cmyk (r g b)
   (declare (optimize speed)
            (u:ub16 r g b))
-  (let ((w (max r g b)))
+  (let* ((r (ash r -8))
+         (g (ash g -8))
+         (b (ash b -8))
+         (w (max r g b)))
     (if (zerop w)
         (values 0 0 0 #xff)
         (values (truncate (* (- w r) #xff) w)
@@ -31,14 +37,13 @@
 
 (defmethod convert ((source model) (target cmyk))
   (declare (optimize speed))
-  (u:mvlet ((r g b (decompose source)))
-    (declare (u:ub16 r g b))
-    (u:mvlet ((c m y k (%rgb->cmyk (ash r -8) (ash g -8) (ash b -8))))
-      (setf (cmyk-c target) c
-            (cmyk-m target) m
-            (cmyk-y target) y
-            (cmyk-k target) k)
-      target)))
+  (u:mvlet* ((r g b (decompose source))
+             (c m y k (%rgb->cmyk r g b)))
+    (setf (cmyk-c target) c
+          (cmyk-m target) m
+          (cmyk-y target) y
+          (cmyk-k target) k)
+    target))
 
 (defmethod convert ((source model) (target (eql 'cmyk)))
   (declare (optimize speed))

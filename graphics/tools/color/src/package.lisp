@@ -8,6 +8,7 @@
   (:export
    #:alpha8
    #:alpha16
+   #:cmyk
    #:gray8
    #:gray16
    #:gray-alpha8
