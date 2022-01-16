@@ -6,14 +6,14 @@
             (:predicate nil)
             (:copier nil)))
 
-(defmethod decompose ((model rgba16-pma))
+(defmethod decompose ((color rgba16-pma))
   (declare (optimize speed))
-  (values (rgba16-r model)
-          (rgba16-g model)
-          (rgba16-b model)
-          (rgba16-a model)))
+  (values (rgba16-r color)
+          (rgba16-g color)
+          (rgba16-b color)
+          (rgba16-a color)))
 
-(defmethod convert ((source model) (target rgba16-pma))
+(defmethod convert ((source color) (target rgba16-pma))
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose source)))
     (setf (rgba16-r target) r
@@ -22,6 +22,6 @@
           (rgba16-a target) a)
     target))
 
-(defmethod convert ((source model) (target (eql 'rgba16-pma)))
+(defmethod convert ((source color) (target (eql 'rgba16-pma)))
   (declare (optimize speed))
   (convert source (rgba16-pma 0 0 0 0)))

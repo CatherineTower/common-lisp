@@ -27,7 +27,8 @@
      (:file "rgba8")
      (:file "rgba8-pma")
      (:file "rgba16")
-     (:file "rgba16-pma")))
+     (:file "rgba16-pma")
+     (:file "ycbcr")))
    (:module "palettes"
     :components
     ((:file "3-bit-rgb")

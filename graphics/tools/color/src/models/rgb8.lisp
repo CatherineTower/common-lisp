@@ -1,7 +1,7 @@
 (in-package #:mfiano.graphics.tools.color)
 
 (defstruct (rgb8
-            (:include model)
+            (:include color)
             (:constructor rgb8 (r g b))
             (:predicate nil)
             (:copier nil))
@@ -9,17 +9,14 @@
   (g 0 :type u:ub8)
   (b 0 :type u:ub8))
 
-(defmethod decompose ((model rgb8))
+(defmethod decompose ((color rgb8))
   (declare (optimize speed))
-  (flet ((%decompose (value)
-           (%or-shift8 value)))
-    (declare (inline %decompose))
-    (values (%decompose (rgb8-r model))
-            (%decompose (rgb8-g model))
-            (%decompose (rgb8-b model))
-            #xffff)))
+  (values (%or-shift8 (rgb8-r color))
+          (%or-shift8 (rgb8-g color))
+          (%or-shift8 (rgb8-b color))
+          #xffff))
 
-(defmethod convert ((source model) (target rgb8))
+(defmethod convert ((source color) (target rgb8))
   (declare (optimize speed))
   (u:mvlet ((r g b (decompose source)))
     (declare (u:ub16 r g b))
@@ -28,6 +25,6 @@
           (rgb8-b target) (ash b -8))
     target))
 
-(defmethod convert ((source model) (target (eql 'rgb8)))
+(defmethod convert ((source color) (target (eql 'rgb8)))
   (declare (optimize speed))
   (convert source (rgb8 0 0 0)))

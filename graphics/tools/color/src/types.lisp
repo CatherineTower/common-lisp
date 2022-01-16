@@ -1,6 +1,6 @@
 (in-package #:mfiano.graphics.tools.color)
 
-(defstruct (model
+(defstruct (color
             (:constructor nil)
             (:copier nil)))
 

@@ -19,7 +19,8 @@
    #:rgba8
    #:rgba16
    #:rgba8-pma
-   #:rgba16-pma)
+   #:rgba16-pma
+   #:ycbcr)
   ;; palettes
   (:export
    #:3-bit-rgb

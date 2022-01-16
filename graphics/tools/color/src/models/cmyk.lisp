@@ -1,7 +1,7 @@
 (in-package #:mfiano.graphics.tools.color)
 
 (defstruct (cmyk
-            (:include model)
+            (:include color)
             (:constructor cmyk (c m y k))
             (:predicate nil)
             (:copier nil))
@@ -27,15 +27,15 @@
                 (truncate (* (- w b) #xff) w)
                 (- #xff w)))))
 
-(defmethod decompose ((model cmyk))
+(defmethod decompose ((color cmyk))
   (declare (optimize speed))
-  (let ((w (- #xffff (%or-shift8 (cmyk-k model)))))
-    (values (truncate (* (- #xffff (%or-shift8 (cmyk-c model))) w) #xffff)
-            (truncate (* (- #xffff (%or-shift8 (cmyk-m model))) w) #xffff)
-            (truncate (* (- #xffff (%or-shift8 (cmyk-y model))) w) #xffff)
+  (let ((w (- #xffff (%or-shift8 (cmyk-k color)))))
+    (values (truncate (* (- #xffff (%or-shift8 (cmyk-c color))) w) #xffff)
+            (truncate (* (- #xffff (%or-shift8 (cmyk-m color))) w) #xffff)
+            (truncate (* (- #xffff (%or-shift8 (cmyk-y color))) w) #xffff)
             #xffff)))
 
-(defmethod convert ((source model) (target cmyk))
+(defmethod convert ((source color) (target cmyk))
   (declare (optimize speed))
   (u:mvlet* ((r g b (decompose source))
              (c m y k (%rgb->cmyk r g b)))
@@ -45,6 +45,6 @@
           (cmyk-k target) k)
     target))
 
-(defmethod convert ((source model) (target (eql 'cmyk)))
+(defmethod convert ((source color) (target (eql 'cmyk)))
   (declare (optimize speed))
   (convert source (cmyk 0 0 0 0)))

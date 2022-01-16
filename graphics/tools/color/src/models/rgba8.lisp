@@ -7,19 +7,15 @@
             (:copier nil))
   (a 0 :type u:ub8))
 
-(defmethod decompose ((model rgba8))
+(defmethod decompose ((color rgba8))
   (declare (optimize speed))
-  (flet ((%decompose (value alpha)
-           (truncate (* (%or-shift8 value) alpha) #xff)))
-    (declare (inline %decompose))
-    (let ((a (rgba8-a model)))
-      (values (%decompose (rgba8-r model) a)
-              (%decompose (rgba8-g model) a)
-              (%decompose (rgba8-b model) a)
-              (%or-shift8 a)))))
+  (let ((a (rgba8-a color)))
+    (values (truncate (* (%or-shift8 (rgba8-r color)) a) #xff)
+            (truncate (* (%or-shift8 (rgba8-g color)) a) #xff)
+            (truncate (* (%or-shift8 (rgba8-b color)) a) #xff)
+            (%or-shift8 a))))
 
-;; non-consing
-(defmethod convert ((source model) (target rgba8))
+(defmethod convert ((source color) (target rgba8))
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose source)))
     (declare (u:ub16 r g b a))
@@ -41,7 +37,6 @@
              (rgba8-a target) (ash a -8))))
     target))
 
-;; consing
-(defmethod convert ((source model) (target (eql 'rgba8)))
+(defmethod convert ((source color) (target (eql 'rgba8)))
   (declare (optimize speed))
   (convert source (rgba8 0 0 0 0)))

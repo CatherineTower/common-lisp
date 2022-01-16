@@ -6,14 +6,14 @@
             (:predicate nil)
             (:copier nil)))
 
-(defmethod decompose ((model rgba8-pma))
+(defmethod decompose ((color rgba8-pma))
   (declare (optimize speed))
-  (values (%or-shift8 (rgba8-r model))
-          (%or-shift8 (rgba8-g model))
-          (%or-shift8 (rgba8-b model))
-          (%or-shift8 (rgba8-a model))))
+  (values (%or-shift8 (rgba8-r color))
+          (%or-shift8 (rgba8-g color))
+          (%or-shift8 (rgba8-b color))
+          (%or-shift8 (rgba8-a color))))
 
-(defmethod convert ((source model) (target rgba8-pma))
+(defmethod convert ((source color) (target rgba8-pma))
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose source)))
     (declare (u:ub16 r g b a))
@@ -23,6 +23,6 @@
           (rgba8-a target) (ash a -8))
     target))
 
-(defmethod convert ((source model) (target (eql 'rgba8-pma)))
+(defmethod convert ((source color) (target (eql 'rgba8-pma)))
   (declare (optimize speed))
   (convert source (rgba8-pma 0 0 0 0)))

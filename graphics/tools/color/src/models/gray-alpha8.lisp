@@ -7,13 +7,13 @@
             (:copier nil))
   (alpha #xff :type u:ub8))
 
-(defmethod decompose ((model gray-alpha8))
+(defmethod decompose ((color gray-alpha8))
   (declare (optimize speed))
-  (let ((v (%or-shift8 (gray-alpha8-value model)))
-        (a (%or-shift8 (gray-alpha8-alpha model))))
+  (let ((v (%or-shift8 (gray-alpha8-value color)))
+        (a (%or-shift8 (gray-alpha8-alpha color))))
     (values v v v a)))
 
-(defmethod convert ((source model) (target gray-alpha8))
+(defmethod convert ((source color) (target gray-alpha8))
   (declare (optimize speed))
   (u:mvlet ((r g b a (decompose source)))
     (declare (u:ub16 r g b a))
@@ -21,6 +21,6 @@
           (gray-alpha8-alpha target) (ash a -8))
     target))
 
-(defmethod convert ((source model) (target (eql 'gray-alpha8)))
+(defmethod convert ((source color) (target (eql 'gray-alpha8)))
   (declare (optimize speed))
   (convert source (gray-alpha8 0 0)))
