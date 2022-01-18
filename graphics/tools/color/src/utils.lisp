@@ -1,25 +1,25 @@
 (in-package #:mfiano.graphics.tools.color)
 
-(declaim (inline %or-shift8))
-(defun %or-shift8 (value)
-  (logior value (ash value 8)))
+(declaim (inline %shift))
+(defun %shift (value bit-count)
+  (ldb (byte 16 0) (ash value bit-count)))
 
-(declaim (inline %or-shift16))
-(defun %or-shift16 (value)
-  (logior value (ash value 8) (ash value 16)))
+(defmacro %or-shift (value bit-count)
+  `(ldb (byte 16 0)
+        (logior ,value
+                ,@(loop :for x :from 8 :to bit-count :by 8
+                        :collect `(%shift ,value ,x)))))
 
 (declaim (inline %encode-bt709))
-(defun %encode-bt709 (r g b bpc)
+(defun %encode-bt709 (rgb bpc)
   ;; Uses the ITU-R Recommendation BT.709 standard for its luma coefficients.
-  (ash (+ (* 13933 r) (* 46871 g) (* 4732 b) #x8000) (+ bpc -32)))
+  (ash (+ (* 13933 (r rgb)) (* 46871 (g rgb)) (* 4732 (b rgb)) #x8000) (+ bpc -32)))
 
 (defun %length-squared (color1 color2)
-  (declare (optimize speed))
-  (u:mvlet ((c1r c1g c1b c1a (decompose color1))
-            (c2r c2g c2b c2a (decompose color2)))
-    (declare (u:ub16 c1r c1g c1b c1a c2r c2g c2b c2a))
-    ;; NOTE: Maximum bit width returned is 34. Callers should optimize for type FIXNUM.
-    (+ (expt (- c2r c1r) 2)
-       (expt (- c2g c1g) 2)
-       (expt (- c2b c1b) 2)
-       (expt (- c2a c1a) 2))))
+  (let ((color1 (canonicalize color1))
+        (color2 (canonicalize color2)))
+    ;; NOTE: Maximum bit width returned is 34.
+    (+ (expt (- (r color2) (r color1)) 2)
+       (expt (- (g color2) (g color1)) 2)
+       (expt (- (b color2) (b color1)) 2)
+       (expt (- (a color2) (a color1)) 2))))

@@ -1,11 +1,17 @@
 (in-package #:mfiano.graphics.tools.color)
 
-(defstruct (color
-            (:constructor nil)
-            (:copier nil)))
+(defclass color ()
+  ((%bpc :reader bpc
+         :initarg :bpc
+         :initform 8)))
 
-(defstruct (palette
-            (:constructor %make-palette)
-            (:predicate nil)
-            (:copier nil))
-  (colors #() :type simple-vector))
+(defmethod initialize-instance :after ((color color) &key bpc)
+  (case bpc
+    ((8 16))
+    (t (error "Bits per channel must be 8 or 16."))))
+
+(defclass palette ()
+  ((%colors :reader colors
+            :type simple-vector
+            :initarg :colors
+            :initform #())))

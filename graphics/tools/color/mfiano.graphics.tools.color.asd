@@ -14,20 +14,13 @@
    (:file "utils")
    (:module "models"
     :components
-    ((:file "alpha8")
-     (:file "alpha16")
+    ((:file "alpha")
      (:file "cmyk")
-     (:file "gray8")
-     (:file "gray16")
-     (:file "gray-alpha8")
-     (:file "gray-alpha16")
+     (:file "gray")
+     (:file "gray-alpha")
      (:file "indexed")
-     (:file "rgb8")
-     (:file "rgb16")
-     (:file "rgba8")
-     (:file "rgba8-pma")
-     (:file "rgba16")
-     (:file "rgba16-pma")
+     (:file "rgb")
+     (:file "rgba")
      (:file "ycbcr")))
    (:module "palettes"
     :components
