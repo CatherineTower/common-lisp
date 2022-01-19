@@ -4,7 +4,7 @@
   (:local-nicknames
    (#:u #:mfiano.misc.utils))
   (:use #:cl)
-  ;; models
+  ;; model types
   (:export
    #:alpha
    #:cmyk
@@ -14,6 +14,24 @@
    #:rgb
    #:rgba
    #:ycbcr)
+  ;; model constructors
+  (:export
+   #:alpha8
+   #:alpha16
+   #:cmyk8
+   #:cmyk16
+   #:gray8
+   #:gray16
+   #:gray-alpha8
+   #:gray-alpha16
+   #:indexed
+   #:rgb8
+   #:rgb16
+   #:rgba8
+   #:rgba8-pma
+   #:rgba16
+   #:rgba16-pma
+   #:ycbcr8)
   ;; palettes
   (:export
    #:3-bit-rgb

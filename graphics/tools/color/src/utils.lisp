@@ -1,5 +1,9 @@
 (in-package #:mfiano.graphics.tools.color)
 
+(defun %check-bpc-values (bpc &rest values)
+  (unless (every (lambda (x) (typep x `(unsigned-byte ,bpc))) values)
+    (error "Color component is not a ~dbit unsigned integer." bpc)))
+
 (declaim (inline %wrap))
 (defun %wrap (value bit-count)
   (ldb (byte bit-count 0) value))

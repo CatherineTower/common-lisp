@@ -11,8 +11,15 @@
         :initarg :cr
         :initform 0)))
 
-(defun ycbcr (y cb cr)
+(declaim (inline %ycbcr))
+(defun %ycbcr (y cb cr &key bpc)
+  (%check-bpc-values bpc y cb cr)
   (make-instance 'ycbcr :y y :cb cb :cr cr))
+
+(defun ycbcr8 (&optional (y 0) (cb 0) (cr 0))
+  (%ycbcr y cb cr :bpc 8))
+
+;; TODO: Maybe add YCBCR16
 
 (defmethod decompose ((color ycbcr))
   (values (y color) (cb color) (cr color)))
@@ -31,7 +38,7 @@
     (if (not (logtest #xff000000 cr))
         (setf cr (%wrap (%shift cr -16) 8))
         (setf cr (%wrap (lognot (%shift cr -31)) 8)))
-    (ycbcr y cb cr)))
+    (ycbcr8 y cb cr)))
 
 (defmethod canonicalize ((source ycbcr))
   (let* ((y (%or-shift (y source) 16))
@@ -49,7 +56,7 @@
     (if (not (logtest #xff000000 b))
         (setf b (%shift b -8))
         (setf b (logand (lognot (%shift b -31)) #xffff)))
-    (rgba16pma r g b)))
+    (rgba16-pma r g b)))
 
 (defmethod convert ((source color) (target ycbcr))
   (let ((color (%rgb->ycbcr (canonicalize source))))

@@ -5,11 +5,22 @@
          :initarg :pma
          :initform nil)))
 
-(defun rgba (r g b a &key (bpc 8) pma)
+(declaim (inline %rgba))
+(defun %rgba (r g b a &key bpc pma)
+  (%check-bpc-values bpc r g b a)
   (make-instance 'rgba :bpc bpc :pma pma :r r :g g :b b :a a))
 
-(defun rgba16pma (&optional (r 0) (g 0) (b 0) (a #xffff))
-  (rgba r g b a :bpc 16 :pma t))
+(defun rgba8 (&optional (r 0) (g 0) (b 0) (a #xff))
+  (%rgba r g b a :bpc 8))
+
+(defun rgba16 (&optional (r 0) (g 0) (b 0) (a #xffff))
+  (%rgba r g b a :bpc 16))
+
+(defun rgba8-pma (&optional (r 0) (g 0) (b 0) (a #xff))
+  (%rgba r g b a :bpc 8 :pma t))
+
+(defun rgba16-pma (&optional (r 0) (g 0) (b 0) (a #xffff))
+  (%rgba r g b a :bpc 16 :pma t))
 
 (defmethod decompose ((color rgba))
   (values (r color) (g color) (b color) (a color)))
@@ -24,7 +35,7 @@
         (setf r (truncate (* r a) bound)
               g (truncate (* g a) bound)
               b (truncate (* b a) bound))))
-    (rgba16pma r g b (%or-shift a 8))))
+    (rgba16-pma r g b (%or-shift-8bpc source a 8))))
 
 (defmethod convert ((source color) (target rgba))
   (u:mvlet* ((color (canonicalize source))

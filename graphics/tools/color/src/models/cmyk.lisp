@@ -14,8 +14,16 @@
        :initarg :k
        :initform 0)))
 
-(defun cmyk (c m y k &key (bpc 8))
+(declaim (inline %cmyk))
+(defun %cmyk (c m y k &key bpc)
+  (%check-bpc-values bpc c m y k)
   (make-instance 'cmyk :bpc bpc :c c :m m :y y :k k))
+
+(defun cmyk8 (&optional (c 0) (m 0) (y 0) (k #xff))
+  (%cmyk c m y k :bpc 8))
+
+(defun cmyk16 (&optional (c 0) (m 0) (y 0) (k #xffff))
+  (%cmyk c m y k :bpc 16))
 
 (defmethod decompose ((color cmyk))
   (values (c color) (m color) (y color) (k color)))
@@ -26,18 +34,18 @@
          (b (%shift (b rgb) -8))
          (w (max r g b)))
     (if (zerop w)
-        (cmyk 0 0 0 #xff)
-        (cmyk (truncate (* (- w r) #xff) w)
-              (truncate (* (- w g) #xff) w)
-              (truncate (* (- w b) #xff) w)
-              (- #xff w)))))
+        (cmyk8)
+        (cmyk8 (truncate (* (- w r) #xff) w)
+               (truncate (* (- w g) #xff) w)
+               (truncate (* (- w b) #xff) w)
+               (- #xff w)))))
 
 (defmethod canonicalize ((source cmyk))
   (u:mvlet* ((c m y k (decompose source))
              (w (- #xffff (%or-shift-8bpc source k 8))))
-    (rgba16pma (truncate (* (- #xffff (%or-shift-8bpc source c 8)) w) #xffff)
-               (truncate (* (- #xffff (%or-shift-8bpc source m 8)) w) #xffff)
-               (truncate (* (- #xffff (%or-shift-8bpc source y 8)) w) #xffff))))
+    (rgba16-pma (truncate (* (- #xffff (%or-shift-8bpc source c 8)) w) #xffff)
+                (truncate (* (- #xffff (%or-shift-8bpc source m 8)) w) #xffff)
+                (truncate (* (- #xffff (%or-shift-8bpc source y 8)) w) #xffff))))
 
 ;; TODO: Encode %rgb->cmyk into this function.
 (defmethod convert ((source color) (target cmyk))

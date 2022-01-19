@@ -5,12 +5,11 @@
              :initarg :palette
              :initform (make-palette '3-bit-rgb))))
 
-(defun indexed (palette)
-  (etypecase palette
-    (palette
-     (make-instance 'indexed :palette palette))
-    (symbol
-     (make-instance 'indexed :palette (make-palette palette)))))
+(defgeneric indexed (palette)
+  (:method ((palette palette))
+    (make-instance 'indexed :palette palette))
+  (:method ((palette symbol))
+    (indexed (make-palette palette))))
 
 ;; TODO: This brute-force algorithm can probably be simplified with a proper quantization method.
 (defmethod convert ((source color) (target indexed))
