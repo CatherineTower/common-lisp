@@ -27,9 +27,9 @@
 
 (defmethod canonicalize ((source rgba))
   (u:mvlet* ((r g b a (decompose source))
-             (r (%or-shift r 8))
-             (g (%or-shift g 8))
-             (b (%or-shift b 8)))
+             (r (%or-shift-8bpc source r 8))
+             (g (%or-shift-8bpc source g 8))
+             (b (%or-shift-8bpc source b 8)))
     (unless (pma source)
       (let ((bound (1- (expt 2 (bpc source)))))
         (setf r (truncate (* r a) bound)
