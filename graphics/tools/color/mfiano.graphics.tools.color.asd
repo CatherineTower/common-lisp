@@ -5,6 +5,7 @@
   :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/tools/color"
   :encoding :utf-8
   :depends-on (#:mfiano.misc.utils)
+  :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.tools.color.test)))
   :pathname "src"
   :serial t
   :components

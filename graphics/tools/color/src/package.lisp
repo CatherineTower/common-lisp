@@ -4,8 +4,6 @@
   (:local-nicknames
    (#:u #:mfiano.misc.utils))
   (:use #:cl)
-  (:shadow
-   #:replace)
   ;; models
   (:export
    #:alpha
@@ -41,4 +39,5 @@
   ;; operations
   (:export
    #:convert
+   #:decompose
    #:make-palette))

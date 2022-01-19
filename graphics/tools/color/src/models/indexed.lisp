@@ -12,6 +12,7 @@
     (symbol
      (make-instance 'indexed :palette (make-palette palette)))))
 
+;; TODO: This brute-force algorithm can probably be simplified with a proper quantization method.
 (defmethod convert ((source color) (target indexed))
   (loop :with palette-colors := (colors (palette target))
         :with best := most-positive-fixnum

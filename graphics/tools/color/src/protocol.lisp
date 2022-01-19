@@ -1,30 +1,8 @@
 (in-package #:mfiano.graphics.tools.color)
 
-(defgeneric zero (color)
-  (:method ((color color))
-    color))
+(defgeneric decompose (color))
 
-(defgeneric replace (source target)
-  (:method ((source color) (target color))
-    target))
-
-(defgeneric shift (color bit-count)
-  (:method ((color color) (bit-count fixnum))
-    color))
-
-(defgeneric or-shift (color bit-count)
-  (:method ((color color) (bit-count fixnum))
-    color))
-
-(defgeneric scale (color scalar)
-  (:method ((color color) (scalar fixnum))
-    color))
-
-(defgeneric unscale (color scalar)
-  (:method ((color color) (scalar fixnum))
-    color))
-
-(defgeneric canonicalize (color))
+(defgeneric canonicalize (source))
 
 (defgeneric convert (source target)
   (:method ((source color) (target symbol))

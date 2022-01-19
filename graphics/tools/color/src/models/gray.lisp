@@ -8,8 +8,8 @@
 (defun gray (value &key (bpc 8))
   (make-instance 'gray :bpc bpc :value value))
 
-(defmethod canonicalize ((color gray))
-  (let ((v (%or-shift (value color) 8)))
+(defmethod canonicalize ((source gray))
+  (let ((v (%or-shift-8bpc source (value source))))
     (rgba v v v #xffff :bpc 16 :pma t)))
 
 (defmethod convert ((source color) (target gray))
