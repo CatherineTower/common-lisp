@@ -49,7 +49,7 @@
     (if (not (logtest #xff000000 b))
         (setf b (%shift b -8))
         (setf b (logand (lognot (%shift b -31)) #xffff)))
-    (rgba r g b #xffff :bpc 16 :pma t)))
+    (rgba16pma r g b)))
 
 (defmethod convert ((source color) (target ycbcr))
   (let ((color (%rgb->ycbcr (canonicalize source))))

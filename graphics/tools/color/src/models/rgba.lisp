@@ -8,6 +8,9 @@
 (defun rgba (r g b a &key (bpc 8) pma)
   (make-instance 'rgba :bpc bpc :pma pma :r r :g g :b b :a a))
 
+(defun rgba16pma (&optional (r 0) (g 0) (b 0) (a #xffff))
+  (rgba r g b a :bpc 16 :pma t))
+
 (defmethod decompose ((color rgba))
   (values (r color) (g color) (b color) (a color)))
 
@@ -21,7 +24,7 @@
         (setf r (truncate (* r a) bound)
               g (truncate (* g a) bound)
               b (truncate (* b a) bound))))
-    (rgba r g b (%or-shift a 8) :bpc 16 :pma t)))
+    (rgba16pma r g b (%or-shift a 8))))
 
 (defmethod convert ((source color) (target rgba))
   (u:mvlet* ((color (canonicalize source))

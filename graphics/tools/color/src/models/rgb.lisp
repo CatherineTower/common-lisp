@@ -18,12 +18,9 @@
   (values (r color) (g color) (b color)))
 
 (defmethod canonicalize ((source rgb))
-  (rgba (%or-shift-8bpc source (r source))
-        (%or-shift-8bpc source (g source))
-        (%or-shift-8bpc source (b source))
-        #xffff
-        :bpc 16
-        :pma t))
+  (rgba16pma (%or-shift-8bpc source (r source))
+             (%or-shift-8bpc source (g source))
+             (%or-shift-8bpc source (b source))))
 
 (defmethod convert ((source color) (target rgb))
   (let ((color (canonicalize source)))

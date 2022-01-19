@@ -13,7 +13,7 @@
 
 (defmethod canonicalize ((source alpha))
   (let ((a (%or-shift-8bpc source (a source))))
-    (rgba a a a a :bpc 16 :pma t)))
+    (rgba16pma a a a a)))
 
 (defmethod convert ((source color) (target alpha))
   (let ((color (canonicalize source)))

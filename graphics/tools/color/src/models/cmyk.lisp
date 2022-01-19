@@ -35,12 +35,9 @@
 (defmethod canonicalize ((source cmyk))
   (u:mvlet* ((c m y k (decompose source))
              (w (- #xffff (%or-shift-8bpc source k 8))))
-    (rgba (truncate (* (- #xffff (%or-shift-8bpc source c 8)) w) #xffff)
-          (truncate (* (- #xffff (%or-shift-8bpc source m 8)) w) #xffff)
-          (truncate (* (- #xffff (%or-shift-8bpc source y 8)) w) #xffff)
-          #xffff
-          :bpc 16
-          :pma t)))
+    (rgba16pma (truncate (* (- #xffff (%or-shift-8bpc source c 8)) w) #xffff)
+               (truncate (* (- #xffff (%or-shift-8bpc source m 8)) w) #xffff)
+               (truncate (* (- #xffff (%or-shift-8bpc source y 8)) w) #xffff))))
 
 ;; TODO: Encode %rgb->cmyk into this function.
 (defmethod convert ((source color) (target cmyk))

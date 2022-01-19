@@ -8,7 +8,7 @@
 (defmethod canonicalize ((source gray-alpha))
   (let ((v (%or-shift-8bpc source (value source)))
         (a (%or-shift-8bpc source (a source))))
-    (rgba v v v a :bpc 16 :pma t)))
+    (rgba16pma v v v a)))
 
 (defmethod convert ((source color) (target gray-alpha))
   (let ((color (canonicalize source)))
