@@ -5,6 +5,9 @@
 (defun gray-alpha (value alpha &key (bpc 8))
   (make-instance 'gray-alpha :bpc bpc :value value :a alpha))
 
+(defmethod decompose ((color gray-alpha))
+  (values (value color) (a color)))
+
 (defmethod canonicalize ((source gray-alpha))
   (let ((v (%or-shift-8bpc source (value source)))
         (a (%or-shift-8bpc source (a source))))
