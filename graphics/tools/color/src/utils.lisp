@@ -13,8 +13,8 @@
   (%wrap (ash value bit-count) 16))
 
 (declaim (inline %or-shift))
-(defun %or-shift (value bit-count)
-  (%wrap (* value (/ (1- (ash 1 (+ bit-count 8))) #xff)) 16))
+(defun %or-shift (value bit-count &key (wrap 16))
+  (%wrap (* value (ecase bit-count (0 1) (8 #x101) (16 #x10101))) wrap))
 
 (declaim (inline %shift-8bpc))
 (defun %or-shift-8bpc (color value &optional (shift 8))

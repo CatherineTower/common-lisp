@@ -19,7 +19,8 @@
 (defun ycbcr8 (&optional (y 0) (cb 0) (cr 0))
   (%ycbcr y cb cr :bpc 8))
 
-;; TODO: Maybe add YCBCR16
+(defun ycbcr16 (&optional (y 0) (cb 0) (cr 0))
+  (%ycbcr y cb cr :bpc 16))
 
 (defmethod decompose ((color ycbcr))
   (values (y color) (cb color) (cr color)))
@@ -45,7 +46,7 @@
            (if (logtest value #xff000000)
                (setf value (logand (lognot (ash value -31)) #xffff))
                (setf value (ash value -8)))))
-    (let ((y (* (y color) #x10101))
+    (let ((y (%or-shift (y color) 16 :wrap 32))
           (cb (- (cb color) 128))
           (cr (- (cr color) 128)))
       (rgba16-pma (clamp (+ y (* cr 91881)))

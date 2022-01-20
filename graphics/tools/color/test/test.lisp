@@ -150,6 +150,11 @@
   (subtest "Canonicalize: YCbCr 8bpc"
     (loop :for (y cb cr) :in ins
           :for out :in outs
-          :do (test/canonicalize (c:ycbcr8 y cb cr) out))))
+          :do (test/canonicalize (c:ycbcr8 y cb cr) out)))
+  (subtest "Canonicalize: YCbCr 16bpc"
+    (loop :for in :in ins
+          :for (y cb cr) := (mapcar (lambda (x) (* x #x101)) in)
+          :for out :in outs
+          :do (test/canonicalize (c:ycbcr16 y cb cr) out))))
 
 (finalize)
