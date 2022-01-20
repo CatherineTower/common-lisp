@@ -44,8 +44,8 @@
           :do (test/canonicalize (c:cmyk8 c m y k) out)))
   (subtest "Canonicalize: CMYK 16bpc"
     (loop :for in :in ins
-          :for out :in outs
           :for (c m y k) := (mapcar (lambda (x) (* x #x101)) in)
+          :for out :in outs
           :do (test/canonicalize (c:cmyk16 c m y k) out))))
 
 (subtest "Canonicalize: Gray 8bpc"
@@ -134,5 +134,22 @@
            (a (random (1+ (* i #x1000))))
            (out (list r g b a)))
       (test/canonicalize (c:rgba16-pma r g b a) out))))
+
+(let ((ins '((247 107 179) (8 51 152) (126 94 132) (224 123 81)
+             (232 136 3) (149 187 26) (47 102 13) (253 3 221)
+             (83 255 88) (104 164 249) (40 209 182) (223 78 19)
+             (197 176 39) (255 52 133) (253 130 18) (197 84 141)))
+      (outs '((65535 56006 53953 65535) (10669 4452 0 65535)
+              (33818 34646 16958 65535) (40700 65535 55300 65535)
+              (14761 65535 63253 65535) (1684 51743 65057 65535)
+              (0 35394 284 65535) (65535 59032 8317 65535)
+              (6974 17455 65535 65535) (65535 1435 43059 65535)
+              (29661 0 47024 65535) (18190 65535 34630 65535)
+              (18686 62671 65535 65535) (65535 65535 31059 65535)
+              (25541 65535 65535 65535) (55295 52129 30669 65535))))
+  (subtest "Canonicalize: YCbCr 8bpc"
+    (loop :for (y cb cr) :in ins
+          :for out :in outs
+          :do (test/canonicalize (c:ycbcr8 y cb cr) out))))
 
 (finalize)
