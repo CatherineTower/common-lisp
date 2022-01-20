@@ -2,7 +2,7 @@
 
 (defgeneric decompose (color))
 
-(defgeneric canonicalize (source))
+(defgeneric canonicalize (color))
 
 (defgeneric convert (source target)
   (:method ((source color) (target symbol))

@@ -19,8 +19,8 @@
 (defmethod decompose ((color gray))
   (value color))
 
-(defmethod canonicalize ((source gray))
-  (let ((v (%or-shift-8bpc source (value source))))
+(defmethod canonicalize ((color gray))
+  (let ((v (%or-shift-8bpc color (value color))))
     (rgba16-pma v v v)))
 
 (defmethod convert ((source color) (target gray))

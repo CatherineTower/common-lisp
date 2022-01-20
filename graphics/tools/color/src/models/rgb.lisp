@@ -25,10 +25,10 @@
 (defmethod decompose ((color rgb))
   (values (r color) (g color) (b color)))
 
-(defmethod canonicalize ((source rgb))
-  (rgba16-pma (%or-shift-8bpc source (r source))
-              (%or-shift-8bpc source (g source))
-              (%or-shift-8bpc source (b source))))
+(defmethod canonicalize ((color rgb))
+  (rgba16-pma (%or-shift-8bpc source (r color))
+              (%or-shift-8bpc source (g color))
+              (%or-shift-8bpc source (b color))))
 
 (defmethod convert ((source color) (target rgb))
   (let ((color (canonicalize source)))

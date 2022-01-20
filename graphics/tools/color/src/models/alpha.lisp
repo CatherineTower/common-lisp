@@ -19,8 +19,8 @@
 (defmethod decompose ((color alpha))
   (a color))
 
-(defmethod canonicalize ((source alpha))
-  (let ((a (%or-shift-8bpc source (a source))))
+(defmethod canonicalize ((color alpha))
+  (let ((a (%or-shift-8bpc color (a color))))
     (rgba16-pma a a a a)))
 
 (defmethod convert ((source color) (target alpha))
