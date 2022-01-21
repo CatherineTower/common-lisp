@@ -2,5 +2,3 @@
   (load "setup.lisp")
   (load "quicklisp.lisp")
   (load "util.lisp"))
-
-(in-package :cl-user)
