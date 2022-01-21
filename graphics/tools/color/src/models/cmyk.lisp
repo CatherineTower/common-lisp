@@ -1,33 +1,76 @@
 (in-package #:mfiano.graphics.tools.color)
 
+;;; common
+
 (defclass cmyk (color)
   ((%c :accessor c
-       :initarg :c
-       :initform 0)
+       :initarg :c)
    (%m :accessor m
-       :initarg :m
-       :initform 0)
+       :initarg :m)
    (%y :accessor y
-       :initarg :y
-       :initform 0)
+       :initarg :y)
    (%k :accessor k
-       :initarg :k
-       :initform 0)))
+       :initarg :k)))
 
-(declaim (inline %cmyk))
-(defun %cmyk (c m y k &key bpc)
-  (%check-bpc-values bpc c m y k)
-  (make-instance 'cmyk :bpc bpc :c c :m m :y y :k k))
-
-(defun cmyk8 (&optional (c 0) (m 0) (y 0) (k #xff))
-  (%cmyk c m y k :bpc 8))
-
-(defun cmyk16 (&optional (c 0) (m 0) (y 0) (k #xffff))
-  (%cmyk c m y k :bpc 16))
+(defmethod initialize-instance :after ((instance cmyk) &key)
+  (with-slots (%bpc %c %m %y %k) instance
+    (%check-bpc-values %bpc %c %m %y %k)))
 
 (defmethod decompose ((color cmyk))
   (values (c color) (m color) (y color) (k color)))
 
+(defmethod canonicalize ((color cmyk))
+  (u:mvlet ((r g b a (canonicalize-components color)))
+    (rgba16-pma r g b a)))
+
+;;; cmyk8
+
+(defclass cmyk8 (cmyk) ())
+
+(defun cmyk8 (&optional (c 0) (m 0) (y 0) (k #xff))
+  (make-instance 'cmyk8 :bpc 8 :c c :m m :y y :k k))
+
+(defmethod canonicalize-components ((color cmyk8))
+  (let ((w (- #xffff (* (k color) #x101))))
+    (values (truncate (* (- #xffff (* (c color) #x101)) w) #xffff)
+            (truncate (* (- #xffff (* (m color) #x101)) w) #xffff)
+            (truncate (* (- #xffff (* (y color) #x101)) w) #xffff)
+            #xffff)))
+
+;; TODO: Encode %rgb->cmyk into this function.
+(defmethod convert ((source color) (target cmyk8))
+  (let ((color (%rgb->cmyk (canonicalize source))))
+    (setf (c target) (c color)
+          (m target) (m color)
+          (y target) (y color)
+          (k target) (k color))
+    target))
+
+;;; cmyk16
+
+(defclass cmyk16 (cmyk) ())
+
+(defun cmyk16 (&optional (c 0) (m 0) (y 0) (k #xffff))
+  (make-instance 'cmyk16 :bpc 16 :c c :m m :y y :k k))
+
+(defmethod canonicalize-components ((color cmyk16))
+  (let ((w (- #xffff (k color))))
+    (values (truncate (* (- #xffff (c color)) w) #xffff)
+            (truncate (* (- #xffff (m color)) w) #xffff)
+            (truncate (* (- #xffff (y color)) w) #xffff)
+            #xffff)))
+
+(defmethod convert ((source color) (target cmyk16))
+  (let ((color (%rgb->cmyk (canonicalize source))))
+    (setf (c target) (c color)
+          (m target) (m color)
+          (y target) (y color)
+          (k target) (k color))
+    target))
+
+;;;
+
+;; TODO: Encode %rgb->cmyk into this function.
 (defun %rgb->cmyk (rgb)
   (let* ((r (%shift (r rgb) -8))
          (g (%shift (g rgb) -8))
@@ -40,14 +83,6 @@
                (truncate (* (- w b) #xff) w)
                (- #xff w)))))
 
-(defmethod canonicalize ((color cmyk))
-  (u:mvlet* ((c m y k (decompose color))
-             (w (- #xffff (%or-shift-8bpc color k 8))))
-    (rgba16-pma (truncate (* (- #xffff (%or-shift-8bpc color c 8)) w) #xffff)
-                (truncate (* (- #xffff (%or-shift-8bpc color m 8)) w) #xffff)
-                (truncate (* (- #xffff (%or-shift-8bpc color y 8)) w) #xffff))))
-
-;; TODO: Encode %rgb->cmyk into this function.
 (defmethod convert ((source color) (target cmyk))
   (let ((color (%rgb->cmyk (canonicalize source))))
     (setf (c target) (c color)

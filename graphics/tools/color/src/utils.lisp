@@ -12,14 +12,6 @@
 (defun %shift (value bit-count)
   (%wrap (ash value bit-count) 16))
 
-(declaim (inline %or-shift))
-(defun %or-shift (value bit-count &key (wrap 16))
-  (%wrap (* value (ecase bit-count (0 1) (8 #x101) (16 #x10101))) wrap))
-
-(declaim (inline %shift-8bpc))
-(defun %or-shift-8bpc (color value &optional (shift 8))
-  (%or-shift value (if (= (bpc color) 8) shift 0)))
-
 ;; Uses the ITU-R Recommendation BT.709 standard for its luma coefficients.
 (declaim (inline %encode-bt709))
 (defun %encode-bt709 (rgb bpc)

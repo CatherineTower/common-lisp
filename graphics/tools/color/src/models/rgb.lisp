@@ -1,38 +1,58 @@
 (in-package #:mfiano.graphics.tools.color)
 
+;;; common
+
 (defclass rgb (color)
   ((%r :accessor r
-       :initarg :r
-       :initform 0)
+       :initarg :r)
    (%g :accessor g
-       :initarg :g
-       :initform 0)
+       :initarg :g)
    (%b :accessor b
-       :initarg :b
-       :initform 0)))
+       :initarg :b)))
 
-(declaim (inline %rgb))
-(defun %rgb (r g b &key bpc)
-  (%check-bpc-values bpc r g b)
-  (make-instance 'rgb :bpc bpc :r r :g g :b b))
-
-(defun rgb8 (&optional (r 0) (g 0) (b 0))
-  (%rgb r g b :bpc 8))
-
-(defun rgb16 (&optional (r 0) (g 0) (b 0))
-  (%rgb r g b :bpc 16))
+(defmethod initialize-instance :after ((instance rgb) &key)
+  (with-slots (%bpc %r %g %b) instance
+    (%check-bpc-values %bpc %r %g %b)))
 
 (defmethod decompose ((color rgb))
   (values (r color) (g color) (b color)))
 
-(defmethod canonicalize ((color rgb))
-  (rgba16-pma (%or-shift-8bpc color (r color))
-              (%or-shift-8bpc color (g color))
-              (%or-shift-8bpc color (b color))))
+;;; rgb8
 
-(defmethod convert ((source color) (target rgb))
+(defclass rgb8 (rgb) ())
+
+(defun rgb8 (&optional (r 0) (g 0) (b 0))
+  (make-instance 'rgb8 :bpc 8 :r r :g g :b b))
+
+(defmethod canonicalize-components ((color rgb8))
+  (values (* (r color) #x101)
+          (* (g color) #x101)
+          (* (b color) #x101)
+          #xffff))
+
+(defmethod convert ((source color) (target rgb8))
   (let ((color (canonicalize source)))
-    (setf (r target) (%shift (r color) -8)
-          (g target) (%shift (g color) -8)
-          (b target) (%shift (b color) -8))
+    (setf (r target) (ash (r color) -8)
+          (g target) (ash (g color) -8)
+          (b target) (ash (b color) -8))
+    target))
+
+;;; rgb16
+
+(defclass rgb16 (rgb) ())
+
+(defun rgb16 (&optional (r 0) (g 0) (b 0))
+  (make-instance 'rgb16 :bpc 16 :r r :g g :b b))
+
+(defmethod canonicalize-components ((color rgb16))
+  (values (r color)
+          (g color)
+          (b color)
+          #xffff))
+
+(defmethod convert ((source color) (target rgb16))
+  (let ((color (canonicalize source)))
+    (setf (r target) (r color)
+          (g target) (g color)
+          (b target) (b color))
     target))

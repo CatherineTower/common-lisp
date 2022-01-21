@@ -1,13 +1,23 @@
 (in-package #:mfiano.graphics.tools.color.test)
 
 (defun test/canonicalize (color expected)
-  (let ((result (multiple-value-list (c:decompose (c::canonicalize color)))))
+  (let ((result (multiple-value-list (c:decompose (c:canonicalize color)))))
     (is result
         expected
         (format nil "~a ~dbpc: ~{~d~^, ~} -> RGBA 16bpc PMA: ~{~d~^, ~}"
                 (class-name (class-of color))
                 (c::bpc color)
                 (multiple-value-list (c:decompose color))
+                expected))))
+
+(defun test/convert (source target expected)
+  (let ((result (multiple-value-list (c:decompose (c:convert source target)))))
+    (is result
+        expected
+        (format nil "RGBA 16bpc PMA: ~{~d~^, ~} -> ~a ~dbpc: ~{~d~^, ~}"
+                (multiple-value-list (c:decompose source))
+                (class-name (class-of target))
+                (c::bpc target)
                 expected))))
 
 (plan nil)
@@ -117,7 +127,7 @@
                       a)))
       (test/canonicalize (c:rgba16 r g b a) out))))
 
-(subtest "Canonicalize: RGBA 8bpc, pre-multiplied alpha"
+(subtest "Canonicalize: RGBA 8bpc PMA"
   (dotimes (i 16)
     (let* ((r (random #x100))
            (g (random #x100))
@@ -126,7 +136,7 @@
            (out (mapcan (lambda (x) (list (* x #x101))) (list r g b a))))
       (test/canonicalize (c:rgba8-pma r g b a) out))))
 
-(subtest "Canonicalize: RGBA 16bpc, pre-multiplied alpha"
+(subtest "Canonicalize: RGBA 16bpc PMA"
   (dotimes (i 16)
     (let* ((r (random (1+ (* i #x1000))))
            (g (random (1+ (* i #x1000))))
@@ -156,5 +166,25 @@
           :for (y cb cr) := (mapcar (lambda (x) (* x #x101)) in)
           :for out :in outs
           :do (test/canonicalize (c:ycbcr16 y cb cr) out))))
+
+;;; Test that the canonical form can be converted to each color model.
+
+(subtest "Convert: RGBA 16bpc PMA -> Alpha 8bpc"
+  (dotimes (i 16)
+    (let* ((r (random #x10000))
+           (g (random #x10000))
+           (b (random #x10000))
+           (a (random #x10000))
+           (out (list (truncate a #x100))))
+      (test/convert (c:rgba16-pma r g b a) (c:alpha8) out))))
+
+(subtest "Convert: RGBA 16bpc PMA -> Alpha 16bpc"
+  (dotimes (i 16)
+    (let* ((r (random #x10000))
+           (g (random #x10000))
+           (b (random #x10000))
+           (a (random #x10000))
+           (out (list a)))
+      (test/convert (c:rgba16-pma r g b a) (c:alpha16) out))))
 
 (finalize)
