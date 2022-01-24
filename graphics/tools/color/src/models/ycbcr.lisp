@@ -24,14 +24,14 @@
 (defun ycbcr8 (&optional (y 0) (cb 0) (cr 0))
   (make-instance 'ycbcr8 :bpc 8 :y y :cb cb :cr cr))
 
-(defmethod canonicalize-channels ((color ycbcr8))
+(defmethod canonicalize ((color ycbcr8))
   (with-channels ((y cb cr) color)
     (compose (%canonicalize-ycbcr-components)
       (* y #x10101)
       (-> (_ (cb cr)) (- _ 128)))))
 
 (defmethod convert ((source color) (target (eql 'ycbcr8)))
-  (with-channels ((y cb cr) (%rgb->ycbcr (canonicalize source)))
+  (with-channels ((y cb cr) (%rgb->ycbcr (%canonicalize source)))
     (ycbcr8 y cb cr)))
 
 ;;; ycbcr16
@@ -41,14 +41,14 @@
 (defun ycbcr16 (&optional (y 0) (cb 0) (cr 0))
   (make-instance 'ycbcr16 :bpc 16 :y y :cb cb :cr cr))
 
-(defmethod canonicalize-channels ((color ycbcr16))
+(defmethod canonicalize ((color ycbcr16))
   (with-channels ((y cb cr) color)
     (compose (%canonicalize-ycbcr-components)
       (* (truncate y #x101) #x10101)
       (-> (_ (cb cr)) (- (truncate _ #x101) 128)))))
 
 (defmethod convert ((source color) (target (eql 'ycbcr16)))
-  (with-channels ((y cb cr) (%rgb->ycbcr (canonicalize source)))
+  (with-channels ((y cb cr) (%rgb->ycbcr (%canonicalize source)))
     (ycbcr16 y cb cr)))
 
 ;;;

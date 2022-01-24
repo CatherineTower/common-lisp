@@ -2,12 +2,12 @@
 
 (defgeneric decompose (color))
 
-(defgeneric canonicalize (color)
+(defgeneric %canonicalize (color)
   (:method ((color color))
-    (u:mvlet ((r g b a (canonicalize-channels color)))
+    (u:mvlet ((r g b a (canonicalize color)))
       (rgba16-pma r g b a))))
 
-(defgeneric canonicalize-channels (color))
+(defgeneric canonicalize (color))
 
 (defgeneric convert (source target)
   (:method :around ((source color) target)

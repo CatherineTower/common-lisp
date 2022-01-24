@@ -57,7 +57,6 @@
    #:zx-spectrum)
   ;; operations
   (:export
-   #:canonicalize
    #:convert
    #:decompose
    #:make-palette

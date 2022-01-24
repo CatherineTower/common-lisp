@@ -26,7 +26,7 @@
 (defun cmyk8 (&optional (c 0) (m 0) (y 0) (k #xff))
   (make-instance 'cmyk8 :bpc 8 :c c :m m :y y :k k))
 
-(defmethod canonicalize-channels ((color cmyk8))
+(defmethod canonicalize ((color cmyk8))
   (with-channels ((c m y k) color)
     (let ((w (- #xffff (* k #x101))))
       (combine-values
@@ -35,7 +35,7 @@
 
 ;; TODO: Encode %rgb->cmyk into this function.
 (defmethod convert ((source color) (target (eql 'cmyk8)))
-  (%rgb->cmyk (canonicalize source)))
+  (%rgb->cmyk (%canonicalize source)))
 
 ;;; cmyk16
 
@@ -44,7 +44,7 @@
 (defun cmyk16 (&optional (c 0) (m 0) (y 0) (k #xffff))
   (make-instance 'cmyk16 :bpc 16 :c c :m m :y y :k k))
 
-(defmethod canonicalize-channels ((color cmyk16))
+(defmethod canonicalize ((color cmyk16))
   (with-channels ((c m y k) color)
     (let ((w (- #xffff k)))
       (combine-values
@@ -52,7 +52,7 @@
         #xffff))))
 
 (defmethod convert ((source color) (target (eql 'cmyk16)))
-  (%rgb->cmyk (canonicalize source)))
+  (%rgb->cmyk (%canonicalize source)))
 
 ;;;
 

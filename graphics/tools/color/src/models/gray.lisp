@@ -20,12 +20,12 @@
 (defun gray8 (&optional (value 0))
   (make-instance 'gray8 :bpc 8 :value value))
 
-(defmethod canonicalize-channels ((color gray8))
+(defmethod canonicalize ((color gray8))
   (let ((v (* (value color) #x101)))
     (values v v v #xffff)))
 
 (defmethod convert ((source color) (target (eql 'gray8)))
-  (with-channels ((r g b) (canonicalize source))
+  (with-channels ((r g b) (%canonicalize source))
     (gray8 (%encode-bt709 r g b 8))))
 
 ;;; gray16
@@ -35,10 +35,10 @@
 (defun gray16 (&optional (value 0))
   (make-instance 'gray16 :bpc 16 :value value))
 
-(defmethod canonicalize-channels ((color gray16))
+(defmethod canonicalize ((color gray16))
   (let ((v (value color)))
     (values v v v #xffff)))
 
 (defmethod convert ((source color) (target (eql 'gray16)))
-  (with-channels ((r g b) (canonicalize source))
+  (with-channels ((r g b) (%canonicalize source))
     (gray8 (%encode-bt709 r g b 16))))

@@ -1,7 +1,7 @@
 (in-package #:mfiano.graphics.tools.color.test)
 
 (defun test/canonicalize (color expected)
-  (let ((result (multiple-value-list (c:decompose (c:canonicalize color)))))
+  (let ((result (multiple-value-list (c:decompose (c::%canonicalize color)))))
     (is result
         expected
         (format nil "~a: ~{~d~^, ~} -> RGBA16-PMA: ~{~d~^, ~}"

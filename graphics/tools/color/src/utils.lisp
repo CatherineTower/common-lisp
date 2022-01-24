@@ -18,8 +18,8 @@
   (ash (+ (* r 13933) (* g 46871) (* b 4732) #x8000) (+ bpc -32)))
 
 (defun %length-squared (color1 color2)
-  (with-channels ((r1 g1 b1 a1) (canonicalize color1))
-    (with-channels ((r2 g2 b2 a2) (canonicalize color2))
+  (with-channels ((r1 g1 b1 a1) (%canonicalize color1))
+    (with-channels ((r2 g2 b2 a2) (%canonicalize color2))
       (+ (expt (- r2 r1) 2)
          (expt (- g2 g1) 2)
          (expt (- b2 b1) 2)
