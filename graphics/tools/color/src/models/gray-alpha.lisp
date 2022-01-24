@@ -19,11 +19,10 @@
     (->! (_ (v a)) (* _ #x101))
     (values v v v a)))
 
-(defmethod convert ((source color) (target gray-alpha8))
-  (let ((color (canonicalize source)))
-    (setf (value target) (%encode-bt709 color 8)
-          (a target) (ash (a color) -8))
-    target))
+(defmethod convert ((source color) (target (eql 'gray-alpha8)))
+  (with-channels ((r g b a) (canonicalize source))
+    (gray-alpha8 (%encode-bt709 r g b 8)
+                 (ash a -8))))
 
 ;;; gray-alpha16
 
@@ -36,8 +35,7 @@
   (with-channels ((v a) color)
     (values v v v a)))
 
-(defmethod convert ((source color) (target gray-alpha16))
-  (let ((color (canonicalize source)))
-    (setf (value target) (%encode-bt709 color 16)
-          (a target) (ash (a color) -8))
-    target))
+(defmethod convert ((source color) (target (eql 'gray-alpha16)))
+  (with-channels ((r g b a) (canonicalize source))
+    (gray-alpha16 (%encode-bt709 r g b 16)
+                  (ash a -8))))

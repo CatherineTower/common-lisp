@@ -34,13 +34,8 @@
         #xffff))))
 
 ;; TODO: Encode %rgb->cmyk into this function.
-(defmethod convert ((source color) (target cmyk8))
-  (let ((color (%rgb->cmyk (canonicalize source))))
-    (setf (c target) (c color)
-          (m target) (m color)
-          (y target) (y color)
-          (k target) (k color))
-    target))
+(defmethod convert ((source color) (target (eql 'cmyk8)))
+  (%rgb->cmyk (canonicalize source)))
 
 ;;; cmyk16
 
@@ -56,13 +51,8 @@
         (-> (_ (c m y)) (truncate (* (- #xffff _) w) #xffff))
         #xffff))))
 
-(defmethod convert ((source color) (target cmyk16))
-  (let ((color (%rgb->cmyk (canonicalize source))))
-    (setf (c target) (c color)
-          (m target) (m color)
-          (y target) (y color)
-          (k target) (k color))
-    target))
+(defmethod convert ((source color) (target (eql 'cmyk16)))
+  (%rgb->cmyk (canonicalize source)))
 
 ;;;
 

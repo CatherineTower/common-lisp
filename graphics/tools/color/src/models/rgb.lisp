@@ -30,12 +30,10 @@
       (-> (_ (r g b)) (* _ #x101))
       #xffff)))
 
-(defmethod convert ((source color) (target rgb8))
-  (let ((color (canonicalize source)))
-    (setf (r target) (ash (r color) -8)
-          (g target) (ash (g color) -8)
-          (b target) (ash (b color) -8))
-    target))
+(defmethod convert ((source color) (target (eql 'rgb8)))
+  (with-channels ((r g b) (canonicalize source))
+    (compose (rgb8)
+      (-> (_ (r g b)) (ash _ -8)))))
 
 ;;; rgb16
 
@@ -48,9 +46,6 @@
   (with-channels ((r g b) color)
     (values r g b #xffff)))
 
-(defmethod convert ((source color) (target rgb16))
-  (let ((color (canonicalize source)))
-    (setf (r target) (r color)
-          (g target) (g color)
-          (b target) (b color))
-    target))
+(defmethod convert ((source color) (target (eql 'rgb16)))
+  (with-channels ((r g b) (canonicalize source))
+    (rgb16 r g b)))

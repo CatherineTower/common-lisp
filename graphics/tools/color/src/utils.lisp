@@ -14,34 +14,13 @@
 
 ;; Uses the ITU-R Recommendation BT.709 standard for its luma coefficients.
 (declaim (inline %encode-bt709))
-(defun %encode-bt709 (rgb bpc)
-  (ash (+ (* 13933 (r rgb)) (* 46871 (g rgb)) (* 4732 (b rgb)) #x8000) (+ bpc -32)))
+(defun %encode-bt709 (r g b bpc)
+  (ash (+ (* r 13933) (* g 46871) (* b 4732) #x8000) (+ bpc -32)))
 
-;; NOTE: Maximum bit width returned is 34.
 (defun %length-squared (color1 color2)
-  (let ((color1 (canonicalize color1))
-        (color2 (canonicalize color2)))
-    (+ (expt (- (r color2) (r color1)) 2)
-       (expt (- (g color2) (g color1)) 2)
-       (expt (- (b color2) (b color1)) 2)
-       (expt (- (a color2) (a color1)) 2))))
-
-(defmacro with-channels ((channels color) &body body)
-  `(u:mvlet ((,@channels (decompose ,color)))
-     ,@body))
-
-(defmacro combine-values (&body body)
-  `(compose (values) ,@body))
-
-(defmacro compose ((func-name) &body body)
-  `(multiple-value-call #',func-name ,@body))
-
-(defmacro -> ((placeholder channels) &body body)
-  `(values ,@(mapcar (lambda (x) `(symbol-macrolet ((,placeholder ,x)) ,@body))
-                     channels)))
-
-(defmacro ->! ((placeholder channels) &body body)
-  `(progn
-     (multiple-value-setq ,channels
-       (-> (,placeholder ,channels) ,@body))
-     (values ,@channels)))
+  (with-channels ((r1 g1 b1 a1) (canonicalize color1))
+    (with-channels ((r2 g2 b2 a2) (canonicalize color2))
+      (+ (expt (- r2 r1) 2)
+         (expt (- g2 g1) 2)
+         (expt (- b2 b1) 2)
+         (expt (- a2 a1) 2)))))

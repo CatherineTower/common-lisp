@@ -17,13 +17,6 @@
 (defmethod decompose ((color ycbcr))
   (values (y color) (cb color) (cr color)))
 
-(defmethod convert ((source color) (target ycbcr))
-  (let ((color (%rgb->ycbcr (canonicalize source))))
-    (setf (y target) (y color)
-          (cb target) (cb color)
-          (cr target) (cr color))
-    target))
-
 ;;; ycbcr8
 
 (defclass ycbcr8 (ycbcr) ())
@@ -32,10 +25,14 @@
   (make-instance 'ycbcr8 :bpc 8 :y y :cb cb :cr cr))
 
 (defmethod canonicalize-channels ((color ycbcr8))
-  (%canonicalize-ycbcr-components
-   (* (y color) #x10101)
-   (- (cb color) 128)
-   (- (cr color) 128)))
+  (with-channels ((y cb cr) color)
+    (compose (%canonicalize-ycbcr-components)
+      (* y #x10101)
+      (-> (_ (cb cr)) (- _ 128)))))
+
+(defmethod convert ((source color) (target (eql 'ycbcr8)))
+  (with-channels ((y cb cr) (%rgb->ycbcr (canonicalize source)))
+    (ycbcr8 y cb cr)))
 
 ;;; ycbcr16
 
@@ -45,10 +42,14 @@
   (make-instance 'ycbcr16 :bpc 16 :y y :cb cb :cr cr))
 
 (defmethod canonicalize-channels ((color ycbcr16))
-  (%canonicalize-ycbcr-components
-   (* (truncate (y color) #x101) #x10101)
-   (- (truncate (cb color) #x101) 128)
-   (- (truncate (cr color) #x101) 128)))
+  (with-channels ((y cb cr) color)
+    (compose (%canonicalize-ycbcr-components)
+      (* (truncate y #x101) #x10101)
+      (-> (_ (cb cr)) (- (truncate _ #x101) 128)))))
+
+(defmethod convert ((source color) (target (eql 'ycbcr16)))
+  (with-channels ((y cb cr) (%rgb->ycbcr (canonicalize source)))
+    (ycbcr16 y cb cr)))
 
 ;;;
 
@@ -64,17 +65,14 @@
       (ash value -8)))
 
 (defun %rgb->ycbcr (rgb)
-  (let* ((rgb (ash rgb -8))
-         (r (r rgb))
-         (g (g rgb))
-         (b (b rgb))
-         (y (ash (+ (* r 19595) (* g 38470) (* b 7471) #x8000) -16))
-         (cb (+ (- (* r -11056) (* g 21712)) (* b 32768) #x808000))
-         (cr (+ (- (* r 32768) (* g 27440) (* b 5328)) #x808000)))
-    (if (logtest #xff000000 cb)
-        (setf cb (%wrap (lognot (ash cb -31)) 8))
-        (setf cb (%wrap (ash cb -16) 8)))
-    (if (logtest #xff000000 cr)
-        (setf cr (%wrap (lognot (ash cr -31)) 8))
-        (setf cr (%wrap (ash cr -16) 8)))
-    (ycbcr8 y cb cr)))
+  (with-channels ((r g b) (ash rgb -8))
+    (let ((y (ash (+ (* r 19595) (* g 38470) (* b 7471) #x8000) -16))
+          (cb (+ (- (* r -11056) (* g 21712)) (* b 32768) #x808000))
+          (cr (+ (- (* r 32768) (* g 27440) (* b 5328)) #x808000)))
+      (if (logtest #xff000000 cb)
+          (setf cb (%wrap (lognot (ash cb -31)) 8))
+          (setf cb (%wrap (ash cb -16) 8)))
+      (if (logtest #xff000000 cr)
+          (setf cr (%wrap (lognot (ash cr -31)) 8))
+          (setf cr (%wrap (ash cr -16) 8)))
+      (ycbcr8 y cb cr))))

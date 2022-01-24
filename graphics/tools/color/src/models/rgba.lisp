@@ -23,25 +23,19 @@
       (-> (_ (r g b)) (truncate (* _ a #x101) #xff))
       (* a #x101))))
 
-(defmethod convert ((source color) (target rgba8))
-  (u:mvlet* ((color (canonicalize source))
-             (r g b a (decompose color)))
+(defmethod convert ((source color) (target (eql 'rgba8)))
+  (with-channels ((r g b a) (canonicalize source))
     (cond
       ((zerop a)
-       (setf (r color) 0
-             (g color) 0
-             (b color) 0
-             (a color) 0))
+       (rgba8 0 0 0 0))
       ((= a #xffff)
-       (setf (r target) (ash r -8)
-             (g target) (ash g -8)
-             (b target) (ash b -8)
-             (a target) (ash a -16)))
+       (compose (rgba8)
+         (-> (_ (r g b)) (ash _ -8))
+         (ash a -16)))
       (t
-       (setf (r color) (ash (truncate (* r #xffff) a) -8)
-             (g color) (ash (truncate (* g #xffff) a) -8)
-             (b color) (ash (truncate (* b #xffff) a) -8))))
-    target))
+       (compose (rgba8)
+         (-> (_ (r g b)) (ash (truncate (* _ #xffff) a) -8))
+         a)))))
 
 ;;; rgba16
 
@@ -56,25 +50,19 @@
       (-> (_ (r g b)) (truncate (* _ a) #xffff))
       a)))
 
-(defmethod convert ((source color) (target rgba16))
-  (u:mvlet* ((color (canonicalize source))
-             (r g b a (decompose color)))
+(defmethod convert ((source color) (target (eql 'rgba16)))
+  (with-channels ((r g b a) (canonicalize source))
     (cond
       ((zerop a)
-       (setf (r color) 0
-             (g color) 0
-             (b color) 0
-             (a color) 0))
+       (rgba16 0 0 0 0))
       ((= a #xffff)
-       (setf (r target) (ash r -8)
-             (g target) (ash g -8)
-             (b target) (ash b -8)
-             (a target) (ash a -16)))
+       (compose (rgba16)
+         (-> (_ (r g b)) (ash _ -8))
+         (ash a -16)))
       (t
-       (setf (r color) (ash (truncate (* r #xffff) a) -8)
-             (g color) (ash (truncate (* g #xffff) a) -8)
-             (b color) (ash (truncate (* b #xffff) a) -8))))
-    target))
+       (compose (rgba16)
+         (-> (_ (r g b)) (ash (truncate (* _ #xffff) a) -8))
+         a)))))
 
 ;;; rgba8-pma
 
@@ -88,9 +76,9 @@
     (-> (_ (r g b a)) (* _ #x101))))
 
 (defmethod convert ((source color) (target (eql 'rgba8-pma)))
-  (u:mvlet* ((color (canonicalize source))
-             (r g b a (decompose color)))
-    (rgba8 (ash r -8) (ash g -8) (ash b -8) (ash a -8))))
+  (with-channels ((r g b a) (canonicalize source))
+    (compose (rgba8)
+      (-> (_ (r g b a)) (ash _ -8)))))
 
 ;;; rgba16-pma
 

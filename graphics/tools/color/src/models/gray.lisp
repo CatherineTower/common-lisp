@@ -25,8 +25,8 @@
     (values v v v #xffff)))
 
 (defmethod convert ((source color) (target (eql 'gray8)))
-  (let ((color (canonicalize source)))
-    (gray8 (%encode-bt709 color 8))))
+  (with-channels ((r g b) (canonicalize source))
+    (gray8 (%encode-bt709 r g b 8))))
 
 ;;; gray16
 
@@ -40,5 +40,5 @@
     (values v v v #xffff)))
 
 (defmethod convert ((source color) (target (eql 'gray16)))
-  (let ((color (canonicalize source)))
-    (gray16 (%encode-bt709 color 16))))
+  (with-channels ((r g b) (canonicalize source))
+    (gray8 (%encode-bt709 r g b 16))))

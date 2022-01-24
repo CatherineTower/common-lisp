@@ -11,6 +11,7 @@
   :components
   ((:file "package")
    (:file "types")
+   (:file "macros")
    (:file "protocol")
    (:file "utils")
    (:module "models"
