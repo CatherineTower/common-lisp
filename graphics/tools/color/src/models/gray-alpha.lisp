@@ -21,8 +21,7 @@
 
 (defmethod convert ((source color) (target (eql 'gray-alpha8)))
   (with-channels ((r g b a) (%canonicalize source))
-    (gray-alpha8 (%encode-bt709 r g b 8)
-                 (ash a -8))))
+    (gray-alpha8 (%encode-bt709 r g b 8) (ash a -8))))
 
 ;;; gray-alpha16
 
@@ -37,5 +36,4 @@
 
 (defmethod convert ((source color) (target (eql 'gray-alpha16)))
   (with-channels ((r g b a) (%canonicalize source))
-    (gray-alpha16 (%encode-bt709 r g b 16)
-                  (ash a -8))))
+    (gray-alpha16 (%encode-bt709 r g b 16) a)))

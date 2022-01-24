@@ -193,16 +193,28 @@
              (32839 23762 31189 26615) (26847 46339 53166 56503)
              (48826 45299 40525 32404) (50664 5827 52892 23238)
              (9943 49336 9551 7075) (42156 16796 64026 55810)))
-      (outs '((12160) (11736) (3097) (45483) (34335) (12268) (8315) (34835)
-              (35001) (11464) (26228) (42688) (45704) (18758) (38088) (25598))))
+      (outs '((12160 7503) (11736 30223) (3097 16553) (45483 17431)
+              (34335 1807) (12268 31462) (8315 64801) (34835 54783)
+              (35001 47981) (11464 28183) (26228 26615) (42688 56503)
+              (45704 32404) (18758 23238) (38088 7075) (25598 55810))))
   (subtest "Convert: RGBA16-PMA -> Gray8"
     (loop :for (r g b a) :in ins
           :for o :in outs
-          :for out := (mapcar (lambda (x) (truncate x #x100)) o)
+          :for out := (list (truncate (first o) #x100))
           :do (test/convert (c:rgba16-pma r g b a) 'c:gray8 out)))
   (subtest "Convert: RGBA16-PMA -> Gray16"
     (loop :for (r g b a) :in ins
+          :for o :in outs
+          :for out := (list (first o))
+          :do (test/convert (c:rgba16-pma r g b a) 'c:gray16 out)))
+  (subtest "Convert: RGBA16-PMA -> Gray-Alpha8"
+    (loop :for (r g b a) :in ins
+          :for o :in outs
+          :for out := (mapcar (lambda (x) (truncate x #x100)) o)
+          :do (test/convert (c:rgba16-pma r g b a) 'c:gray-alpha8 out)))
+  (subtest "Convert: RGBA16-PMA -> Gray-Alpha16"
+    (loop :for (r g b a) :in ins
           :for out :in outs
-          :do (test/convert (c:rgba16-pma r g b a) 'c:gray16 out))))
+          :do (test/convert (c:rgba16-pma r g b a) 'c:gray-alpha16 out))))
 
 (finalize)
