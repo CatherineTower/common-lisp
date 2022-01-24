@@ -185,22 +185,24 @@
            (out (list a)))
       (test/convert (c:rgba16-pma r g b a) 'c:alpha16 out))))
 
-;; (subtest "Convert: RGBA16-PMA -> Gray8"
-;;   (dotimes (i 16)
-;;     (let* ((r (random #x10000))
-;;            (g (random #x10000))
-;;            (b (random #x10000))
-;;            (a (random #x10000))
-;;            (out (list (truncate a #x100))))
-;;       (test/convert (c:rgba16-pma r g b a) 'c:gray8 out))))
-
-;; (subtest "Convert: RGBA16-PMA -> Gray16"
-;;   (dotimes (i 16)
-;;     (let* ((r (random #x10000))
-;;            (g (random #x10000))
-;;            (b (random #x10000))
-;;            (a (random #x10000))
-;;            (out (list a)))
-;;       (test/convert (c:rgba16-pma r g b a) 'c:gray16 out))))
+(let ((ins '((30052 5682 23649 7503) (27276 6542 17423 30223)
+             (69 4085 2229 16553) (17573 56181 21695 17431)
+             (27930 36583 30921 1807) (13437 12715 4400 31462)
+             (16914 3133 34323 64801) (1678 47843 3617 54783)
+             (5696 42571 46299 47981) (638 11052 47423 28183)
+             (32839 23762 31189 26615) (26847 46339 53166 56503)
+             (48826 45299 40525 32404) (50664 5827 52892 23238)
+             (9943 49336 9551 7075) (42156 16796 64026 55810)))
+      (outs '((12160) (11736) (3097) (45483) (34335) (12268) (8315) (34835)
+              (35001) (11464) (26228) (42688) (45704) (18758) (38088) (25598))))
+  (subtest "Convert: RGBA16-PMA -> Gray8"
+    (loop :for (r g b a) :in ins
+          :for o :in outs
+          :for out := (mapcar (lambda (x) (truncate x #x100)) o)
+          :do (test/convert (c:rgba16-pma r g b a) 'c:gray8 out)))
+  (subtest "Convert: RGBA16-PMA -> Gray16"
+    (loop :for (r g b a) :in ins
+          :for out :in outs
+          :do (test/convert (c:rgba16-pma r g b a) 'c:gray16 out))))
 
 (finalize)
