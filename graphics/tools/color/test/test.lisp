@@ -4,9 +4,8 @@
   (let ((result (multiple-value-list (c:decompose (c:canonicalize color)))))
     (is result
         expected
-        (format nil "~a ~dbpc: ~{~d~^, ~} -> RGBA 16bpc PMA: ~{~d~^, ~}"
+        (format nil "~a: ~{~d~^, ~} -> RGBA16-PMA: ~{~d~^, ~}"
                 (class-name (class-of color))
-                (c::bpc color)
                 (multiple-value-list (c:decompose color))
                 expected))))
 
@@ -14,23 +13,22 @@
   (let ((result (multiple-value-list (c:decompose (c:convert source target)))))
     (is result
         expected
-        (format nil "RGBA 16bpc PMA: ~{~d~^, ~} -> ~a ~dbpc: ~{~d~^, ~}"
+        (format nil "RGBA16-PMA: ~{~d~^, ~} -> ~a: ~{~d~^, ~}"
                 (multiple-value-list (c:decompose source))
-                (class-name (class-of target))
-                (c::bpc target)
+                target
                 expected))))
 
 (plan nil)
 
 ;;; Test that each color model can be converted to the canonical form.
 
-(subtest "Canonicalize: Alpha 8bpc"
+(subtest "Canonicalize: Alpha8"
   (dotimes (i 16)
     (let* ((a (random #x100))
            (out (make-list 4 :initial-element (* a #x101))))
       (test/canonicalize (c:alpha8 a) out))))
 
-(subtest "Canonicalize: Alpha 16bpc"
+(subtest "Canonicalize: Alpha16"
   (dotimes (i 16)
     (let* ((a (random (1+ (* i #x1000))))
            (out (make-list 4 :initial-element a)))
@@ -48,36 +46,36 @@
               (5088 4988 3192 65535) (9526 4317 16173 65535)
               (4740 4015 2152 65535) (12473 47013 57088 65535)
               (19728 438 13415 65535) (393 1945 1148 65535))))
-  (subtest "Canonicalize: CMYK 8bpc"
+  (subtest "Canonicalize: CMYK8"
     (loop :for (c m y k) :in ins
           :for out :in outs
           :do (test/canonicalize (c:cmyk8 c m y k) out)))
-  (subtest "Canonicalize: CMYK 16bpc"
+  (subtest "Canonicalize: CMYK16"
     (loop :for in :in ins
           :for (c m y k) := (mapcar (lambda (x) (* x #x101)) in)
           :for out :in outs
           :do (test/canonicalize (c:cmyk16 c m y k) out))))
 
-(subtest "Canonicalize: Gray 8bpc"
+(subtest "Canonicalize: Gray8"
   (dotimes (i 16)
     (let* ((v (random #x100))
            (out (list (* v #x101) (* v #x101) (* v #x101) #xffff)))
       (test/canonicalize (c:gray8 v) out))))
 
-(subtest "Canonicalize: Gray 16bpc"
+(subtest "Canonicalize: Gray16"
   (dotimes (i 16)
     (let* ((v (random (1+ (* i #x1000))))
            (out (list v v v #xffff)))
       (test/canonicalize (c:gray16 v) out))))
 
-(subtest "Canonicalize: Gray-Alpha 8bpc"
+(subtest "Canonicalize: Gray-Alpha8"
   (dotimes (i 16)
     (let* ((v (random #x100))
            (a (random #x100))
            (out (list (* v #x101) (* v #x101) (* v #x101) (* a #x101))))
       (test/canonicalize (c:gray-alpha8 v a) out))))
 
-(subtest "Canonicalize: Gray-Alpha 16bpc"
+(subtest "Canonicalize: Gray-Alpha16"
   (dotimes (i 16)
     (let* ((v (random (1+ (* i #x1000))))
            (a (random (1+ (* i #x1000))))
@@ -87,7 +85,7 @@
 (subtest "Canonicalize: Indexed"
   (skip 1 "Indexed colors contain a palette of RGB colors, and so will be tested for RGB."))
 
-(subtest "Canonicalize: RGB 8bpc"
+(subtest "Canonicalize: RGB8"
   (dotimes (i 16)
     (let* ((r (random #x100))
            (g (random #x100))
@@ -95,7 +93,7 @@
            (out (list (* r #x101) (* g #x101) (* b #x101) #xffff)))
       (test/canonicalize (c:rgb8 r g b) out))))
 
-(subtest "Canonicalize: RGB 16bpc"
+(subtest "Canonicalize: RGB16"
   (dotimes (i 16)
     (let* ((r (random (1+ (* i #x1000))))
            (g (random (1+ (* i #x1000))))
@@ -103,7 +101,7 @@
            (out (list r g b #xffff)))
       (test/canonicalize (c:rgb16 r g b) out))))
 
-(subtest "Canonicalize: RGBA 8bpc"
+(subtest "Canonicalize: RGBA8"
   (dotimes (i 16)
     (let* ((r (random #x100))
            (g (random #x100))
@@ -115,7 +113,7 @@
                       (* a #x101))))
       (test/canonicalize (c:rgba8 r g b a) out))))
 
-(subtest "Canonicalize: RGBA 16bpc"
+(subtest "Canonicalize: RGBA16"
   (dotimes (i 16)
     (let* ((r (random (1+ (* i #x1000))))
            (g (random (1+ (* i #x1000))))
@@ -127,7 +125,7 @@
                       a)))
       (test/canonicalize (c:rgba16 r g b a) out))))
 
-(subtest "Canonicalize: RGBA 8bpc PMA"
+(subtest "Canonicalize: RGBA8-PMA"
   (dotimes (i 16)
     (let* ((r (random #x100))
            (g (random #x100))
@@ -136,7 +134,7 @@
            (out (mapcan (lambda (x) (list (* x #x101))) (list r g b a))))
       (test/canonicalize (c:rgba8-pma r g b a) out))))
 
-(subtest "Canonicalize: RGBA 16bpc PMA"
+(subtest "Canonicalize: RGBA16-PMA"
   (dotimes (i 16)
     (let* ((r (random (1+ (* i #x1000))))
            (g (random (1+ (* i #x1000))))
@@ -157,11 +155,11 @@
               (29661 0 47024 65535) (18190 65535 34630 65535)
               (18686 62671 65535 65535) (65535 65535 31059 65535)
               (25541 65535 65535 65535) (55295 52129 30669 65535))))
-  (subtest "Canonicalize: YCbCr 8bpc"
+  (subtest "Canonicalize: YCbCr8"
     (loop :for (y cb cr) :in ins
           :for out :in outs
           :do (test/canonicalize (c:ycbcr8 y cb cr) out)))
-  (subtest "Canonicalize: YCbCr 16bpc"
+  (subtest "Canonicalize: YCbCr16"
     (loop :for in :in ins
           :for (y cb cr) := (mapcar (lambda (x) (* x #x101)) in)
           :for out :in outs
@@ -169,22 +167,40 @@
 
 ;;; Test that the canonical form can be converted to each color model.
 
-(subtest "Convert: RGBA 16bpc PMA -> Alpha 8bpc"
+(subtest "Convert: RGBA16-PMA -> Alpha8"
   (dotimes (i 16)
     (let* ((r (random #x10000))
            (g (random #x10000))
            (b (random #x10000))
            (a (random #x10000))
            (out (list (truncate a #x100))))
-      (test/convert (c:rgba16-pma r g b a) (c:alpha8) out))))
+      (test/convert (c:rgba16-pma r g b a) 'c:alpha8 out))))
 
-(subtest "Convert: RGBA 16bpc PMA -> Alpha 16bpc"
+(subtest "Convert: RGBA16-PMA -> Alpha16"
   (dotimes (i 16)
     (let* ((r (random #x10000))
            (g (random #x10000))
            (b (random #x10000))
            (a (random #x10000))
            (out (list a)))
-      (test/convert (c:rgba16-pma r g b a) (c:alpha16) out))))
+      (test/convert (c:rgba16-pma r g b a) 'c:alpha16 out))))
+
+;; (subtest "Convert: RGBA16-PMA -> Gray8"
+;;   (dotimes (i 16)
+;;     (let* ((r (random #x10000))
+;;            (g (random #x10000))
+;;            (b (random #x10000))
+;;            (a (random #x10000))
+;;            (out (list (truncate a #x100))))
+;;       (test/convert (c:rgba16-pma r g b a) 'c:gray8 out))))
+
+;; (subtest "Convert: RGBA16-PMA -> Gray16"
+;;   (dotimes (i 16)
+;;     (let* ((r (random #x10000))
+;;            (g (random #x10000))
+;;            (b (random #x10000))
+;;            (a (random #x10000))
+;;            (out (list a)))
+;;       (test/convert (c:rgba16-pma r g b a) 'c:gray16 out))))
 
 (finalize)

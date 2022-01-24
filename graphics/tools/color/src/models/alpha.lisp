@@ -20,14 +20,13 @@
 (defun alpha8 (&optional (value #xff))
   (make-instance 'alpha8 :bpc 8 :a value))
 
-(defmethod canonicalize-components ((color alpha8))
+(defmethod canonicalize-channels ((color alpha8))
   (let ((a (* (a color) #x101)))
     (values a a a a)))
 
-(defmethod convert ((source color) (target alpha8))
+(defmethod convert ((source color) (target (eql 'alpha8)))
   (let ((color (canonicalize source)))
-    (setf (a target) (ash (a color) -8))
-    target))
+    (alpha8 (ash (a color) -8))))
 
 ;;; alpha16
 
@@ -36,11 +35,10 @@
 (defun alpha16 (&optional (value #xffff))
   (make-instance 'alpha16 :bpc 16 :a value))
 
-(defmethod canonicalize-components ((color alpha16))
+(defmethod canonicalize-channels ((color alpha16))
   (let ((a (a color)))
     (values a a a a)))
 
-(defmethod convert ((source color) (target alpha16))
+(defmethod convert ((source color) (target (eql 'alpha16)))
   (let ((color (canonicalize source)))
-    (setf (a target) (a color))
-    target))
+    (alpha16 (a color))))

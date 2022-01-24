@@ -60,4 +60,5 @@
    #:canonicalize
    #:convert
    #:decompose
-   #:make-palette))
+   #:make-palette
+   #:with-channels))

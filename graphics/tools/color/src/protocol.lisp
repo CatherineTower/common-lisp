@@ -4,14 +4,12 @@
 
 (defgeneric canonicalize (color)
   (:method ((color color))
-    (u:mvlet ((r g b a (canonicalize-components color)))
+    (u:mvlet ((r g b a (canonicalize-channels color)))
       (rgba16-pma r g b a))))
 
-(defgeneric canonicalize-components (color))
+(defgeneric canonicalize-channels (color))
 
 (defgeneric convert (source target)
-  (:method ((source color) (target symbol))
-    (convert source (make-instance target)))
   (:method :around ((source color) target)
     ;; Skip the conversion if the source color is the same type as the target color.
     (if (or (eq source target)

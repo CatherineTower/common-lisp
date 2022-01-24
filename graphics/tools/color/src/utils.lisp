@@ -25,3 +25,23 @@
        (expt (- (g color2) (g color1)) 2)
        (expt (- (b color2) (b color1)) 2)
        (expt (- (a color2) (a color1)) 2))))
+
+(defmacro with-channels ((channels color) &body body)
+  `(u:mvlet ((,@channels (decompose ,color)))
+     ,@body))
+
+(defmacro combine-values (&body body)
+  `(compose (values) ,@body))
+
+(defmacro compose ((func-name) &body body)
+  `(multiple-value-call #',func-name ,@body))
+
+(defmacro -> ((placeholder channels) &body body)
+  `(values ,@(mapcar (lambda (x) `(symbol-macrolet ((,placeholder ,x)) ,@body))
+                     channels)))
+
+(defmacro ->! ((placeholder channels) &body body)
+  `(progn
+     (multiple-value-setq ,channels
+       (-> (,placeholder ,channels) ,@body))
+     (values ,@channels)))

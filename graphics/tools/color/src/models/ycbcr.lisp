@@ -31,7 +31,7 @@
 (defun ycbcr8 (&optional (y 0) (cb 0) (cr 0))
   (make-instance 'ycbcr8 :bpc 8 :y y :cb cb :cr cr))
 
-(defmethod canonicalize-components ((color ycbcr8))
+(defmethod canonicalize-channels ((color ycbcr8))
   (%canonicalize-ycbcr-components
    (* (y color) #x10101)
    (- (cb color) 128)
@@ -44,7 +44,7 @@
 (defun ycbcr16 (&optional (y 0) (cb 0) (cr 0))
   (make-instance 'ycbcr16 :bpc 16 :y y :cb cb :cr cr))
 
-(defmethod canonicalize-components ((color ycbcr16))
+(defmethod canonicalize-channels ((color ycbcr16))
   (%canonicalize-ycbcr-components
    (* (truncate (y color) #x101) #x10101)
    (- (truncate (cb color) #x101) 128)

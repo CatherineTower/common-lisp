@@ -17,12 +17,11 @@
 (defun rgba8 (&optional (r 0) (g 0) (b 0) (a #xff))
   (make-instance 'rgba8 :bpc 8 :r r :g g :b b :a a))
 
-(defmethod canonicalize-components ((color rgba8))
-  (let ((a (a color)))
-    (values (truncate (* (r color) a #x101) #xff)
-            (truncate (* (g color) a #x101) #xff)
-            (truncate (* (b color) a #x101) #xff)
-            (* a #x101))))
+(defmethod canonicalize-channels ((color rgba8))
+  (with-channels ((r g b a) color)
+    (combine-values
+      (-> (_ (r g b)) (truncate (* _ a #x101) #xff))
+      (* a #x101))))
 
 (defmethod convert ((source color) (target rgba8))
   (u:mvlet* ((color (canonicalize source))
@@ -51,12 +50,11 @@
 (defun rgba16 (&optional (r 0) (g 0) (b 0) (a #xffff))
   (make-instance 'rgba16 :bpc 16 :r r :g g :b b :a a))
 
-(defmethod canonicalize-components ((color rgba16))
-  (let ((a (a color)))
-    (values (truncate (* (r color) a) #xffff)
-            (truncate (* (g color) a) #xffff)
-            (truncate (* (b color) a) #xffff)
-            a)))
+(defmethod canonicalize-channels ((color rgba16))
+  (with-channels ((r g b a) color)
+    (combine-values
+      (-> (_ (r g b)) (truncate (* _ a) #xffff))
+      a)))
 
 (defmethod convert ((source color) (target rgba16))
   (u:mvlet* ((color (canonicalize source))
@@ -85,22 +83,14 @@
 (defun rgba8-pma (&optional (r 0) (g 0) (b 0) (a #xff))
   (make-instance 'rgba8-pma :bpc 8 :pma t :r r :g g :b b :a a))
 
-(defmethod canonicalize-components ((color rgba8-pma))
-  (values (* (r color) #x101)
-          (* (g color) #x101)
-          (* (b color) #x101)
-          (* (a color) #x101)))
+(defmethod canonicalize-channels ((color rgba8-pma))
+  (with-channels ((r g b a) color)
+    (-> (_ (r g b a)) (* _ #x101))))
 
-(defmethod convert ((source color) (target rgba8-pma))
+(defmethod convert ((source color) (target (eql 'rgba8-pma)))
   (u:mvlet* ((color (canonicalize source))
              (r g b a (decompose color)))
-    (cond
-      ((pma target)
-       (setf (r color) (ash r -8)
-             (g color) (ash g -8)
-             (b color) (ash b -8)
-             (a color) (ash a -8))))
-    target))
+    (rgba8 (ash r -8) (ash g -8) (ash b -8) (ash a -8))))
 
 ;;; rgba16-pma
 
@@ -109,16 +99,8 @@
 (defun rgba16-pma (&optional (r 0) (g 0) (b 0) (a #xffff))
   (make-instance 'rgba16-pma :bpc 16 :pma t :r r :g g :b b :a a))
 
-(defmethod canonicalize-components ((color rgba16-pma))
+(defmethod canonicalize-channels ((color rgba16-pma))
   (decompose color))
 
-(defmethod convert ((source color) (target rgba8-pma))
-  (u:mvlet* ((color (canonicalize source))
-             (r g b a (decompose color)))
-    (cond
-      ((pma target)
-       (setf (r color) (ash r -8)
-             (g color) (ash g -8)
-             (b color) (ash b -8)
-             (a color) (ash a -8))))
-    target))
+(defmethod convert ((source color) (target (eql 'rgba16-pma)))
+  (canonicalize source))
