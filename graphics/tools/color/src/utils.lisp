@@ -8,10 +8,6 @@
 (defun %wrap (value bit-count)
   (ldb (byte bit-count 0) value))
 
-(declaim (inline %shift))
-(defun %shift (value bit-count)
-  (%wrap (ash value bit-count) 16))
-
 ;; Uses the ITU-R Recommendation BT.709 standard for its luma coefficients.
 (declaim (inline %encode-bt709))
 (defun %encode-bt709 (r g b bpc)

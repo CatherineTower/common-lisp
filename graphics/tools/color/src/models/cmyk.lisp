@@ -33,9 +33,15 @@
         (-> (_ (c m y)) (truncate (* (- #xffff (* _ #x101)) w) #xffff))
         #xffff))))
 
-;; TODO: Encode %rgb->cmyk into this function.
 (defmethod convert ((source color) (target (eql 'cmyk8)))
-  (%rgb->cmyk (%canonicalize source)))
+  (with-channels ((r g b) (%canonicalize source))
+    (->! (_ (r g b)) (ash _ -8))
+    (let ((w (max r g b)))
+      (if (zerop w)
+          (cmyk8)
+          (compose (cmyk8)
+            (-> (_ (r g b)) (truncate (* (- w _) #xff) w))
+            (- #xff w))))))
 
 ;;; cmyk16
 
@@ -52,19 +58,10 @@
         #xffff))))
 
 (defmethod convert ((source color) (target (eql 'cmyk16)))
-  (%rgb->cmyk (%canonicalize source)))
-
-;;;
-
-;; TODO: Encode %rgb->cmyk into this function.
-(defun %rgb->cmyk (rgb)
-  (let* ((r (%shift (r rgb) -8))
-         (g (%shift (g rgb) -8))
-         (b (%shift (b rgb) -8))
-         (w (max r g b)))
-    (if (zerop w)
-        (cmyk8)
-        (cmyk8 (truncate (* (- w r) #xff) w)
-               (truncate (* (- w g) #xff) w)
-               (truncate (* (- w b) #xff) w)
-               (- #xff w)))))
+  (with-channels ((r g b) (%canonicalize source))
+    (let ((w (max r g b)))
+      (if (zerop w)
+          (cmyk16)
+          (compose (cmyk16)
+            (-> (_ (r g b)) (truncate (* (- w _) #xffff) w))
+            (- #xffff w))))))
