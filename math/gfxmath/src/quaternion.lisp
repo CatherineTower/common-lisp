@@ -33,7 +33,7 @@
 (u:eval-always
   (defun quat (w x y z)
     "Construct a quaternion with its components set to the corresponding argument."
-    (let ((quaternion (%make-quaternion)))
+    (let ((quaternion (make-instance 'quaternion)))
       (setf (ref quaternion 0) w
             (ref quaternion 1) x
             (ref quaternion 2) y
@@ -43,7 +43,7 @@
 (u:eval-always
   (defun quat/id ()
     "Construct an identity quaternion."
-    (id! (%make-quaternion))))
+    (id! (make-instance 'quaternion))))
 
 (defun quat/from-axis-angle (axis angle)
   "Construct a quaternion from the ANGLE in radians around the axis denoted by the 3-dimensional ~

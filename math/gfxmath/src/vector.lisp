@@ -13,9 +13,9 @@
     (doc "Construct a vector with a dimensionality equal to the number of reals given, and its ~
 components set to the values of the arguments.")
     (let* ((size (length components))
-           (constructor (u:format-symbol (symbol-package 'vec) "%MAKE-VECTOR~d" size)))
-      (if (fboundp constructor)
-          (let ((vector (funcall constructor)))
+           (type (u:format-symbol (symbol-package 'vec) "VECTOR~d" size)))
+      (if (find-class type nil)
+          (let ((vector (make-instance type)))
             (loop :for component :in components
                   :for i :from 0
                   :do (setf (ref vector i) component))
@@ -25,9 +25,9 @@ components set to the values of the arguments.")
 (define-compiler-macro vec (&rest components)
   (u:with-gensyms (vector)
     (let* ((size (length components))
-           (constructor (u:format-symbol (symbol-package 'vec) "%MAKE-VECTOR~d" size)))
-      (if (fboundp constructor)
-          `(let ((,vector (,constructor)))
+           (type (u:format-symbol (symbol-package 'vec) "VECTOR~d" size)))
+      (if (find-class type nil)
+          `(let ((,vector (make-instance ',type)))
              (setf
               ,@(loop :for component :in components
                       :for i :from 0

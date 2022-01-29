@@ -82,16 +82,16 @@
 (u:eval-always
   (defun mat (size)
     "Construct a matrix of the given SIZE, with each component set to 0."
-    (let ((constructor (u:format-symbol (symbol-package 'mat) "%MAKE-MATRIX~d" size)))
-      (if (fboundp constructor)
-          (funcall constructor)
+    (let ((type (u:format-symbol (symbol-package 'mat) "MATRIX~d" size)))
+      (if (find-class type nil)
+          (make-instance type)
           (error "Invalid matrix size: ~dx~d." size size)))))
 
 (define-compiler-macro mat (&whole whole size)
   (if (constantp size)
-      (let ((constructor (u:format-symbol (symbol-package 'mat) "%MAKE-MATRIX~d" (eval size))))
-        (if (fboundp constructor)
-            `(,constructor)
+      (let ((type (u:format-symbol (symbol-package 'mat) "MATRIX~d" (eval size))))
+        (if (find-class type nil)
+            `(make-instance ',type)
             (error "Invalid matrix size: ~dx~d." size size)))
       whole))
 
