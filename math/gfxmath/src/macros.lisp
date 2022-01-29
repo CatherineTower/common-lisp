@@ -13,23 +13,15 @@
 
 (defmacro %generate-type (type () &key (base 'math-object) (rows 1) (columns 1)
                                     (description "math object") documentation)
-  (let ((constructor (u:symbolicate '#:%make- type))
-        (predicate (u:symbolicate type '#:?))
-        (size (cl:* rows columns)))
+  (let ((size (cl:* rows columns)))
     `(u:eval-always
-       (declaim (inline ,constructor))
-       (defstruct (,type
-                   (:include ,base
-                    (row-count ,rows)
-                    (column-count ,columns)
-                    (components (u:make-f64-array ,size))
-                    (components/single (u:make-f32-array ,size)))
-                   (:constructor ,constructor)
-                   (:conc-name "")
-                   (:predicate ,predicate)
-                   (:copier nil))
-         ,@(when documentation `(,(format nil documentation))))
-       (export '(,type ,predicate))
+       (defclass ,type (,base) ()
+         (:default-initargs
+          :row-count ,rows
+          :column-count ,columns
+          :components (u:make-f64-array ,size)
+          :components/single (u:make-f32-array ,size))
+         ,@(when documentation `((:documentation ,(format nil documentation)))))
        (pushnew ',type *types*)
        (pushnew (cons ',type ,description) *descriptions* :test #'equalp)
        ,@(when (eq base 'matrix)

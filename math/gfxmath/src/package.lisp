@@ -71,9 +71,7 @@
    #:mat/random
    #:mat/rotation
    #:math-object
-   #:math-object?
    #:matrix
-   #:matrix?
    #:mref
    #:quat
    #:quat/from-axis-angle
@@ -88,7 +86,6 @@
    #:vec/velocity
    #:vec/zero
    #:vector
-   #:vector?
    #:w
    #:with-matrix
    #:with-quaternion

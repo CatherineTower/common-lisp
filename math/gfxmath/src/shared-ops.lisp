@@ -79,8 +79,9 @@ from the corresponding component of the {OBJECT1:DESC} OBJECT1, storing the resu
 
 (define-op copy ((object :*)) :all
   "Create a fresh copy of the {OBJECT:DESC} OBJECT."
-  (let ((out (%copy object)))
-    (setf (components out) (u:copy-array (components object)))
+  (let ((out (make-instance (class-name (class-of object)))))
+    (setf (components out) (u:copy-array (components object))
+          (components/single out) (u:copy-array (components/single object)))
     out))
 
 (define-op copy! ((object :*) (out :*)) :all

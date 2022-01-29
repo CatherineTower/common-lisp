@@ -1,59 +1,57 @@
 (in-package #:mfiano.math.gfxmath)
 
-(defstruct (math-object
-            (:constructor nil)
-            (:conc-name "")
-            (:predicate math-object?)
-            (:copier %copy))
-  "The base type that all math types are derived from."
-  (components (u:make-f64-array 0) :type (u:f64a (cl:*)))
-  (components/single (u:make-f32-array 0) :type (u:f32a (cl:*)))
-  (row-count 1 :type (integer 1 4))
-  (column-count 1 :type (integer 1 4)))
+(defclass math-object ()
+  ((%components
+    :type (u:f64a (cl:*))
+    :accessor components
+    :initarg :components)
+   (%components/single
+    :type (u:f32a (cl:*))
+    :accessor components/single
+    :initarg :components/single)
+   (%row-count
+    :type (integer 1 4)
+    :reader row-count
+    :initarg :row-count)
+   (%column-count
+    :type (integer 1 4)
+    :reader column-count
+    :initarg :column-count))
+  (:documentation "The base type that all math types are derived from."))
 
 (defmethod make-load-form ((object math-object) &optional environment)
   (make-load-form-saving-slots object :environment environment))
 
 ;;; Vector types
 
-(defstruct (vector
-            (:include math-object)
-            (:constructor nil)
-            (:conc-name "")
-            (:predicate vector?)
-            (:copier nil))
-  "A column vector that all vector types are derived from.")
+(defclass vector (math-object) ()
+  (:documentation "A column vector that all vector types are derived from."))
 
 (u:define-printer (vector stream :type nil)
   (%print-object/columnar vector stream))
 
 (%generate-type vector2 ()
-  :base vector
-  :rows 2
-  :description "2-dimensional vector"
-  :documentation "A 2-dimensional column vector.")
+                :base vector
+                :rows 2
+                :description "2-dimensional vector"
+                :documentation "A 2-dimensional column vector.")
 
 (%generate-type vector3 ()
-  :base vector
-  :rows 3
-  :description "3-dimensional vector"
-  :documentation "A 3-dimensional column vector.")
+                :base vector
+                :rows 3
+                :description "3-dimensional vector"
+                :documentation "A 3-dimensional column vector.")
 
 (%generate-type vector4 ()
-  :base vector
-  :rows 4
-  :description "4-dimensional vector"
-  :documentation "A 4-dimensional column vector.")
+                :base vector
+                :rows 4
+                :description "4-dimensional vector"
+                :documentation "A 4-dimensional column vector.")
 
 ;;; Matrix types
 
-(defstruct (matrix
-            (:include math-object)
-            (:constructor nil)
-            (:conc-name "")
-            (:predicate matrix?)
-            (:copier nil))
-  "A square matrix that all matrix types are derived from.")
+(defclass matrix (math-object) ()
+  (:documentation "A square matrix that all matrix types are derived from."))
 
 (u:define-printer (matrix stream :type nil)
   (%print-object/columnar matrix stream))
