@@ -4,9 +4,9 @@
     (m:mat/from-vecs (m:vec 0.4360747 0.2225045 0.0139322)
                      (m:vec 0.3850649 0.7168786 0.0971045)
                      (m:vec 0.1430804 0.0606169 0.7141733))
-  :test #'equalp)
+  :test #'m:=)
 
-(u:define-constant +xyz->rgb+ (m:invert +rgb->xyz+) :test #'equalp)
+(u:define-constant +xyz->rgb+ (m:invert +rgb->xyz+) :test #'m:=)
 
 (defclass xyz-image (image) ())
 
