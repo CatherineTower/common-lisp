@@ -7,9 +7,9 @@
                #:mfiano.misc.utils
                #:prove)
   :defsystem-depends-on (#:prove-asdf)
+  :perform (asdf:test-op (op c) (uiop:symbol-call '#:mfiano.math.gfxmath.test '#:run-tests c))
   :pathname "test"
   :serial t
-  :perform (asdf:test-op (op c) (uiop:symbol-call '#:mfiano.math.gfxmath.test '#:run-tests c))
   :components
   ((:file "package")
    (:file "common")
