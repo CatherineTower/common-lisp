@@ -72,8 +72,12 @@
    #:mat/rotation
    #:math-object
    #:matrix
+   #:matrix2
+   #:matrix3
+   #:matrix4
    #:mref
    #:quat
+   #:quaternion
    #:quat/from-axis-angle
    #:quat/from-mat
    #:quat/from-velocity
@@ -86,6 +90,9 @@
    #:vec/velocity
    #:vec/zero
    #:vector
+   #:vector2
+   #:vector3
+   #:vector4
    #:w
    #:with-matrix
    #:with-quaternion

@@ -7,9 +7,9 @@
   :encoding :utf-8
   :depends-on (#:mfiano.misc.utils
                #:specialization-store)
+  :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.math.origin.test)))
   :pathname "src"
   :serial t
-  :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.math.origin.test)))
   :components
   ((:file "common/package")
    (:file "common/util")
