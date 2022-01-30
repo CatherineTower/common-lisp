@@ -20,7 +20,7 @@
           (c1 to) (linearize-channel (c1 from))
           (c2 to) (linearize-channel (c2 from)))
     ;; NOTE: The following is correct. We previously wrote the linearization of FROM to the TO
-    ;; color, to preserve the original FROM. Now we are transforming the linearized SRGB color
+    ;; color, to preserve the original FROM. Now we are transforming the linearized sRGB color
     ;; stored in TO, to XYZ, also written to TO. By only writing to the output for both operations,
     ;; we remove the need for allocating any temporary objects.
     (transform-color to to +srgb->xyz+)))

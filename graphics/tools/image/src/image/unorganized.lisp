@@ -28,7 +28,7 @@
     nil))
 
 ;; TODO: The iteration should be abstracted to a macro, to allow us to perform more than solid color
-;; fills across a while image (or sub-image).
+;; fills across a whole image (or sub-image).
 (defun fill-color (image color &key (context *context*))
   (declare (optimize speed))
   (let* ((data (data image))

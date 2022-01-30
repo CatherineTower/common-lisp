@@ -10,9 +10,9 @@
 
 (u:define-constant +offset/srgb+ 1.055f0)
 
-;; TODO: This assumes a the standard reference whitepoint of D65 defined by sRGB. We may want to
-;; have a separate API for "Chromatic Adaptation", which redefines the reference whitepoint of a
-;; color space, and re-adjusts all the colors according to it.
+;; TODO: This assumes the standard reference whitepoint of D65 defined by sRGB. We may want to have
+;; a separate API for "Chromatic Adaptation", which redefines the reference whitepoint of a color
+;; space, and re-adjusts all the colors according to it.
 (u:define-constant +srgb->xyz+
     (m3:mat 0.4124564 0.2126729 0.0193339
             0.3575761 0.7151522 0.1191920

@@ -1,9 +1,9 @@
 (in-package #:mfiano.graphics.tools.image)
 
-;;;; TODO: This file needs some work to integrate color additional color models and somehow map them
-;;;; to a color space. Additionally, PIXEL-CHANNEL-COUNT is redundant, and should be queriable from
-;;;; the image's color model. Also, ALPHA-CHANNEL-INDEX should be a method on the image's color
-;;;; model, too.
+;;;; TODO: This file needs some work to integrate additional color models and somehow map them to a
+;;;; color space. Additionally, PIXEL-CHANNEL-COUNT is redundant, and should be query-able from the
+;;;; image's color model. Also, ALPHA-CHANNEL-INDEX should be a method on the image's color model,
+;;;; too.
 
 ;;; RGBA
 
