@@ -3,8 +3,11 @@
 (defpackage #:mfiano.graphics.tools.image
   (:local-nicknames
    (#:lp #:lparallel)
-   (#:m #:mfiano.math.gfxmath)
-   (#:u #:mfiano.misc.utils))
+   (#:u #:mfiano.misc.utils)
+   (#:v2 #:mfiano.math.origin.vec2)
+   (#:v3 #:mfiano.math.origin.vec3)
+   (#:v4 #:mfiano.math.origin.vec4)
+   (#:m3 #:mfiano.math.origin.mat3))
   (:use #:cl)
   ;; context
   (:export

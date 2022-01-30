@@ -5,8 +5,8 @@
   :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/tools/image"
   :encoding :utf-8
   :depends-on (#:cl-cpus
-               #:mfiano.math.gfxmath
                #:lparallel
+               #:mfiano.math.origin
                #:mfiano.misc.utils)
   :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.tools.image.test)))
   :pathname "src"
@@ -16,8 +16,14 @@
    (:file "conditions")
    (:file "worker-state")
    (:file "context")
-   (:file "image")
-   (:module "image-types"
+   (:module "color"
     :components
-    ((:file "xyz")
-     (:file "rgba")))))
+    ((:file "color")
+     (:file "spaces")
+     (:file "models")
+     (:file "conversions")))
+   (:module "image"
+    :components
+    ((:file "image")
+     (:file "unorganized")
+     (:file "types")))))
