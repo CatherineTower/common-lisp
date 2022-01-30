@@ -586,3 +586,9 @@ multiplication of MAT * T."
               o21 (% m01 m20 m00 m21)
               o22 (% m00 m11 m01 m10))
         (values out t)))))
+
+(u:fn-> invert (mat) mat)
+(declaim (inline invert))
+(defun invert (mat)
+  (declare (optimize speed))
+  (invert! (id) mat))
