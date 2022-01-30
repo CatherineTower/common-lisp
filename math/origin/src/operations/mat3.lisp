@@ -566,6 +566,7 @@ multiplication of MAT * T."
 
 (u:fn-> invert! (mat mat) (values mat boolean))
 (defun invert! (out mat)
+  (declare (optimize speed))
   (macrolet ((% (a b c d)
                `(cl:/ (cl:- (cl:* ,a ,b) (cl:* ,c ,d)) det)))
     (with-components ((m mat) (o out))
