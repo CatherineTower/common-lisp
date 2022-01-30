@@ -20,7 +20,7 @@
            (dx (- ex sx))
            (m (/ dy dx))
            (b (- sy (* m sx))))
-      (com:= py (+ (* m px) b) 1e-7 1e-7))))
+      (com:= py (+ (* m px) b)))))
 
 (u:fn-> point2d/line2d (point2d:point line2d:line) boolean)
 (defun point2d/line2d (point line)
@@ -583,7 +583,7 @@ of a very small N."
   "Helper function that does the work for POINT3D/PLANE and PLANE/POINT3D."
   (declare (optimize speed))
   (let ((dot (v3:dot point (plane:normal plane))))
-    (com:= (- dot (plane:distance plane)) 0.0 1e-7 1e-7)))
+    (com:= (- dot (plane:distance plane)) 0.0)))
 
 (u:fn-> point3d/plane (point3d:point plane:plane) boolean)
 (defun point3d/plane (point plane)
@@ -605,7 +605,7 @@ of a very small N."
   (let* ((closest-point (closest-point-line3d line point))
          (vector (v3:- closest-point point)))
     (declare (dynamic-extent vector))
-    (com:= (v3:length-squared vector) 0.0 1e-7 1e-7)))
+    (com:= (v3:length-squared vector) 0.0)))
 
 (u:fn-> point3d/line3d (point3d:point line3d:line) boolean)
 (defun point3d/line3d (point line)
@@ -630,7 +630,7 @@ of a very small N."
     (let ((normal (v3:- point origin)))
       (declare (dynamic-extent normal))
       (v3:normalize! normal normal)
-      (com:= (v3:dot normal (ray:direction ray)) 1.0 1e-7 1e-7))))
+      (com:= (v3:dot normal (ray:direction ray)) 1.0))))
 
 (u:fn-> point3d/ray (point3d:point ray:ray) boolean)
 (defun point3d/ray (point ray)
@@ -862,4 +862,4 @@ of a very small N."
   (declare (optimize speed))
   (let ((direction (v3:cross (plane:normal plane1) (plane:normal plane2))))
     (declare (dynamic-extent direction))
-    (not (com:= (v3:length-squared direction) 0.0 1e-7 1e-7))))
+    (not (com:= (v3:length-squared direction) 0.0))))

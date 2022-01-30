@@ -3,7 +3,7 @@
 (defun make-accessor-symbol (prefix &rest args)
   (u:format-symbol (symbol-package prefix) "~@:(~{~a~}~)" (cons prefix args)))
 
-(defmacro = (x y rel abs)
+(defmacro = (x y &optional (rel 1e-7) (abs 1e-7))
   (u:once-only (x y)
     `(< (abs (- ,x ,y)) (max ,abs (* ,rel (max (abs ,x) (abs ,y)))))))
 

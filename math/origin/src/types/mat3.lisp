@@ -87,7 +87,10 @@
    #:main-diagonal!
    #:main-diagonal
    #:anti-diagonal!
-   #:anti-diagonal))
+   #:anti-diagonal
+   #:determinant
+   #:invert!
+   #:invert))
 
 (in-package #:mfiano.math.origin.mat3)
 
