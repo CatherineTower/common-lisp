@@ -554,3 +554,12 @@ multiplication of MAT * T."
 (defun anti-diagonal (mat)
   (declare (optimize speed))
   (anti-diagonal! (dv3:zero) mat))
+
+(u:fn-> determinant (mat) u:f64)
+(declaim (inline determinant))
+(defun determinant (mat)
+  (with-components ((m mat))
+    (cl:- (cl:+ (cl:* m00 m11 m22) (cl:* m10 m21 m02) (cl:* m20 m01 m12))
+          (cl:* m00 m21 m12)
+          (cl:* m20 m11 m02)
+          (cl:* m10 m01 m22))))
