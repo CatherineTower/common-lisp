@@ -19,6 +19,7 @@
    (:module "color"
     :components
     ((:file "color")
+     (:file "white-point")
      (:file "spaces")
      (:file "models")
      (:file "conversions")))
