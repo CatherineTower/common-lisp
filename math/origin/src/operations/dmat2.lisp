@@ -371,3 +371,15 @@ MAT, bounded by the components of matrices MIN and MAX."
 (defun anti-diagonal (mat)
   (declare (optimize speed))
   (anti-diagonal! (dv2:zero) mat))
+
+(u:fn-> set-diagonal! (mat mat dv2:vec) mat)
+(declaim (inline set-diagonal!))
+(defun set-diagonal! (out mat vec)
+  (declare (optimize speed))
+  (set-scale! out mat vec))
+
+(u:fn-> set-diagonal (mat dv2:vec) mat)
+(declaim (inline set-diagonal))
+(defun set-diagonal (mat vec)
+  (declare (optimize speed))
+  (set-scale! (copy mat) mat vec))

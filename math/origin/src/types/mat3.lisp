@@ -88,6 +88,8 @@
    #:main-diagonal
    #:anti-diagonal!
    #:anti-diagonal
+   #:set-diagonal!
+   #:set-diagonal
    #:determinant
    #:invert!
    #:invert))
