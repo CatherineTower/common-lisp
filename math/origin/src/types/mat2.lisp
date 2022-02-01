@@ -68,7 +68,9 @@
    #:main-diagonal!
    #:main-diagonal
    #:anti-diagonal!
-   #:anti-diagonal))
+   #:anti-diagonal
+   #:set-diagonal!
+   #:set-diagonal))
 
 (in-package #:mfiano.math.origin.mat2)
 

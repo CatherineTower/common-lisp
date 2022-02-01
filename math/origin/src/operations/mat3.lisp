@@ -555,6 +555,22 @@ multiplication of MAT * T."
   (declare (optimize speed))
   (anti-diagonal! (v3:zero) mat))
 
+(u:fn-> set-diagonal! (mat mat v3:vec) mat)
+(declaim (inline set-diagonal!))
+(defun set-diagonal! (out mat vec)
+  (declare (optimize speed))
+  (with-components ((o out))
+    (v3:with-components ((v vec))
+      (copy! out mat)
+      (psetf o00 vx o11 vy o22 vz)))
+  out)
+
+(u:fn-> set-diagonal (mat v3:vec) mat)
+(declaim (inline set-diagonal))
+(defun set-diagonal (mat vec)
+  (declare (optimize speed))
+  (set-diagonal! (copy mat) mat vec))
+
 (u:fn-> determinant (mat) u:f32)
 (declaim (inline determinant))
 (defun determinant (mat)
