@@ -25,6 +25,10 @@
    :srgb '((0.64 0.33) (0.3 0.6) (0.15 0.06))
    :wide-gamut-rgb '((0.735 0.265) (0.115 0.826) (0.157 0.018))))
 
+;; This hash table is keyed by a list of (FROM TO STANDARD-ILLUMINANT) with a value representing a
+;; 3x3 matrix that can be used to convert a color in FROM space to TO space, where FROM or TO is any
+;; RGB space or XYZ space, with one side required to be XYZ. STANDARD-ILLUMINANT is the name of the
+;; standard illuminant, such as :D65, that the RGB space is using for its chromaticity.
 (defvar *rgb-conversion-matrices*
   (labels ((generate-pairs ()
              (let ((pairs nil))

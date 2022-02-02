@@ -23,6 +23,9 @@
    :xyz-scaling
    (m3:id)))
 
+;; This hash table is keyed by a list of (METHOD SOURCE TARGET) with a value representing a 3x3
+;; chromatic adaptation transformation matrix that can be used to perform chromatic adaptation on
+;; a color with the standard illuminant SOURCE to a color with the standard illuminant TARGET.
 (defvar *chromatic-adaptation-matrices*
   (labels ((permute-illuminant-pairs ()
              (let ((pairs nil))
@@ -45,11 +48,11 @@
            (populate-chromatic-adaptation-matrix-table ()
              (let ((table (u:dict #'equal))
                    (illuminant-pairs (permute-illuminant-pairs)))
-               (dolist (type +chromatic-adaptation-methods+)
+               (dolist (method +chromatic-adaptation-methods+)
                  (dolist (pair illuminant-pairs)
                    (destructuring-bind (source target) pair
-                     (let ((matrix (calculate-chromatic-adaptation-matrix type source target)))
-                       (setf (u:href table (list type source target)) matrix)))))
+                     (let ((matrix (calculate-chromatic-adaptation-matrix method source target)))
+                       (setf (u:href table (list method source target)) matrix)))))
                table)))
     (populate-chromatic-adaptation-matrix-table)))
 

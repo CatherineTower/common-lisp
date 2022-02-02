@@ -5,6 +5,8 @@
       :led-b1 :led-b2 :led-b3 :led-b4 :led-b5 :led-bh1 :led-rgb1 :led-v1 :led-v2)
   :test #'equal)
 
+;; A hash table mapping standard illuminant names to their white point chromaticity coordinates in
+;; XYZ space, normalized with Y=1.
 (defvar *standard-illuminant-white-points*
   (u:dict
    :a (v3:vec 1.098466 1 0.35582292)
