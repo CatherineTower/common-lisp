@@ -1,5 +1,9 @@
 (in-package #:mfiano.graphics.tools.image)
 
+(u:define-constant +chromatic-adaptation-methods+
+    '(:bradford :ciecam02 :cat16 :ciecam97s-revised :fairchild :sharp :von-kries :xyz-scaling)
+  :test #'equal)
+
 (defvar *chromatic-adaptation-transforms*
   (u:dict
    :bradford
@@ -21,11 +25,13 @@
 
 (defvar *chromatic-adaptation-matrices*
   (labels ((permute-illuminant-pairs ()
-             (let ((illuminant-pairs nil))
-               (u:map-permutations (lambda (x) (push x illuminant-pairs))
-                                   (u:hash-keys *standard-illuminant-white-points*)
-                                   :length 2)
-               (nreverse illuminant-pairs)))
+             (let ((pairs nil))
+               (u:map-permutations
+                (lambda (x)
+                  (push x pairs))
+                +standard-illuminants+
+                :length 2)
+               (nreverse pairs)))
            (calculate-chromatic-adaptation-matrix (type source target)
              (let ((transform (u:href *chromatic-adaptation-transforms* type)))
                (m3:* (m3:invert transform)
@@ -39,7 +45,7 @@
            (populate-chromatic-adaptation-matrix-table ()
              (let ((table (u:dict #'equal))
                    (illuminant-pairs (permute-illuminant-pairs)))
-               (u:do-hash-keys (type *chromatic-adaptation-transforms*)
+               (dolist (type +chromatic-adaptation-methods+)
                  (dolist (pair illuminant-pairs)
                    (destructuring-bind (source target) pair
                      (let ((matrix (calculate-chromatic-adaptation-matrix type source target)))
