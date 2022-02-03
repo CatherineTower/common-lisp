@@ -1,11 +1,20 @@
 (in-package #:mfiano.graphics.tools.image)
 
-;;; Base class that all color spaces inherit from.
+(defmacro define-color-space (name standard-illuminant super-classes)
+  `(defclass ,name ,(or super-classes '(color-space)) ()
+     (:default-initargs
+      :name ',name
+      :standard-illuminant ,standard-illuminant)))
 
 (defclass color-space ()
-  ((%standard-illuminant
+  ((%name
+    :type (and symbol (not null))
+    :reader color-space
+    :initarg :name)
+   (%standard-illuminant
     :type standard-illuminant
     :reader standard-illuminant
+    :accessor %standard-illuminant
     :initarg :standard-illuminant)))
 
 (declaim (inline %make-color-space))
@@ -19,69 +28,24 @@
 
 ;;; RGB
 
-(defclass adobe-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d65))
-
-(defclass apple-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d65))
-
-(defclass best-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass beta-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass bruce-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d65))
-
-(defclass cie-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :e))
-
-(defclass colormatch-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass don-rgb-4 (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass eci-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass ekta-space-ps5 (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass ntsc-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :c))
-
-(defclass pal/secam-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d65))
-
-(defclass prophoto-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
-
-(defclass smtpe-c-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d65))
-
-(defclass srgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d65))
-
-(defclass wide-gamut-rgb (color-space) ()
-  (:default-initargs
-   :standard-illuminant :d50))
+(defclass rgb (color-space) ())
+(define-color-space adobe-rgb :d65 (rgb))
+(define-color-space apple-rgb :d65 (rgb))
+(define-color-space best-rgb :d50 (rgb))
+(define-color-space beta-rgb :d50 (rgb))
+(define-color-space bruce-rgb :d65 (rgb))
+(define-color-space cie-rgb :e (rgb))
+(define-color-space colormatch-rgb :d50 (rgb))
+(define-color-space don-rgb-4 :d50 (rgb))
+(define-color-space eci-rgb :d50 (rgb))
+(define-color-space ekta-space-ps5 :d50 (rgb))
+(define-color-space ntsc-rgb :c (rgb))
+(define-color-space pal/secam-rgb :d65 (rgb))
+(define-color-space prophoto-rgb :d50 (rgb))
+(define-color-space simple-srgb :d65 (rgb))
+(define-color-space smtpe-c-rgb :d65 (rgb))
+(define-color-space srgb :d65 (rgb))
+(define-color-space wide-gamut-rgb :d50 (rgb))
 
 (defun rgb (r g b &key (working-space 'srgb) standard-illuminant)
   (check-type working-space rgb-working-space)
@@ -96,9 +60,7 @@
 
 ;;; XYZ
 
-(defclass xyz (color-space) ()
-  (:default-initargs
-   :standard-illuminant :e))
+(define-color-space xyz :d50 ())
 
 (defun xyz (x y z &key standard-illuminant)
   (let ((color (%make-color-space 'xyz standard-illuminant)))
