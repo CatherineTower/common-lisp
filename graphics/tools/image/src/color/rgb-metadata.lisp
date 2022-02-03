@@ -74,5 +74,4 @@
          (to-space (color-space to))
          (matrix (get-rgb-transformation-matrix from-space to-space standard-illuminant)))
     (m3:*v3! (data to) matrix (data from))
-    (setf (%standard-illuminant to) standard-illuminant)
     to))
