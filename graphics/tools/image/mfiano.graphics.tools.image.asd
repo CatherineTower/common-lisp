@@ -20,6 +20,7 @@
    (:module "color"
     :components
     ((:file "color")
+     (:file "alpha")
      (:file "standard-illuminants")
      (:file "chromatic-adaptation")
      (:file "rgb-metadata")
