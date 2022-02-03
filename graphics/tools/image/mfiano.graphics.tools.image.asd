@@ -21,6 +21,7 @@
    (:file "context")
    (:module "color"
     :components
+    ((:file "storage")
      (:file "alpha")
      (:file "standard-illuminants")
      (:file "chromatic-adaptation")
