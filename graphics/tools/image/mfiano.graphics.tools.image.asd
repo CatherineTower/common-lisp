@@ -20,7 +20,7 @@
    (:module "color"
     :components
     ((:file "color")
-     (:file "white-point")
+     (:file "standard-illuminants")
      (:file "chromatic-adaptation")
      (:file "rgb-metadata")
      (:file "spaces")

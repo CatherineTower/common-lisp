@@ -5,6 +5,8 @@
       :led-b1 :led-b2 :led-b3 :led-b4 :led-b5 :led-bh1 :led-rgb1 :led-v1 :led-v2)
   :test #'equal)
 
+(deftype standard-illuminant () `(member ,@+standard-illuminants+))
+
 ;; A hash table mapping standard illuminant names to their white point chromaticity coordinates in
 ;; XYZ space, normalized with Y=1.
 (gv:define-global-var -standard-illuminant-white-points-
