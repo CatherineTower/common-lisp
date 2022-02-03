@@ -1,26 +1,43 @@
 (in-package #:mfiano.graphics.tools.image)
 
-;;; Color space conversion routines.
+;;;; Color space conversion routines.
 
-;;; NOTE: This file must be loaded after all color space types are defined because the method
-;;; specializers must reference defined classes.
+;;;; NOTE: This file must be loaded after all color space types are defined because the method
+;;;; specializers must reference defined classes.
 
-;; TODO
+;;; XYZ to sRGB
+
 (defmethod convert ((from xyz) (to srgb)))
+
+;;; sRGB to XYZ
 
 (defmethod convert ((from srgb) (to xyz))
   (declare (optimize speed))
   (flet ((linearize-channel (value)
            (declare ((u:f32 0f0 1f0) value))
-           (if (<= value +transition-point/srgb+)
-               (* value #.(/ +linear-gain/srgb+))
-               (expt (* (+ value #.(1- +offset/srgb+)) #.(/ +offset/srgb+)) 2.4f0))))
+           (let ((offset 1.055f0))
+             (if (<= value 0.04045f0)
+                 (* value #.(/ 12.92f0))
+                 (expt (* (+ value (1- offset)) (/ offset)) 2.4f0)))))
     (declare (inline linearize-channel))
-    (setf (c0 to) (linearize-channel (c0 from))
-          (c1 to) (linearize-channel (c1 from))
-          (c2 to) (linearize-channel (c2 from)))
-    ;; NOTE: The following is correct. We previously wrote the linearization of FROM to the TO
-    ;; color, to preserve the original FROM. Now we are transforming the linearized sRGB color
-    ;; stored in TO, to XYZ, also written to TO. By only writing to the output for both operations,
-    ;; we remove the need for allocating any temporary objects.
-    (transform-color to to +srgb->xyz+)))
+    ;; TODO: don't mutate FROM input. Instead get a temporary color from thread-local storage.
+    (setf (c0 from) (linearize-channel (c0 from))
+          (c1 from) (linearize-channel (c1 from))
+          (c2 from) (linearize-channel (c2 from)))
+    (%transform-rgb-xyz from to (standard-illuminant from))
+    to))
+
+;;; Simple sRGB to XYZ
+
+(defmethod convert ((from simple-srgb) (to xyz))
+  (declare (optimize speed))
+  (flet ((linearize-channel (value)
+           (declare ((u:f32 0f0 1f0) value))
+           (expt value 2.2f0)))
+    (declare (inline linearize-channel))
+    ;; TODO: don't mutate FROM input. Instead get a temporary color from thread-local storage.
+    (setf (c0 from) (linearize-channel (c0 from))
+          (c1 from) (linearize-channel (c1 from))
+          (c2 from) (linearize-channel (c2 from)))
+    (%transform-rgb-xyz from to (standard-illuminant from))
+    to))

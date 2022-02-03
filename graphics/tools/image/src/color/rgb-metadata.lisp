@@ -1,8 +1,8 @@
 (in-package #:mfiano.graphics.tools.image)
 
 (u:define-constant +rgb-working-spaces+
-    '(adobe-rgb apple-rgb best-rgb beta-rgb bruce-rgb cie-rgb colormatch-rgb don-rgb-4
-      eci-rgb-v2 ekta-space-ps5 ntsc-rgb pal/secam-rgb prophoto-rgb smpte-c-rgb srgb
+    '(adobe-rgb apple-rgb best-rgb beta-rgb bruce-rgb cie-rgb colormatch-rgb don-rgb-4 eci-rgb-v2
+      ekta-space-ps5 ntsc-rgb pal/secam-rgb prophoto-rgb simple-srgb smpte-c-rgb srgb
       wide-gamut-rgb)
   :test #'equal)
 
@@ -23,6 +23,7 @@
      'ntsc-rgb '((0.67 0.33) (0.21 0.71) (0.14 0.08))
      'pal/secam-rgb '((0.64 0.33) (0.29 0.6) (0.15 0.06))
      'prophoto-rgb '((0.7347 0.2653) (0.1596 0.8404) (0.0366 0.0001))
+     'simple-srgb '((0.64 0.33) (0.3 0.6) (0.15 0.06))
      'smpte-c-rgb '((0.63 0.34) (0.31 0.595) (0.155 0.07))
      'srgb '((0.64 0.33) (0.3 0.6) (0.15 0.06))
      'wide-gamut-rgb '((0.735 0.265) (0.115 0.826) (0.157 0.018))))
@@ -56,8 +57,8 @@
                  (dolist (pair (generate-pairs))
                    (destructuring-bind (rgb-space . illuminant) pair
                      (let ((matrix (calculate-rgb-conversion-matrix rgb-space illuminant)))
-                       (setf (u:href table (list rgb-space :xyz illuminant)) matrix
-                             (u:href table (list :xyz rgb-space illuminant)) (m3:invert matrix)))))
+                       (setf (u:href table (list rgb-space 'xyz illuminant)) matrix
+                             (u:href table (list 'xyz rgb-space illuminant)) (m3:invert matrix)))))
                  table)))
       (make-rgb-transformation-matrix-table)))
 
@@ -66,13 +67,12 @@
   (declare (optimize speed))
   (values (u:href -rgb-transformation-matrices- (list from to standard-illuminant))))
 
-;; Transforms a 3-channel color space to another 3-channel color space, by multiplying the source by
-;; a specific transformation matrix that puts it into the space of the target, using a reference
-;; white point of the source.
-;; TODO: Fix me
-(defgeneric transform-color (from to standard-illuminant)
-  (:method ((from color-storage3) (to color-storage3) standard-illuminant)
-    (m3:*v3! (data to)
-             (get-rgb-transformation-matrix from to standard-illuminant)
-             (data from))
+(declaim (inline %transform-rgb-xyz))
+(defun %transform-rgb-xyz (from to standard-illuminant)
+  (declare (optimize speed))
+  (let* ((from-space (color-space from))
+         (to-space (color-space to))
+         (matrix (get-rgb-transformation-matrix from-space to-space standard-illuminant)))
+    (m3:*v3! (data to) matrix (data from))
+    (setf (%standard-illuminant to) standard-illuminant)
     to))
