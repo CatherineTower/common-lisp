@@ -5,6 +5,7 @@
   :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/tools/image"
   :encoding :utf-8
   :depends-on (#:cl-cpus
+               #:closer-mop
                #:global-vars
                #:lparallel
                #:mfiano.math.origin
@@ -15,6 +16,7 @@
   :components
   ((:file "package")
    (:file "conditions")
+   (:file "mixin")
    (:file "worker-state")
    (:file "context")
    (:module "color"
