@@ -14,6 +14,25 @@
   (:export
    #:context
    #:make-context)
+  ;; color spaces
+  (:export
+   #:adobe-rgb
+   #:apple-rgb
+   #:best-rgb
+   #:beta-rgb
+   #:bruce-rgb
+   #:cie-rgb
+   #:colormatch-rgb
+   #:don-rgb-4
+   #:eci-rgb-v2
+   #:ekta-space-ps5
+   #:ntsc-rgb
+   #:pal/secam-rgb
+   #:prophoto-rgb
+   #:smpte-c-rgb
+   #:srgb
+   #:wide-gamut-rgb
+   #:xyz)
   ;; image
   (:export
    #:height

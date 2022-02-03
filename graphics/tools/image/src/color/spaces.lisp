@@ -1,34 +1,90 @@
 (in-package #:mfiano.graphics.tools.image)
 
-;;; sRGB
+;;; Base class that all color spaces inherit from.
 
-(u:define-constant +transition-point/srgb+ 0.04045f0)
+(defclass color-space ()
+  ((%standard-illuminant
+    :type standard-illuminant
+    :reader standard-illuminant
+    :initarg :standard-illuminant)))
 
-(u:define-constant +linear-gain/srgb+ 12.92f0)
+(declaim (inline %make-color-space))
+(defun %make-color-space (color-space standard-illuminant)
+  (declare (optimize speed))
+  (check-type standard-illuminant (or standard-illuminant null))
+  (apply #'make-instance
+         color-space
+         (when standard-illuminant
+           `(:standard-illuminant ,standard-illuminant))))
 
-(u:define-constant +linear-domain-threshold/srgb+ 0.0031308f0)
+;;; RGB
 
-(u:define-constant +offset/srgb+ 1.055f0)
+(defclass adobe-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d65))
 
-;; TODO: This assumes the standard reference whitepoint of D65 defined by sRGB. We may want to have
-;; a separate API for "Chromatic Adaptation", which redefines the reference whitepoint of a color
-;; space, and re-adjusts all the colors according to it.
-(u:define-constant +srgb->xyz+
-    (m3:mat 0.4124564 0.2126729 0.0193339
-            0.3575761 0.7151522 0.1191920
-            0.1804375 0.0721750 0.9503041)
-  :test #'equalp)
+(defclass apple-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d65))
 
-(defclass srgb (color3) ())
+(defclass best-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
 
-(defun srgb (&optional (r 0) (g 0) (b 0))
-  (make-instance 'srgb :c0 r :c1 g :c2 b))
+(defclass beta-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
+
+(defclass bruce-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d65))
+
+(defclass cie-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :e))
+
+(defclass colormatch-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
+
+(defclass don-rgb-4 (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
+
+(defclass eci-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
+
+(defclass ekta-space-ps5 (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
+
+(defclass ntsc-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :c))
+
+(defclass pal/secam-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d65))
+
+(defclass prophoto-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
+
+(defclass smtpe-c-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d65))
+
+(defclass srgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d65))
+
+(defclass wide-gamut-rgb (color-space) ()
+  (:default-initargs
+   :standard-illuminant :d50))
 
 ;;; XYZ
 
-(u:define-constant +xyz->srgb+ (m3:invert +srgb->xyz+) :test #'equalp)
-
-(defclass xyz (color3) ())
-
-(defun xyz (&optional (x 0) (y 0) (z 0))
-  (make-instance 'xyz :c0 x :c1 y :c2 z))
+(defclass xyz (color-space) ()
+  (:default-initargs
+   :standard-illuminant :e))
