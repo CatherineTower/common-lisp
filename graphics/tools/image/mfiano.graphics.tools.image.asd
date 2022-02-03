@@ -21,13 +21,11 @@
    (:file "context")
    (:module "color"
     :components
-    ((:file "color")
      (:file "alpha")
      (:file "standard-illuminants")
      (:file "chromatic-adaptation")
      (:file "rgb-metadata")
      (:file "spaces")
-     (:file "models")
      (:file "conversions")))
    (:module "image"
     :components
