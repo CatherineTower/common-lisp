@@ -2,6 +2,7 @@
 
 (defpackage #:mfiano.graphics.tools.image
   (:local-nicknames
+   (#:gv #:global-vars)
    (#:lp #:lparallel)
    (#:u #:mfiano.misc.utils)
    (#:v2 #:mfiano.math.origin.vec2)
