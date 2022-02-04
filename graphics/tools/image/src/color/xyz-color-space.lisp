@@ -1,6 +1,7 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(define-color-space xyz :d50)
+(define-color-space xyz ()
+  :standard-illuminant :e)
 
 (defun xyz (x y z &key standard-illuminant)
   (let ((color (%make-color-space 'xyz standard-illuminant)))

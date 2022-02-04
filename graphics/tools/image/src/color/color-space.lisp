@@ -20,11 +20,8 @@
          (when standard-illuminant
            `(:standard-illuminant ,standard-illuminant))))
 
-(defmacro define-color-space (name standard-illuminant &optional (super-classes '(color-space)))
-  "Defines NAME as a class inheriting from SUPER-CLASSES. The slot STANDARD-ILLUMINANT in the
-  newly-defined class will have the provided STANDARD-ILLUMINANT as a
-  DEFAULT-INITARG."
-  `(defclass ,name ,super-classes ()
+(defmacro define-color-space (name super-classes &body (&key standard-illuminant))
+  `(defclass ,name ,(or super-classes '(color-space)) ()
      (:default-initargs
       :name ',name
       :standard-illuminant ,standard-illuminant)))
