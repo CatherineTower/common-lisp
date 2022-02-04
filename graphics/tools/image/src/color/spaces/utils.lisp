@@ -21,17 +21,6 @@
       :name ',name
       :standard-illuminant ',standard-illuminant)))
 
-;; Low-level convenience function used to construct a color space, to be used by dedicated color
-;; space constructors.
-(declaim (inline %make-color-space))
-(defun %make-color-space (color-space &optional standard-illuminant)
-  (declare (optimize speed))
-  (check-type standard-illuminant (or standard-illuminant null))
-  (apply #'make-instance
-         color-space
-         (when standard-illuminant
-           `(:standard-illuminant ,standard-illuminant))))
-
 ;;; RGB color space base class, metadata, and definer.
 
 ;; Base class all RGB color spaces inherit from
