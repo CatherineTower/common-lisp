@@ -24,7 +24,7 @@
 ;; Low-level convenience function used to construct a color space, to be used by dedicated color
 ;; space constructors.
 (declaim (inline %make-color-space))
-(defun %make-color-space (color-space standard-illuminant)
+(defun %make-color-space (color-space &optional standard-illuminant)
   (declare (optimize speed))
   (check-type standard-illuminant (or standard-illuminant null))
   (apply #'make-instance
