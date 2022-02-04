@@ -1,12 +1,12 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(u:define-constant +rgb-working-spaces+
+(u:define-constant +rgb-spaces+
     '(adobe-rgb apple-rgb best-rgb beta-rgb bruce-rgb cie-rgb colormatch-rgb don-rgb-4 eci-rgb-v2
       ekta-space-ps5 ntsc-rgb pal/secam-rgb prophoto-rgb simple-srgb smpte-c-rgb srgb
       wide-gamut-rgb)
   :test #'equal)
 
-(deftype rgb-working-space () `(member ,@+rgb-working-spaces+))
+(deftype rgb-space () `(member ,@+rgb-spaces+))
 
 (gv:define-global-var -rgb-chromaticity-coordinates- (u:dict))
 
@@ -120,13 +120,13 @@
   :b (0.157 0.018)
   :standard-illuminant :d50)
 
-(defun rgb (r g b &key (working-space 'srgb) standard-illuminant)
-  (check-type working-space rgb-working-space)
-  (let ((color (%make-color-space working-space standard-illuminant)))
+(defun rgb (r g b &key (space 'srgb) standard-illuminant)
+  (check-type space rgb-space)
+  (let ((color (%make-color-space space standard-illuminant)))
     (add-mixin color 'color-storage3 :c0 r :c1 g :c2 b)))
 
-(defun rgba (r g b a &key (working-space 'srgb) standard-illuminant pre-multiply-alpha)
-  (check-type working-space rgb-working-space)
-  (let ((color (%make-color-space working-space standard-illuminant)))
+(defun rgba (r g b a &key (space 'srgb) standard-illuminant pre-multiply-alpha)
+  (check-type space rgb-space)
+  (let ((color (%make-color-space space standard-illuminant)))
     (add-mixin color 'color-storage4 :c0 r :c1 g :c2 b :c3 a)
     (add-mixin color 'alpha :alpha-index 3 :pre-multiply-alpha pre-multiply-alpha)))
