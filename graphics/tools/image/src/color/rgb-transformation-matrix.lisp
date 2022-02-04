@@ -10,7 +10,7 @@
                  (alexandria:map-product
                   (lambda (x y)
                     (push (cons x y) pairs))
-                  +rgb-spaces+
+                  -rgb-spaces-
                   +standard-illuminants+)
                  (nreverse pairs)))
              (calculate-rgb-conversion-matrix (rgb-space standard-illuminant)

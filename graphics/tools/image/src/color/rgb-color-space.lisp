@@ -1,12 +1,6 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(u:define-constant +rgb-spaces+
-    '(adobe-rgb apple-rgb best-rgb beta-rgb bruce-rgb cie-rgb colormatch-rgb don-rgb-4 eci-rgb-v2
-      ekta-space-ps5 ntsc-rgb pal/secam-rgb prophoto-rgb simple-srgb smpte-c-rgb srgb
-      wide-gamut-rgb)
-  :test #'equal)
-
-(deftype rgb-space () `(member ,@+rgb-spaces+))
+(gv:define-global-var -rgb-spaces- nil)
 
 (gv:define-global-var -rgb-chromaticity-coordinates- (u:dict))
 
@@ -16,7 +10,8 @@
   `(u:eval-always
      (define-color-space ,name (rgb)
        :standard-illuminant ,standard-illuminant)
-     (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))))
+     (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))
+     (pushnew ',name -rgb-spaces-)))
 
 (define-rgb-color-space adobe-rgb ()
   :r (0.64 0.33)
@@ -119,6 +114,8 @@
   :g (0.115 0.826)
   :b (0.157 0.018)
   :standard-illuminant :d50)
+
+(deftype rgb-space () `(member ,@-rgb-spaces-))
 
 (defun rgb (r g b &key (space 'srgb) standard-illuminant)
   (check-type space rgb-space)
