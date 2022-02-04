@@ -14,6 +14,39 @@
   (:export
    #:context
    #:make-context)
+  ;; standard illuminants
+  (:export
+   #:a
+   #:b
+   #:c
+   #:d50
+   #:d55
+   #:d65
+   #:d75
+   #:d93
+   #:e
+   #:f1
+   #:f2
+   #:f3
+   #:f4
+   #:f5
+   #:f6
+   #:f7
+   #:f8
+   #:f9
+   #:f10
+   #:f11
+   #:f12
+   #:led-b1
+   #:led-b2
+   #:led-b2
+   #:led-b3
+   #:led-b4
+   #:led-b5
+   #:led-bh1
+   #:led-rgb1
+   #:led-v1
+   #:led-v2)
   ;; color spaces
   (:export
    #:adobe-rgb
