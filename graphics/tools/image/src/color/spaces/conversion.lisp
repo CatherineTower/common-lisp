@@ -29,10 +29,13 @@
            (expt value 2.2f0)))
     (declare (inline invert-compansion))
     ;; TODO: don't mutate FROM input. Instead get a temporary color from thread-local storage.
-    (setf (c0 from) (invert-compansion (c0 from))
-          (c1 from) (invert-compansion (c1 from))
-          (c2 from) (invert-compansion (c2 from)))
-    (%transform-rgb-xyz from to (standard-illuminant from))))
+    (let ((standard-illuminant (standard-illuminant from)))
+      (setf (c0 from) (invert-compansion (c0 from))
+            (c1 from) (invert-compansion (c1 from))
+            (c2 from) (invert-compansion (c2 from)))
+      (%transform-rgb-xyz from to (standard-illuminant from))
+      (adapt-chromaticity to standard-illuminant)
+      to)))
 
 ;;; sRGB to XYZ
 
@@ -45,20 +48,10 @@
                (expt (* (+ value 0.055f0) #.(/ 1.055f0)) 2.4f0))))
     (declare (inline invert-compansion))
     ;; TODO: don't mutate FROM input. Instead get a temporary color from thread-local storage.
-    (setf (c0 from) (invert-compansion (c0 from))
-          (c1 from) (invert-compansion (c1 from))
-          (c2 from) (invert-compansion (c2 from)))
-    (%transform-rgb-xyz from to (standard-illuminant from))
-
-    ;; HACK: Perform chromatic adaptation
-    ;; NOTE: For some reason this only works if the :standard-illuminant is not specified for the
-    ;; sRGB source, but specifying it for the XYZ target seems to match up with Lindbloom's
-    ;; calculator for any RGB triplet I tested. Why can't we specify a source standard illuminant???
-    (m3:*v3! (data to)
-             (get-chromatic-adaptation-matrix
-              'bradford
-              (standard-illuminant from)
-              (standard-illuminant to))
-             (data to))
-
-    to))
+    (let ((standard-illuminant (standard-illuminant from)))
+      (setf (c0 from) (invert-compansion (c0 from))
+            (c1 from) (invert-compansion (c1 from))
+            (c2 from) (invert-compansion (c2 from)))
+      (%transform-rgb-xyz from to standard-illuminant)
+      (adapt-chromaticity to standard-illuminant)
+      to)))
