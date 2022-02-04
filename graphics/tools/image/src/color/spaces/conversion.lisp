@@ -56,7 +56,7 @@
     ;; calculator for any RGB triplet I tested. Why can't we specify a source standard illuminant???
     (m3:*v3! (data to)
              (get-chromatic-adaptation-matrix
-              :bradford
+              'bradford
               (standard-illuminant from)
               (standard-illuminant to))
              (data to))
