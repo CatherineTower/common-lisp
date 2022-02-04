@@ -29,7 +29,7 @@
 (gv:define-global-var -chromatic-adaptation-matrices-
     (labels ((permute-illuminant-pairs ()
                (let ((pairs nil))
-                 (u:map-permutations (lambda (x) (push x pairs)) +standard-illuminants+ :length 2)
+                 (u:map-permutations (lambda (x) (push x pairs)) -standard-illuminants- :length 2)
                  (nreverse pairs)))
              (calculate-chromatic-adaptation-matrix (type source target)
                (let ((transform (u:href -chromatic-adaptation-transforms- type))

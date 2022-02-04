@@ -18,7 +18,7 @@
     (cond
       ;; TODO: Add IMAGE mixin clause first.
       ((has-mixin-p mixin 'color-space)
-       (format stream "~s (~a): ~{~d~^, ~}"
+       (format stream "~a (~a): ~{~d~^, ~}"
                (class-name base-class)
                (standard-illuminant mixin)
                (map 'list #'identity (data mixin)))))))

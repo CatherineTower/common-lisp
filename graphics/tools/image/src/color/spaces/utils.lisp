@@ -19,7 +19,7 @@
   `(defclass ,name ,(or super-classes '(color-space)) ()
      (:default-initargs
       :name ',name
-      :standard-illuminant ,standard-illuminant)))
+      :standard-illuminant ',standard-illuminant)))
 
 ;; Low-level convenience function used to construct a color space, to be used by dedicated color
 ;; space constructors.
