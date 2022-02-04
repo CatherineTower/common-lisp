@@ -29,6 +29,7 @@
      (:file "rgb-color-space")
      (:file "rgb-transformation-matrix")
      (:file "xyz-color-space")
+     (:file "constructors")
      (:file "conversions")))
    (:module "image"
     :components
