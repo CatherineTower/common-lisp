@@ -34,16 +34,10 @@
                  table)))
       (make-rgb-transformation-matrix-table)))
 
-(declaim (inline get-rgb-transformation-matrix))
-(defun get-rgb-transformation-matrix (from to standard-illuminant)
-  (declare (optimize speed))
-  (values (u:href -rgb-transformation-matrices- (list from to standard-illuminant))))
-
 (declaim (inline %transform-rgb-xyz))
 (defun %transform-rgb-xyz (from to standard-illuminant)
   (declare (optimize speed))
-  (let* ((from-space (color-space from))
-         (to-space (color-space to))
-         (matrix (get-rgb-transformation-matrix from-space to-space standard-illuminant)))
+  (let* ((key (list (color-space from) (color-space to) standard-illuminant))
+         (matrix (u:href -rgb-transformation-matrices- key)))
     (m3:*v3! (data to) matrix (data from))
     to))
