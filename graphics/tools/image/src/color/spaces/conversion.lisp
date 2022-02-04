@@ -46,7 +46,7 @@
 (defmethod convert ((from xyz) (to srgb))
   (declare (optimize speed))
   (flet ((compand-channel (channel)
-           (declare ((u:f32 0.0f0 1.0f0) channel))
+           (declare ((u:f32 0.0f0) channel))
            (if (<= channel 0.0031308f0)
                (* channel 12.92f0)
                (- (* (expt channel #.(/ 2.4f0))
