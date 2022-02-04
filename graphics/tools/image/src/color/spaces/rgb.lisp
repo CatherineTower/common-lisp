@@ -1,5 +1,8 @@
 (in-package #:mfiano.graphics.tools.image)
 
+;; A type representing the set of all RGB color spaces.
+(deftype rgb-space () `(member ,@-rgb-spaces-))
+
 ;; This hash table is keyed by a list of (FROM TO STANDARD-ILLUMINANT) with a value representing a
 ;; 3x3 matrix that can be used to convert a color in FROM space to TO space, where FROM or TO is any
 ;; RGB space or XYZ space, with one side required to be XYZ. STANDARD-ILLUMINANT is the name of the

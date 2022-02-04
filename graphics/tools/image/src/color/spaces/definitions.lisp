@@ -1,17 +1,9 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(gv:define-global-var -rgb-spaces- nil)
+;;;; Color space definitions.
 
-(gv:define-global-var -rgb-chromaticity-coordinates- (u:dict))
-
-(defclass rgb (color-space) ())
-
-(defmacro define-rgb-color-space (name () &body (&key r g b standard-illuminant))
-  `(u:eval-always
-     (define-color-space ,name (rgb)
-       :standard-illuminant ,standard-illuminant)
-     (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))
-     (pushnew ',name -rgb-spaces-)))
+(define-color-space xyz ()
+  :standard-illuminant :e)
 
 (define-rgb-color-space adobe-rgb ()
   :r (0.64 0.33)
@@ -114,5 +106,3 @@
   :g (0.115 0.826)
   :b (0.157 0.018)
   :standard-illuminant :d50)
-
-(deftype rgb-space () `(member ,@-rgb-spaces-))

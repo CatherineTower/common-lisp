@@ -25,12 +25,13 @@
      (:file "alpha")
      (:file "standard-illuminants")
      (:file "chromatic-adaptation")
-     (:file "color-space")
-     (:file "rgb-color-space")
-     (:file "rgb-transformation-matrix")
-     (:file "xyz-color-space")
-     (:file "constructors")
-     (:file "conversions")))
+     (:module "spaces"
+      :components
+      ((:file "utils")
+       (:file "definitions")
+       (:file "rgb")
+       (:file "constructors")
+       (:file "conversion")))))
    (:module "image"
     :components
     ((:file "image")
