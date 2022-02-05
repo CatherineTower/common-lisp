@@ -25,6 +25,7 @@
      (:file "alpha")
      (:file "standard-illuminants")
      (:file "chromatic-adaptation")
+     (:file "tonal-response-curves")
      (:module "spaces"
       :components
       ((:file "utils")
