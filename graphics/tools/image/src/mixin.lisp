@@ -20,7 +20,7 @@
       ((has-mixin-p mixin 'color-space)
        (format stream "~a (~a): ~{~d~^, ~}"
                (class-name base-class)
-               (standard-illuminant mixin)
+               (illuminant mixin)
                (map 'list #'identity (data mixin)))))))
 
 (u:define-printer (mixin-class stream :type nil :identity t)

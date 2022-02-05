@@ -23,7 +23,7 @@
     :components
     ((:file "storage")
      (:file "alpha")
-     (:file "standard-illuminants")
+     (:file "illuminants")
      (:file "chromatic-adaptation")
      (:file "tonal-response-curves")
      (:module "spaces"

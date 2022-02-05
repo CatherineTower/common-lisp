@@ -10,11 +10,11 @@
 (defmethod convert ((from rgb) (to xyz))
   (declare (optimize speed))
   (linearize-rgb from)
-  (transform-rgb-xyz from to (standard-illuminant from)))
+  (transform-rgb-xyz from to (illuminant from)))
 
 ;;; XYZ -> RGB
 
 (defmethod convert ((from xyz) (to rgb))
   (declare (optimize speed))
-  (transform-rgb-xyz from to (standard-illuminant to))
+  (transform-rgb-xyz from to (illuminant to))
   (delinearize-rgb to))

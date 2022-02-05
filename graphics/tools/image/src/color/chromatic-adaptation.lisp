@@ -32,13 +32,13 @@
 (u:eval-always
   (defun %permute-illuminant-pairs ()
     (let ((pairs nil))
-      (u:map-permutations (lambda (x) (push x pairs)) -standard-illuminants- :length 2)
+      (u:map-permutations (lambda (x) (push x pairs)) -illuminants- :length 2)
       (nreverse pairs)))
 
   (defun %calculate-chromatic-adaptation-matrix (type source target)
     (let ((transform (u:href -chromatic-adaptation-transforms- type))
-          (source-white-point (u:href -standard-illuminant-white-points- source))
-          (target-white-point (u:href -standard-illuminant-white-points- target)))
+          (source-white-point (u:href -illuminant-white-points- source))
+          (target-white-point (u:href -illuminant-white-points- target)))
       (m3:* (m3:invert transform)
             (m3:* (m3:set-diagonal m3:+zero+
                                    (v3:/ (m3:*v3 transform target-white-point)
@@ -60,13 +60,13 @@
 ;; a color with the standard illuminant SOURCE to a color with the standard illuminant TARGET.
 (gv:define-global-var -chromatic-adaptation-matrices- (%make-chromatic-adaptation-matrix-table))
 
-(defun adapt-chromaticity (color standard-illuminant &key (method 'bradford))
+(defun adapt-chromaticity (color illuminant &key (method 'bradford))
   (declare (optimize speed))
-  (let ((source-standard-illuminant (standard-illuminant color)))
-    (when (eq source-standard-illuminant standard-illuminant)
+  (let ((source-illuminant (illuminant color)))
+    (when (eq source-illuminant illuminant)
       (return-from adapt-chromaticity color))
     (let* ((data (data color))
-           (key (list method standard-illuminant source-standard-illuminant))
+           (key (list method illuminant source-illuminant))
            (matrix (u:href -chromatic-adaptation-matrices- key)))
       (declare (dynamic-extent key))
       (m3:*v3! data matrix data)

@@ -8,11 +8,11 @@
     :type (and symbol (not null))
     :reader color-space
     :initarg :name)
-   (%standard-illuminant
-    :type standard-illuminant
-    :reader standard-illuminant
-    :accessor %standard-illuminant
-    :initarg :standard-illuminant)))
+   (%illuminant
+    :type illuminant
+    :reader illuminant
+    :accessor %illuminant
+    :initarg :illuminant)))
 
 ;; Convenience macro for defining generic color spaces.
 (defmacro define-color-space (name super-classes &body (&rest initargs))
@@ -35,10 +35,10 @@
 (gv:define-global-var -rgb-chromaticity-coordinates- (u:dict))
 
 ;; Convenience macro for defining RGB color spaces.
-(defmacro define-rgb-color-space (name () &body (&key r g b gamma standard-illuminant))
+(defmacro define-rgb-color-space (name () &body (&key r g b gamma illuminant))
   `(u:eval-always
      (define-color-space ,name (rgb)
        :gamma ,gamma
-       :standard-illuminant ,standard-illuminant)
+       :illuminant ,illuminant)
      (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))
      (pushnew ',name -rgb-spaces-)))
