@@ -42,5 +42,6 @@
   (declare (optimize speed))
   (let* ((key (list (color-space from) (color-space to) standard-illuminant))
          (matrix (u:href -rgb-transformation-matrices- key)))
+    (declare (dynamic-extent key))
     (m3:*v3! (data to) matrix (data from))
     to))

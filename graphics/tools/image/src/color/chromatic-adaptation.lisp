@@ -65,5 +65,6 @@
     (let* ((data (data color))
            (key (list method standard-illuminant source-standard-illuminant))
            (matrix (u:href -chromatic-adaptation-matrices- key)))
+      (declare (dynamic-extent key))
       (m3:*v3! data matrix data)
       color)))
