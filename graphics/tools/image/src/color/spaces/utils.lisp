@@ -15,25 +15,31 @@
     :initarg :standard-illuminant)))
 
 ;; Convenience macro for defining generic color spaces.
-(defmacro define-color-space (name super-classes &body (&key standard-illuminant))
+(defmacro define-color-space (name super-classes &body (&rest initargs))
   `(defclass ,name (color-space ,@super-classes) ()
      (:default-initargs
       :name ',name
-      :standard-illuminant ',standard-illuminant)))
+      ,@(loop :for (k v) :on initargs :by #'cddr
+              :collect k
+              :collect `',v))))
 
 ;;; RGB color space base class, metadata, and definer.
 
 ;; Base
-(defclass rgb () ())
+(defclass rgb ()
+  ((%gamma
+    :reader gamma
+    :initarg :gamma)))
 
 ;; Metadata that will be populated during the definition of RGB color spaces.
 (gv:define-global-var -rgb-spaces- nil)
 (gv:define-global-var -rgb-chromaticity-coordinates- (u:dict))
 
 ;; Convenience macro for defining RGB color spaces.
-(defmacro define-rgb-color-space (name () &body (&key r g b standard-illuminant))
+(defmacro define-rgb-color-space (name () &body (&key r g b gamma standard-illuminant))
   `(u:eval-always
      (define-color-space ,name (rgb)
+       :gamma ,gamma
        :standard-illuminant ,standard-illuminant)
      (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))
      (pushnew ',name -rgb-spaces-)))
