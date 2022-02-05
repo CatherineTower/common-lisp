@@ -68,6 +68,13 @@
   :gamma 1.8
   :standard-illuminant d50)
 
+(define-rgb-color-space dci-p3 ()
+  :r (0.68 0.32)
+  :g (0.265 0.69)
+  :b (0.15 0.06)
+  :gamma 2.6
+  :standard-illuminant dci)
+
 (define-rgb-color-space don-rgb-4 ()
   :r (0.696 0.3)
   :g (0.215 0.765)
