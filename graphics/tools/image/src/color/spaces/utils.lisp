@@ -11,7 +11,6 @@
    (%standard-illuminant
     :type standard-illuminant
     :reader standard-illuminant
-    :accessor %standard-illuminant
     :initarg :standard-illuminant)))
 
 ;; Convenience macro for defining generic color spaces.
