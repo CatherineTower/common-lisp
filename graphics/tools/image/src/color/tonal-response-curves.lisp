@@ -59,3 +59,17 @@
   (if (<= value 0.0031308f0)
       (* value 12.92f0)
       (- (* (expt value #.(/ 2.4f0)) 1.055f0) 0.055f0)))
+
+(defmethod linearize-channel ((gamma (eql 'rec.709)) value)
+  (declare (optimize speed)
+           ((u:f32 0f0 1f0) value))
+  (if (< value 0.018)
+      (* value 4.5f0)
+      (- (expt (* value 1.099f0) 0.45f0) 0.099f0)))
+
+(defmethod delinearize-channel ((gamma (eql 'rec.709)) value)
+  (declare (optimize speed)
+           ((u:f32 0f0) value))
+  (if (< value 0.081)
+      (* value #.(/ 4.5f0))
+      (expt (* (+ value 0.099f0) #.(/ 1.099f0)) #.(/ 4.5f0))))

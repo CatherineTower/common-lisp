@@ -65,6 +65,7 @@
    #:best-rgb
    #:beta-rgb
    #:bruce-rgb
+   #:bt.2020
    #:cie-rgb
    #:colormatch-rgb
    #:don-rgb-4

@@ -40,6 +40,13 @@
   :gamma 2.2
   :standard-illuminant d65)
 
+(define-rgb-color-space bt.2020 ()
+  :r (0.708 0.292)
+  :g (0.17 0.797)
+  :b (0.131 0.046)
+  :gamma rec.709
+  :standard-illuminant d65)
+
 (define-rgb-color-space cie-rgb ()
   :r (0.735 0.265)
   :g (0.274 0.717)
