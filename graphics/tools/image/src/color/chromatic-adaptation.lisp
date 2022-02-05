@@ -2,7 +2,7 @@
 
 (defmacro define-chromatic-adaptation-methods (() &body body)
   (let ((names (mapcar #'first body)))
-    `(progn
+    `(u:eval-always
        (gv:define-global-var -chromatic-adaptation-methods- ',names)
        (gv:define-global-var -chromatic-adaptation-transforms-
            (u:dict
@@ -29,33 +29,36 @@
   (xyz-scaling
    (1 0 0 0 1 0 0 0 1)))
 
+(u:eval-always
+  (defun %permute-illuminant-pairs ()
+    (let ((pairs nil))
+      (u:map-permutations (lambda (x) (push x pairs)) -standard-illuminants- :length 2)
+      (nreverse pairs)))
+
+  (defun %calculate-chromatic-adaptation-matrix (type source target)
+    (let ((transform (u:href -chromatic-adaptation-transforms- type))
+          (source-white-point (u:href -standard-illuminant-white-points- source))
+          (target-white-point (u:href -standard-illuminant-white-points- target)))
+      (m3:* (m3:invert transform)
+            (m3:* (m3:set-diagonal m3:+zero+
+                                   (v3:/ (m3:*v3 transform target-white-point)
+                                         (m3:*v3 transform source-white-point)))
+                  transform))))
+
+  (defun %make-chromatic-adaptation-matrix-table ()
+    (let ((table (u:dict #'equal))
+          (illuminant-pairs (%permute-illuminant-pairs)))
+      (dolist (method -chromatic-adaptation-methods-)
+        (dolist (pair illuminant-pairs)
+          (destructuring-bind (source target) pair
+            (let ((matrix (%calculate-chromatic-adaptation-matrix method source target)))
+              (setf (u:href table (list method source target)) matrix)))))
+      table)))
+
 ;; This hash table is keyed by a list of (METHOD SOURCE TARGET) with a value representing a 3x3
 ;; chromatic adaptation transformation matrix that can be used to perform chromatic adaptation on
 ;; a color with the standard illuminant SOURCE to a color with the standard illuminant TARGET.
-(gv:define-global-var -chromatic-adaptation-matrices-
-    (labels ((permute-illuminant-pairs ()
-               (let ((pairs nil))
-                 (u:map-permutations (lambda (x) (push x pairs)) -standard-illuminants- :length 2)
-                 (nreverse pairs)))
-             (calculate-chromatic-adaptation-matrix (type source target)
-               (let ((transform (u:href -chromatic-adaptation-transforms- type))
-                     (source-white-point (u:href -standard-illuminant-white-points- source))
-                     (target-white-point (u:href -standard-illuminant-white-points- target)))
-                 (m3:* (m3:invert transform)
-                       (m3:* (m3:set-diagonal m3:+zero+
-                                              (v3:/ (m3:*v3 transform target-white-point)
-                                                    (m3:*v3 transform source-white-point)))
-                             transform))))
-             (make-chromatic-adaptation-matrix-table ()
-               (let ((table (u:dict #'equal))
-                     (illuminant-pairs (permute-illuminant-pairs)))
-                 (dolist (method -chromatic-adaptation-methods-)
-                   (dolist (pair illuminant-pairs)
-                     (destructuring-bind (source target) pair
-                       (let ((matrix (calculate-chromatic-adaptation-matrix method source target)))
-                         (setf (u:href table (list method source target)) matrix)))))
-                 table)))
-      (make-chromatic-adaptation-matrix-table)))
+(gv:define-global-var -chromatic-adaptation-matrices- (%make-chromatic-adaptation-matrix-table))
 
 (defun adapt-chromaticity (color standard-illuminant &key (method 'bradford))
   (declare (optimize speed))
