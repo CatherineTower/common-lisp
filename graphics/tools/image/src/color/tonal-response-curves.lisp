@@ -35,7 +35,7 @@
 (defmethod linearize-channel ((gamma (eql 'L*)) value)
   (declare (optimize speed)
            ((u:f32 0f0 1f0) value))
-  (if (<= value 0.08f0)
+  (if (<= value 0.08)
       (* 100f0 value #.(/ (float 24389/27 1f0)))
       (expt (* (+ value 0.16f0) (/ 1.16f0)) 3f0)))
 
@@ -49,14 +49,14 @@
 (defmethod linearize-channel ((gamma (eql 'srgb)) value)
   (declare (optimize speed)
            ((u:f32 0f0 1f0) value))
-  (if (<= value 0.04045f0)
+  (if (<= value 0.04045)
       (* value #.(/ 12.92f0))
       (expt (* (+ value 0.055f0) #.(/ 1.055f0)) 2.4f0)))
 
 (defmethod delinearize-channel ((gamma (eql 'srgb)) value)
   (declare (optimize speed)
            ((u:f32 0f0) value))
-  (if (<= value 0.0031308f0)
+  (if (<= value 0.0031308)
       (* value 12.92f0)
       (- (* (expt value #.(/ 2.4f0)) 1.055f0) 0.055f0)))
 
