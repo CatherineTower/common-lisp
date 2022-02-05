@@ -7,6 +7,11 @@
            ((u:f32 0f0 1f0) value))
   (expt value 2.2f0))
 
+(defmethod delinearize-channel ((trc (eql 'gamma-2.2)) (value single-float))
+  (declare (optimize speed)
+           ((u:f32 0f0 1f0) value))
+  (expt value #.(/ 2.2f0)))
+
 (defmethod linearize-channel ((trc (eql 'srgb)) (value single-float))
   (declare (optimize speed)
            ((u:f32 0f0 1f0) value))

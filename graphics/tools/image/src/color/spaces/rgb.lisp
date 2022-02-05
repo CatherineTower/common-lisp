@@ -37,8 +37,8 @@
                  table)))
       (make-rgb-transformation-matrix-table)))
 
-(declaim (inline %transform-rgb-xyz))
-(defun %transform-rgb-xyz (from to standard-illuminant)
+(declaim (inline transform-rgb-xyz))
+(defun transform-rgb-xyz (from to standard-illuminant)
   (declare (optimize speed))
   (let* ((key (list (color-space from) (color-space to) standard-illuminant))
          (matrix (u:href -rgb-transformation-matrices- key)))
