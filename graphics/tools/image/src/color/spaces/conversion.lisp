@@ -37,8 +37,8 @@
       (setf (c0 from) (inverse-compand-channel (c0 from))
             (c1 from) (inverse-compand-channel (c1 from))
             (c2 from) (inverse-compand-channel (c2 from)))
-      (adapt-chromaticity to standard-illuminant)
       (%transform-rgb-xyz from to standard-illuminant)
+      (adapt-chromaticity to standard-illuminant)
       to)))
 
 ;;; XYZ to sRGB
