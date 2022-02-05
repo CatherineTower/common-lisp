@@ -25,7 +25,6 @@
 
 ;;; RGB color space base class, metadata, and definer.
 
-;; Base
 (defclass rgb ()
   ((%gamma
     :reader gamma
