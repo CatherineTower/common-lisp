@@ -9,28 +9,19 @@
 
 (defmethod convert ((from simple-srgb) (to xyz))
   (declare (optimize speed))
-  (let ((standard-illuminant (standard-illuminant from)))
-    (linearize-trc from 'gamma-2.2)
-    (adapt-chromaticity to standard-illuminant)
-    (%transform-rgb-xyz from to (standard-illuminant from))
-    to))
+  (linearize-trc from 'gamma-2.2)
+  (%transform-rgb-xyz from to (standard-illuminant from)))
 
 ;;; sRGB to XYZ
 
 (defmethod convert ((from srgb) (to xyz))
   (declare (optimize speed))
-  (let ((standard-illuminant (standard-illuminant from)))
-    (linearize-trc from 'srgb)
-    (adapt-chromaticity to standard-illuminant)
-    (%transform-rgb-xyz from to standard-illuminant)
-    to))
+  (linearize-trc from 'srgb)
+  (%transform-rgb-xyz from to (standard-illuminant from)))
 
 ;;; XYZ to sRGB
 
 (defmethod convert ((from xyz) (to srgb))
   (declare (optimize speed))
-  (let ((standard-illuminant (standard-illuminant to)))
-    (adapt-chromaticity to standard-illuminant)
-    (%transform-rgb-xyz from to standard-illuminant)
-    (delinearize-trc to 'srgb)
-    to))
+  (%transform-rgb-xyz from to (standard-illuminant to))
+  (delinearize-trc to 'srgb))

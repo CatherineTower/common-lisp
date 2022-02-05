@@ -44,4 +44,5 @@
          (matrix (u:href -rgb-transformation-matrices- key)))
     (declare (dynamic-extent key))
     (m3:*v3! (data to) matrix (data from))
+    (setf (%standard-illuminant to) standard-illuminant)
     to))
