@@ -48,9 +48,9 @@
   :standard-illuminant d65)
 
 (define-rgb-color-space cie-rgb ()
-  :r (0.735 0.265)
-  :g (0.274 0.717)
-  :b (0.167 0.009)
+  :r (0.7347 0.2653)
+  :g (0.2738 0.7174)
+  :b (0.1666 0.0089)
   :gamma 2.2
   :standard-illuminant e)
 
