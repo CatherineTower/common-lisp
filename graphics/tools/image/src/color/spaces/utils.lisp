@@ -42,5 +42,4 @@
        :gamma ,gamma
        :standard-illuminant ,standard-illuminant)
      (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))
-     (pushnew ',name -rgb-spaces-)
-     (deftype rgb-space () `(member ,@-rgb-spaces-))))
+     (pushnew ',name -rgb-spaces-)))

@@ -1,5 +1,7 @@
 (in-package #:mfiano.graphics.tools.image)
 
+(deftype rgb-space () `(member ,@-rgb-spaces-))
+
 (u:eval-always
   (defun %generate-rgb-illuminant-pairs ()
     (let ((pairs nil))
