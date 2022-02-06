@@ -26,13 +26,11 @@
      (:file "illuminants")
      (:file "chromatic-adaptation")
      (:file "tonal-response-curves")
-     (:module "spaces"
-      :components
-      ((:file "utils")
-       (:file "definitions")
-       (:file "rgb")
-       (:file "constructors")
-       (:file "conversion")))))
+     (:file "spaces")
+     (:file "rgb-spaces")
+     (:file "rgb-transforms")
+     (:file "constructors")
+     (:file "conversion")))
    (:module "image"
     :components
     ((:file "image")

@@ -1,9 +1,29 @@
 (in-package #:mfiano.graphics.tools.image)
 
-;;;; Color space definitions.
+(defclass rgb ()
+  ((%gamma
+    :reader gamma
+    :initarg :gamma)))
 
-(define-color-space xyz ()
-  :illuminant :E)
+;; Metadata that will be populated during the definition of RGB color spaces.
+(gv:define-global-var -rgb-spaces- nil)
+(gv:define-global-var -rgb-chromaticity-coordinates- (u:dict))
+
+;; Convenience macro for defining RGB color spaces.
+(defmacro define-rgb-color-space (name () &body (&key r g b gamma illuminant))
+  `(u:eval-always
+     (define-color-space ,name (rgb)
+       :gamma ,gamma
+       :illuminant ,illuminant)
+     (setf (u:href -rgb-chromaticity-coordinates- ',name) '(,r ,g ,b))
+     (pushnew ',name -rgb-spaces-)))
+
+(deftype rgb-space () `(satisfies %rgb-space-p))
+
+(defun %rgb-space-p (symbol)
+  (member symbol -rgb-spaces-))
+
+;;; RGB color space definitions.
 
 (define-rgb-color-space adobe-rgb ()
   :r (0.64 0.33)

@@ -1,10 +1,5 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(deftype rgb-space () `(satisfies %rgb-space-p))
-
-(defun %rgb-space-p (symbol)
-  (member symbol -rgb-spaces-))
-
 (u:eval-always
   (defun %generate-rgb-illuminant-pairs ()
     (let ((pairs nil))
