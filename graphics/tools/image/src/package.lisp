@@ -14,16 +14,6 @@
   (:export
    #:context
    #:make-context)
-  ;; chromatic adaptation methods
-  (:export
-   #:bradford
-   #:ciecam02
-   #:cat16
-   #:ciecam97s-revised
-   #:fairchild
-   #:sharp
-   #:von-kries
-   #:xyz-scaling)
   ;; tonal response curves
   (:export
    #:L*
