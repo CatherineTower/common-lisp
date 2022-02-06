@@ -25,12 +25,14 @@
    #:bt.709
    #:cie-rgb
    #:colormatch-rgb
+   #:dci-p3
    #:don-rgb-4
    #:eci-rgb-v2
    #:ekta-space-ps5
    #:ntsc-rgb
    #:pal/secam-rgb
    #:prophoto-rgb
+   #:simple-srgb
    #:smpte-c-rgb
    #:srgb
    #:wide-gamut-rgb
