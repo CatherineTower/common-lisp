@@ -14,11 +14,6 @@
   (:export
    #:context
    #:make-context)
-  ;; tonal response curves
-  (:export
-   #:L*
-   #:rec.709
-   #:srgb)
   ;; color spaces
   (:export
    #:adobe-rgb
