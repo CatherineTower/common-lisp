@@ -10,11 +10,16 @@
    (#:v4 #:mfiano.math.origin.vec4)
    (#:m3 #:mfiano.math.origin.mat3))
   (:use #:cl)
-  ;; context
+  ;; Context
   (:export
    #:context
    #:make-context)
-  ;; color spaces
+  ;; Color constructors
+  (:export
+   #:rgb
+   #:rgba
+   #:xyz)
+  ;; Color spaces
   (:export
    #:adobe-rgb
    #:apple-rgb
@@ -37,7 +42,11 @@
    #:srgb
    #:wide-gamut-rgb
    #:xyz)
-  ;; image
+  ;; Color operations
+  (:export
+   #:adapt-chromaticity
+   #:convert)
+  ;; Image
   (:export
    #:height
    #:image
