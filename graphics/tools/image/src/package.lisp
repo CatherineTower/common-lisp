@@ -12,7 +12,8 @@
   ;; Context
   (:export
    #:context
-   #:make-context)
+   #:make-context
+   #:with-context)
   ;; Context registrants
   (:export
    #:register-chromatic-adaptation-method
