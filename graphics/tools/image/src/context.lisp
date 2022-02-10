@@ -41,7 +41,7 @@
 (defvar *default-context*
   (make-instance 'context :thread-pool (make-thread-pool 4)))
 
-(defvar *context* nil)
+(defvar *context*)
 
 (defun copy-default-context ()
   (let ((default *default-context*))
