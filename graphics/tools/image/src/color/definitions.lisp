@@ -74,12 +74,12 @@
    :model rgb
    :illuminant d65
    :coords ((0.64 0.33) (0.21 0.71) (0.15 0.06))
-   :gamma 563/256)
+   :gamma #.(float 563/256 1f0))
   (adobe-wide-gamut-rgb
    :model rgb
    :illuminant D50
    :coords ((0.7347 0.2653) (0.1152 0.8264) (0.1566 0.0177))
-   :gamma 563/256)
+   :gamma #.(float 563/256 1f0))
   (apple-rgb
    :model rgb
    :illuminant D65
