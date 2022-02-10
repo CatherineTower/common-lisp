@@ -19,7 +19,7 @@
    #:register-chromatic-adaptation-method
    #:register-color-space
    #:register-illuminant)
-  ;; Color constructors
+  ;; Color models
   (:export
    #:rgb
    #:rgba
