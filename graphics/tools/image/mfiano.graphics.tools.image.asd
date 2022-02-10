@@ -29,7 +29,7 @@
      (:file "rgb-transforms")
      (:file "tonal-response-curves")
      (:file "definitions")
-     (:file "constructors")
+     (:file "models")
      (:file "conversion")))
    (:module "image"
     :components
