@@ -4,7 +4,7 @@
   ((%mixins
     :type hash-table
     :reader mixins
-    :initarg :mixins
+    :allocation :class
     :initform (u:dict #'equal))
    (%thread-pool
     :type lp:kernel
@@ -46,7 +46,6 @@
 (defun copy-default-context ()
   (let ((default *default-context*))
     (make-instance 'context
-                   :mixins (u:copy-hash-table (mixins default))
                    :illuminants (u:copy-hash-table (illuminants default))
                    :color-spaces (u:copy-hash-table (color-spaces default))
                    :cone-responses (u:copy-hash-table (cone-responses default)))))

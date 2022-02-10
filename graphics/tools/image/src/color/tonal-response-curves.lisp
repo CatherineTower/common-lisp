@@ -18,7 +18,7 @@
     (map-into data (lambda (x) (delinearize-channel gamma x)) data)
     color))
 
-;;; Linearize / De-linearize the TRC of an individual color channel.
+;;; Linearize / Delinearize the TRC of an individual color channel.
 
 (defgeneric linearize-channel (gamma value)
   (:method ((gamma single-float) value)
