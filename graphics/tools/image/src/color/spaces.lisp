@@ -6,7 +6,7 @@
     :reader color-space-name
     :initarg :color-space)
    (%illuminant-name
-    :type symbol
+    :type (and symbol (not null))
     :reader illuminant-name
     :accessor %illuminant-name
     :initarg :illuminant)))
