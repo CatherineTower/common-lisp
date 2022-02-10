@@ -1,53 +1,42 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(defmacro define-illuminants (() &body body)
-  (let ((names (mapcar #'first body)))
-    `(progn
-       (gv:define-global-var -illuminants- ',names)
-       (gv:define-global-var -illuminant-white-points-
-           (u:dict
-            ,@(u:mappend
-               (lambda (x)
-                 (destructuring-bind (name white-point) x
-                   `(',name (v3:vec ,@white-point))))
-               body)))
-       (deftype illuminant () '(member ,@names)))))
+(defclass illuminant ()
+  ((%name
+    :type (and symbol (not null))
+    :reader name
+    :initarg :name)
+   (%x
+    :type u:positive-real
+    :reader x
+    :initarg :x)
+   (%y
+    :type u:positive-real
+    :reader y
+    :initarg :y)
+   (%white-point
+    :type v3:vec
+    :reader white-point
+    :initarg :white-point)))
 
-(define-illuminants ()
-  (:A (1.098466 1 0.35582292))
-  (:B (0.9909274 1 0.85313267))
-  (:C (0.980706 1 1.1822494))
-  (:D50 (0.964212 1 0.8251883))
-  (:D55 (0.95679706 1 0.92148066))
-  (:D60 (0.95264614 1 1.0088252))
-  (:D65 (0.95042855 1 1.0889004))
-  (:D75 (0.94972205 1 1.2263936))
-  (:D93 (0.953014 1 1.412743))
-  (:DCI (0.8945869 1 0.95441586))
-  (:E (1 1 1))
-  (:F1 (0.9283364 1 1.0366473))
-  (:F2 (0.9914466 1 0.6731595))
-  (:F3 (1.0375348 1 0.49860507))
-  (:F4 (1.0914726 1 0.3881326))
-  (:F5 (0.90871966 1 0.98722893))
-  (:F6 (0.97309124 1 0.60190547))
-  (:F7 (0.9501716 1 1.0862966))
-  (:F8 (0.96412545 1 0.823331))
-  (:F9 (1.0036479 1 0.67868346))
-  (:F10 (0.96173507 1 0.8171234))
-  (:F11 (1.0089889 1 0.6426166))
-  (:F12 (1.0804629 1 0.3922752))
-  (:LED-B1 (1.1181952 1 0.33398736))
-  (:LED-B2 (1.085992 1 0.4065304))
-  (:LED-B3 (1.0088638 1 0.67714214))
-  (:LED-B4 (0.9771559 1 0.87835515))
-  (:LED-B5 (0.96353525 1 1.1266997))
-  (:LED-BH1 (1.1003443 1 0.35907534))
-  (:LED-RGB1 (1.0821658 1 0.292567))
-  (:LED-V1 (1.0026385 1 0.1961302))
-  (:LED-V2 (1.0015894 1 0.6474171)))
+(u:define-printer (illuminant stream)
+  (format stream "~s" (name illuminant)))
+
+(defun register-illuminant (name x y)
+  (assert (and (plusp x) (plusp y)))
+  (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
+         (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
+    (setf (u:href (illuminants *context*) name) illuminant)
+    (values)))
+
+(defmacro define-builtin-illuminants (() &body body)
+  `(with-context (*default-context*)
+     ,@(mapcar
+        (lambda (x)
+          (destructuring-bind (name &key x y) x
+            `(register-illuminant ',name ,x ,y)))
+        body)))
 
 (declaim (inline get-white-point))
-(defun get-white-point (illuminant)
+(defun get-white-point (illuminant-name)
   (declare (optimize speed))
-  (values (u:href -illuminant-white-points- illuminant)))
+  (white-point (u:href (illuminants *context*) illuminant-name)))

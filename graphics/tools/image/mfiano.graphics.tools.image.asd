@@ -6,7 +6,6 @@
   :encoding :utf-8
   :depends-on (#:cl-cpus
                #:closer-mop
-               #:global-vars
                #:lparallel
                #:mfiano.math.origin
                #:mfiano.misc.utils)
@@ -16,19 +15,19 @@
   :components
   ((:file "package")
    (:file "conditions")
-   (:file "mixin")
    (:file "worker-state")
    (:file "context")
+   (:file "mixin")
    (:module "color"
     :components
     ((:file "storage")
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
-     (:file "tonal-response-curves")
      (:file "spaces")
-     (:file "rgb-spaces")
      (:file "rgb-transforms")
+     (:file "tonal-response-curves")
+     (:file "definitions")
      (:file "constructors")
      (:file "conversion")))
    (:module "image"

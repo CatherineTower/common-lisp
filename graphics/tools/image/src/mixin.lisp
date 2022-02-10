@@ -1,7 +1,5 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(gv:define-global-var -mixins- (u:dict #'equal))
-
 (defclass mixin-class (standard-class)
   ((%classes
     :reader classes
@@ -20,7 +18,7 @@
       ((has-mixin-p mixin 'color-space)
        (format stream "~a (~a): ~{~d~^, ~}"
                (class-name base-class)
-               (illuminant mixin)
+               (illuminant-name mixin)
                (map 'list #'identity (data mixin)))))))
 
 (u:define-printer (mixin-class stream :type nil :identity t)
@@ -45,12 +43,12 @@
          (class (make-instance 'mixin-class
                                :classes classes
                                :direct-superclasses superclasses)))
-    (setf (u:href -mixins- (mapcar #'class-name classes)) class)
+    (setf (u:href (mixins *context*) (mapcar #'class-name classes)) class)
     class))
 
 (defun %ensure-mixin-class (classes)
   (if (cdr classes)
-      (or (u:href -mixins- (mapcar #'class-name classes))
+      (or (u:href (mixins *context*) (mapcar #'class-name classes))
           (%make-mixin-class classes))
       (car classes)))
 
