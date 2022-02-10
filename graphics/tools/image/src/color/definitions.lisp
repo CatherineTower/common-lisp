@@ -75,7 +75,7 @@
    :illuminant d65
    :coords ((0.64 0.33) (0.21 0.71) (0.15 0.06))
    :gamma 563/256)
-  (adobe-wide-gamit-rgb
+  (adobe-wide-gamut-rgb
    :model rgb
    :illuminant D50
    :coords ((0.7347 0.2653) (0.1152 0.8264) (0.1566 0.0177))
@@ -110,7 +110,7 @@
    :illuminant C
    :coords ((0.67 0.33) (0.21 0.71) (0.14 0.08))
    :gamma 2.2)
-  (bt-470-pal/secam
+  (bt.470-pal/secam
    :model rgb
    :illuminant D65
    :coords ((0.64 0.33) (0.29 0.6) (0.15 0.06))
