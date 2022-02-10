@@ -13,17 +13,13 @@
   (:export
    #:context
    #:make-context
-   #:with-context)
-  ;; Context registrants
-  (:export
    #:register-chromatic-adaptation-method
    #:register-color-space
-   #:register-illuminant)
-  ;; Color models
+   #:register-illuminant
+   #:with-context)
+  ;; Protocol
   (:export
-   #:rgb
-   #:rgba
-   #:xyz)
+   #:convert)
   ;; Illuminants
   (:export
    #:a
@@ -66,6 +62,11 @@
    #:sharp
    #:von-kries
    #:xyz-scaling)
+  ;; Color models
+  (:export
+   #:rgb
+   #:rgba
+   #:xyz)
   ;; Color spaces
   (:export
    #:adobe-rgb
@@ -92,8 +93,7 @@
    #:xyz)
   ;; Color operations
   (:export
-   #:adapt-chromaticity
-   #:convert)
+   #:adapt-chromaticity)
   ;; Image
   (:export
    #:height
