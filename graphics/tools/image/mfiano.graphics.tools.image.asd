@@ -18,6 +18,7 @@
    (:file "worker-state")
    (:file "context")
    (:file "mixin")
+   (:file "protocol")
    (:module "color"
     :components
     ((:file "storage")

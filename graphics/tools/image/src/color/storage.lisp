@@ -127,7 +127,3 @@
 (defgeneric channel-count (storage)
   (:method ((storage color-storage))
     (length (data storage))))
-
-;; TODO: The reason this is named generically as CONVERT is because it is likely this will live
-;; elsewhere, once we realize methods for converting whole images.
-(defgeneric convert (from to))
