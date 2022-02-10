@@ -77,101 +77,101 @@
    :gamma #.(float 563/256 1f0))
   (adobe-wide-gamut-rgb
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.7347 0.2653) (0.1152 0.8264) (0.1566 0.0177))
    :gamma #.(float 563/256 1f0))
   (apple-rgb
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.625 0.34) (0.28 0.595) (0.155 0.07))
    :gamma 1.8)
   (best-rgb
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.7347 0.2653) (0.215 0.775) (0.13 0.035))
    :gamma 2.2)
   (beta-rgb
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.6888 0.3112) (0.1986 0.7551) (0.1265 0.0352))
    :gamma 2.2)
   (bruce-rgb
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.64 0.33) (0.28 0.65) (0.15 0.06))
    :gamma 2.2)
   (bt.2020
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.708 0.292) (0.17 0.797) (0.131 0.046))
    :gamma rec.709)
   (bt.470-ntsc
    :model rgb
-   :illuminant C
+   :illuminant c
    :coords ((0.67 0.33) (0.21 0.71) (0.14 0.08))
    :gamma 2.2)
   (bt.470-pal/secam
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.64 0.33) (0.29 0.6) (0.15 0.06))
    :gamma 2.8)
   (bt.709
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.64 0.33) (0.3 0.6) (0.15 0.06))
    :gamma rec.709)
   (cie-rgb
    :model rgb
-   :illuminant E
+   :illuminant e
    :coords ((0.7347 0.2653) (0.2738 0.7174) (0.1666 0.0089))
    :gamma 2.2)
   (colormatch-rgb
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.63 0.34) (0.295 0.605) (0.15 0.075))
    :gamma 1.8)
   (dci-p3
    :model rgb
-   :illuminant DCI
+   :illuminant dci
    :coords ((0.68 0.32) (0.265 0.69) (0.15 0.06))
    :gamma 2.6)
   (dci-p3+
    :model rgb
-   :illuminant DCI
+   :illuminant dci
    :coords ((0.74 0.27) (0.22 0.78) (0.09 -0.09))
    :gamma 2.6)
   (don-rgb-4
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.696 0.3) (0.215 0.765) (0.13 0.035))
    :gamma 2.2)
   (eci-rgb-v2
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.67 0.33) (0.21 0.71) (0.14 0.08))
    :gamma L*)
   (ekta-space-ps5
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.695 0.305) (0.26 0.7) (0.11 0.005))
    :gamma 2.2)
   (romm-rgb
    :model rgb
-   :illuminant D50
+   :illuminant d50
    :coords ((0.7347 0.2653) (0.1596 0.8404) (0.0366 0.0001))
    :gamma 1.8)
   (simple-srgb
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.64 0.33) (0.3 0.6) (0.15 0.06))
    :gamma 2.2)
   (smpte-c-rgb
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.63 0.34) (0.31 0.595) (0.155 0.07))
    :gamma 2.2)
   (srgb
    :model rgb
-   :illuminant D65
+   :illuminant d65
    :coords ((0.64 0.33) (0.3 0.6) (0.15 0.06))
    :gamma srgb))
