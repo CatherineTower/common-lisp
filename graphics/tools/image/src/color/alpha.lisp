@@ -13,9 +13,9 @@
     :initarg :pre-multiply-alpha)))
 
 ;;; This is called when the ALPHA class is mixed into an instance that already has one of the
-;;; COLOR-STORAGE classes mixed in. It modifies the color's storage to multiply every non-alpha
-;;; component by the alpha component, if PRE-MULTIPLY-ALPHA is non-NIL.
-(defmethod update-instance-for-different-class :after ((previous color-storage) (current alpha)
+;;; STORAGE classes mixed in. It modifies the color's storage to multiply every non-alpha component
+;;; by the alpha component, if PRE-MULTIPLY-ALPHA is non-NIL.
+(defmethod update-instance-for-different-class :after ((previous storage) (current alpha)
                                                        &key alpha-index pre-multiply-alpha)
   (when (and (not (b::has-mixin-p previous 'alpha))
              pre-multiply-alpha)
