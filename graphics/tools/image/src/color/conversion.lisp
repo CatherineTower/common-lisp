@@ -9,3 +9,8 @@
   (declare (optimize speed))
   (transform-rgb-xyz from to (illuminant-name to))
   (delinearize-rgb to))
+
+(defmethod b:convert ((from rgb) (to rgb))
+  (declare (optimize speed))
+  (let ((xyz (b:convert from (xyz))))
+    (b:convert xyz to)))

@@ -59,6 +59,14 @@
   ;; Models
   (:export
    #:rgb
+   #:xyz)
+  ;; Constructors
+  (:export
+   #:abgr
+   #:argb
+   #:bgr
+   #:bgra
+   #:rgb
    #:rgba
    #:xyz)
   ;; Spaces
