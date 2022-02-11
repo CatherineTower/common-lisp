@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image)
+(in-package #:mfiano.graphics.tools.image.color)
 
 ;;; A mixin class that is added to all models with an alpha channel.
 
@@ -17,7 +17,7 @@
 ;;; component by the alpha component, if PRE-MULTIPLY-ALPHA is non-NIL.
 (defmethod update-instance-for-different-class :after ((previous color-storage) (current alpha)
                                                        &key alpha-index pre-multiply-alpha)
-  (when (and (not (has-mixin-p previous 'alpha))
+  (when (and (not (b::has-mixin-p previous 'alpha))
              pre-multiply-alpha)
     (let ((data (data current)))
       (dotimes (i (length data))

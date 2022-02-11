@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image)
+(in-package #:mfiano.graphics.tools.image.color)
 
 (defclass color-space ()
   ((%color-space-name
@@ -21,15 +21,20 @@
    (%gamma
     :type (or u:positive-float symbol)
     :reader gamma
-    :initarg :gamma
-    :initform 2.2)))
+    :initarg :gamma)))
+
+(u:define-printer (color-space stream :type nil)
+  (format stream "COLOR: ~a (~a): ~{~d~^, ~}"
+          (color-space-name color-space)
+          (illuminant-name color-space)
+          (map 'list (lambda (x) (float x 1f0)) (data color-space))))
 
 (defun register-color-space (name type &rest args)
-  (setf (u:href (color-spaces *context*) name) (list* type :color-space type args))
+  (setf (u:href (b::color-spaces b::*context*) name) (list* type :color-space name args))
   (values))
 
 (defmacro define-builtin-color-spaces (() &body body)
-  `(with-context (*default-context*)
+  `(b:with-context (b::*default-context*)
      ,@(mapcar
         (lambda (x)
           (destructuring-bind (name &rest args &key model &allow-other-keys) x
@@ -38,6 +43,6 @@
         body)))
 
 (defun make-color-space (name)
-  (u:if-found (args (u:href (color-spaces *context*) name))
+  (u:if-found (args (u:href (b::color-spaces b::*context*) name))
     (apply #'make-instance args)
     (error "Color space ~s is not defined." name)))

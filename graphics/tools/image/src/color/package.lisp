@@ -1,25 +1,19 @@
 (in-package #:cl-user)
 
-(defpackage #:mfiano.graphics.tools.image
+(defpackage #:mfiano.graphics.tools.image.color
   (:local-nicknames
-   (#:lp #:lparallel)
+   (#:b #:mfiano.graphics.tools.image.base)
    (#:u #:mfiano.misc.utils)
-   (#:v2 #:mfiano.math.origin.vec2)
-   (#:v3 #:mfiano.math.origin.vec3)
-   (#:v4 #:mfiano.math.origin.vec4)
-   (#:m3 #:mfiano.math.origin.mat3))
+   (#:v2 #:mfiano.math.origin.dvec2)
+   (#:v3 #:mfiano.math.origin.dvec3)
+   (#:v4 #:mfiano.math.origin.dvec4)
+   (#:m3 #:mfiano.math.origin.dmat3))
   (:use #:cl)
   ;; Context
   (:export
-   #:context
-   #:make-context
    #:register-chromatic-adaptation-method
    #:register-color-space
-   #:register-illuminant
-   #:with-context)
-  ;; Protocol
-  (:export
-   #:convert)
+   #:register-illuminant)
   ;; Illuminants
   (:export
    #:a
@@ -62,12 +56,12 @@
    #:sharp
    #:von-kries
    #:xyz-scaling)
-  ;; Color models
+  ;; Models
   (:export
    #:rgb
    #:rgba
    #:xyz)
-  ;; Color spaces
+  ;; Spaces
   (:export
    #:adobe-rgb
    #:adobe-wide-gamut-rgb
@@ -91,11 +85,6 @@
    #:smpte-c-rgb
    #:srgb
    #:xyz)
-  ;; Color operations
+  ;; Operations
   (:export
-   #:adapt-chromaticity)
-  ;; Image
-  (:export
-   #:height
-   #:image
-   #:width))
+   #:adapt-chromaticity))

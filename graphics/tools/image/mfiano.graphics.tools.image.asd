@@ -13,15 +13,18 @@
   :pathname "src"
   :serial t
   :components
-  ((:file "package")
-   (:file "conditions")
-   (:file "worker-state")
-   (:file "context")
-   (:file "mixin")
-   (:file "protocol")
+  ((:module "base"
+    :components
+    ((:file "package")
+     (:file "conditions")
+     (:file "worker-state")
+     (:file "context")
+     (:file "mixin")
+     (:file "protocol")))
    (:module "color"
     :components
-    ((:file "storage")
+    ((:file "package")
+     (:file "storage")
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
@@ -33,6 +36,11 @@
      (:file "definitions")))
    (:module "image"
     :components
-    ((:file "image")
+    ((:file "package")
+     (:file "image")
+     ;;(:file "luv")
      (:file "unorganized")
-     (:file "types")))))
+     (:file "types")))
+   (:module "dev"
+    :components
+    ((:file "dev")))))

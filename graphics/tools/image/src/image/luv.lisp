@@ -1,10 +1,10 @@
 (in-package #:mfiano.graphics.tools.image)
 
-(u:define-constant +epsilon/luv+ #.(float 216/24389 1f0))
-(u:define-constant +kappa/luv+ #.(float 24389/27 1f0))
-(u:define-constant +c/luv+ #.(float -1/3 1f0))
+(u:define-constant +epsilon/luv+ #.(float 216/24389 1d0))
+(u:define-constant +kappa/luv+ #.(float 24389/27 1d0))
+(u:define-constant +c/luv+ #.(float -1/3 1d0))
 
-(defparameter *reference-white/xyz* (v3:vec 0.964220f0 1f0 0.825210f0))
+(defparameter *reference-white/xyz* (v3:vec 0.964220d0 1d0 0.825210d0))
 
 (defun %reference-white-u-chromaticity (reference-white)
   (v3:with-components ((white- reference-white))
@@ -20,9 +20,9 @@
 
 (defun %a (luv &optional (reference-white *reference-white/xyz*))
   (v3:with-components ((luv- luv))
-      (/ (1- (/ (* 52 luv-x)
-               (+ luv-y (* 13 luv-x (%reference-white-u-chromaticity reference-white)))))
-         3)))
+    (/ (1- (/ (* 52 luv-x)
+              (+ luv-y (* 13 luv-x (%reference-white-u-chromaticity reference-white)))))
+       3)))
 
 (defun %d (luv y &optional (reference-white *reference-white/xyz*))
   (v3:with-components ((luv- luv))

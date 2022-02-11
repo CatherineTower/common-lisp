@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image)
+(in-package #:mfiano.graphics.tools.image.base)
 
 (defclass mixin-class (standard-class)
   ((%classes
@@ -11,15 +11,15 @@
 (defmethod c2mop:validate-superclass ((class mixin-class) (superclass standard-class))
   t)
 
-(u:define-printer (mixin stream :type nil)
-  (let ((base-class (first (last (c2mop:class-direct-superclasses (class-of mixin))))))
-    (cond
-      ;; TODO: Add IMAGE mixin clause first.
-      ((has-mixin-p mixin 'color-space)
-       (format stream "~a (~a): ~{~d~^, ~}"
-               (class-name base-class)
-               (illuminant-name mixin)
-               (map 'list #'identity (data mixin)))))))
+#++(u:define-printer (mixin stream :type nil)
+     (let ((base-class (first (last (c2mop:class-direct-superclasses (class-of mixin))))))
+       (cond
+         ;; TODO: Add IMAGE mixin clause first.
+         ((has-mixin-p mixin 'color-space)
+          (format stream "~a (~a): ~{~d~^, ~}"
+                  (class-name base-class)
+                  (illuminant-name mixin)
+                  (map 'list #'identity (data mixin)))))))
 
 (u:define-printer (mixin-class stream :type nil :identity t)
   (format stream "MIXIN-CLASS (~{~s~^, ~})"

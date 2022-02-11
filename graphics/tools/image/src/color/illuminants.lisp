@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image)
+(in-package #:mfiano.graphics.tools.image.color)
 
 (defclass illuminant ()
   ((%name
@@ -25,11 +25,11 @@
   (assert (and (plusp x) (plusp y)))
   (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
          (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
-    (setf (u:href (illuminants *context*) name) illuminant)
+    (setf (u:href (b::illuminants b::*context*) name) illuminant)
     (values)))
 
 (defmacro define-builtin-illuminants (() &body body)
-  `(with-context (*default-context*)
+  `(b:with-context (b::*default-context*)
      ,@(mapcar
         (lambda (x)
           (destructuring-bind (name &key x y) x
@@ -39,4 +39,4 @@
 (declaim (inline get-white-point))
 (defun get-white-point (illuminant-name)
   (declare (optimize speed))
-  (white-point (u:href (illuminants *context*) illuminant-name)))
+  (white-point (u:href (b::illuminants b::*context*) illuminant-name)))
