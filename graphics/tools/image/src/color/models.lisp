@@ -1,6 +1,6 @@
 (in-package #:mfiano.graphics.tools.image.color)
 
-(defclass color-model ()
+(defclass model ()
   ((%model-name
     :type (and symbol (not null))
     :reader model-name
@@ -19,12 +19,12 @@
     :reader channel-order
     :initarg :channel-order)))
 
-(defclass xyz (color-model) ()
+(defclass xyz (model) ()
   (:default-initargs
    :model-name 'xyz
    :channel-order '(x y z)))
 
-(defclass rgb (color-model)
+(defclass rgb (model)
   ((%coords
     :type list
     :reader coords
@@ -37,13 +37,13 @@
    :model-name 'rgb
    :channel-order '(r g b)))
 
-(u:define-printer (color-model stream :type nil)
+(u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~a, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
-          (model-name color-model)
-          (space-name color-model)
+          (model-name model)
+          (space-name model)
           (map 'list (lambda (x y) (list x (float y 1f0)))
-               (channel-order color-model)
-               (data color-model))))
+               (channel-order model)
+               (data model))))
 
 (defun make-color (model-name space-name)
   (u:if-found (args (u:href (b::color-spaces b::*context*) space-name))
