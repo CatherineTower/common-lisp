@@ -42,6 +42,11 @@
           (%make-mixin-class classes))
       (car classes)))
 
+(defun has-mixin-p (instance class-name)
+  (and (find-class class-name nil)
+       (typep instance 'mixin)
+       (typep instance class-name)))
+
 (defun add-mixin (instance class-name &rest args)
   (if (has-mixin-p instance class-name)
       instance
@@ -54,16 +59,13 @@
 
 (defun remove-mixin (instance class-name)
   (cond
-    ((typep instance 'mixin)
+    ((has-mixin-p instance class-name)
      (let ((class (%ensure-mixin-class
                    (%make-mixin-class-list
                     (remove (%find-mixin-class class-name)
                             (classes (%find-mixin-class (class-of instance))))))))
        (change-class instance class)))
     ((typep instance class-name)
-     (error "Cannot remove the only class of a mixin."))
-    (t (error "Mixin does not contain class ~s." class-name))))
-
-(defun has-mixin-p (instance class-name)
-  (and (find-class class-name nil)
-       (typep instance class-name)))
+     (error 'mixin-last-removed-error :instance instance :class-name class-name))
+    (t
+     (error 'mixin-not-present-error :instance instance :class-name class-name))))
