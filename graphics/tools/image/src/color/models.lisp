@@ -14,15 +14,15 @@
     :reader illuminant-name
     :accessor %illuminant-name
     :initarg :illuminant)
-   (%channel-order
+   (%channel-names
     :type list
-    :reader channel-order
-    :initarg :channel-order)))
+    :reader channel-names
+    :initarg :channel-names)))
 
 (defclass xyz (model) ()
   (:default-initargs
    :model-name 'xyz
-   :channel-order '(x y z)))
+   :channel-names '(x y z)))
 
 (defclass rgb (model)
   ((%coords
@@ -35,14 +35,14 @@
     :initarg :gamma))
   (:default-initargs
    :model-name 'rgb
-   :channel-order '(r g b)))
+   :channel-names '(r g b)))
 
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~a, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
           (model-name model)
           (space-name model)
           (map 'list (lambda (x y) (list x (float y 1f0)))
-               (channel-order model)
+               (channel-names model)
                (data model))))
 
 (defun make-color (model-name space-name)
