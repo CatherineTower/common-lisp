@@ -11,6 +11,11 @@
    #:context
    #:make-context
    #:with-context)
+  ;; Conditions
+  (:export
+   #:mixin-error
+   #:mixin-last-removed-error
+   #:mixin-not-present-error)
   ;; Protocol
   (:export
    #:convert))
