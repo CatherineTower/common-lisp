@@ -42,7 +42,11 @@
               `(register-color-space ',name ',(or model name) ,@(u:plist-remove args :model)))))
         body)))
 
-(defun make-color-space (name)
-  (u:if-found (args (u:href (b::color-spaces b::*context*) name))
-    (apply #'make-instance args)
-    (error "Color space ~s is not defined." name)))
+(defun make-color-space (model-name space-name)
+  (u:if-found (args (u:href (b::color-spaces b::*context*) space-name))
+    (destructuring-bind (required-model-name . rest) args
+      (declare (ignore rest))
+      (if (eq model-name required-model-name)
+          (apply #'make-instance args)
+          (error "Color space ~s is not valid for color model ~s." space-name model-name)))
+    (error "Color space ~s is not defined." space-name)))
