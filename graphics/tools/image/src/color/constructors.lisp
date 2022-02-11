@@ -14,5 +14,6 @@
 
 (defun rgba (&key (r 0) (b 0) (g 0) (a 1) (space 'srgb) pre-multiply-alpha)
   (let ((color (make-color 'rgb space)))
+    (reinitialize-instance color :channel-names '(r g b a))
     (b::add-mixin color 'storage4 :c0 r :c1 g :c2 b :c3 a)
     (b::add-mixin color 'alpha :alpha-index 3 :pre-multiply-alpha pre-multiply-alpha)))
