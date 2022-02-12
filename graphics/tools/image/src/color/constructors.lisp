@@ -10,12 +10,10 @@
 
 (defun rgb (&key (r 0) (g 0) (b 0) (space 'srgb))
   (let ((color (make-color 'rgb space)))
-    (b::add-mixin color 'storage3 :c0 r :c1 g :c2 b)
-    (b::add-mixin color 'uniform-transfer)))
+    (b::add-mixin color 'storage3 :c0 r :c1 g :c2 b)))
 
 (defun rgba (&key (r 0) (b 0) (g 0) (a 1) (space 'srgb) pre-multiply-alpha)
   (let ((color (make-color 'rgb space)))
     (reinitialize-instance color :channel-names '(r g b a))
     (b::add-mixin color 'storage4 :c0 r :c1 g :c2 b :c3 a)
-    (b::add-mixin color 'alpha :alpha-index 3 :pre-multiply-alpha pre-multiply-alpha)
-    (b::add-mixin color 'uniform-transfer)))
+    (b::add-mixin color 'alpha :alpha-index 3 :pre-multiply-alpha pre-multiply-alpha)))
