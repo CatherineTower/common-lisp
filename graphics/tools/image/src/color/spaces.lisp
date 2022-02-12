@@ -1,11 +1,11 @@
 (in-package #:mfiano.graphics.tools.image.color)
 
 (defun register-color-space (name type &rest args)
-  (setf (u:href (b::color-spaces b::*context*) name) (list* type :space name args))
+  (setf (u:href (base:color-spaces base:*context*) name) (list* type :space name args))
   (values))
 
 (defmacro define-builtin-color-spaces (() &body body)
-  `(b:with-context (b::*default-context*)
+  `(base:with-context (base:*default-context*)
      ,@(mapcar
         (lambda (x)
           (destructuring-bind (name &rest args &key model &allow-other-keys) x

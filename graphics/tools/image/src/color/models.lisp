@@ -38,7 +38,7 @@
    :channel-names '(r g b)))
 
 (u:define-printer (model stream :type nil)
-  (format stream "COLOR (model: ~a, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
+  (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
           (model-name model)
           (space-name model)
           (map 'list (lambda (x y) (list x (float y 1f0)))
@@ -46,7 +46,7 @@
                (data model))))
 
 (defun make-color (model-name space-name)
-  (u:if-found (args (u:href (b::color-spaces b::*context*) space-name))
+  (u:if-found (args (u:href (base:color-spaces base:*context*) space-name))
     (destructuring-bind (required-model-name . rest) args
       (declare (ignore rest))
       (if (eq model-name required-model-name)

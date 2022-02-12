@@ -56,7 +56,7 @@
 
 (defun get-rgb-transform (from to illuminant-name)
   (declare (optimize speed))
-  (let* ((transforms (b::rgb-transforms b::*context*))
+  (let* ((transforms (base:rgb-transforms base:*context*))
          (from-space (space-name from))
          (to-space (space-name to))
          (key (list from-space to-space illuminant-name)))

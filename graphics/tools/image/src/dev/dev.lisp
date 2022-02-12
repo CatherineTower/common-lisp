@@ -1,12 +1,17 @@
 (in-package #:cl-user)
 
 (uiop:define-package #:mfiano.graphics.tools.image.dev
-  (:mix
+  (:mix-reexport
    #:mfiano.graphics.tools.image.base
    #:mfiano.graphics.tools.image.color
    #:mfiano.graphics.tools.image)
   (:use #:cl))
 
-(in-package #:mfiano.graphics.tools.image.dev)
+(defpackage #:mfiano.graphics.tools.image.user
+  (:local-nicknames
+   (#:img #:mfiano.graphics.tools.image.dev))
+  (:use #:cl))
 
-(defvar *context* (make-context))
+(in-package #:mfiano.graphics.tools.image.user)
+
+(defvar *context* (img:make-context))

@@ -2,10 +2,10 @@
 
 (defun register-chromatic-adaptation-method (name matrix)
   (check-type matrix m3:mat)
-  (setf (u:href (b::cone-responses b::*context*) name) matrix))
+  (setf (u:href (base:cone-responses base:*context*) name) matrix))
 
 (defmacro define-builtin-chromatic-adaptation-methods (() &body body)
-  `(b:with-context (b::*default-context*)
+  `(base:with-context (base:*default-context*)
      ,@(mapcar
         (lambda (x)
           (destructuring-bind (name components) x
@@ -14,11 +14,11 @@
 
 (defun get-chromatic-adaptation-transform (method source-illuminant-name target-illuminant-name)
   (declare (optimize speed))
-  (let* ((transforms (b::chromatic-adaptation-transforms b::*context*))
+  (let* ((transforms (base:chromatic-adaptation-transforms base:*context*))
          (key (list method source-illuminant-name target-illuminant-name)))
     (declare (dynamic-extent key))
     (flet ((calculate-transform ()
-             (let ((cone-response (u:href (b::cone-responses b::*context*) method))
+             (let ((cone-response (u:href (base:cone-responses base:*context*) method))
                    (source-white-point (get-white-point source-illuminant-name))
                    (target-white-point (get-white-point target-illuminant-name)))
                (m3:* (m3:invert cone-response)

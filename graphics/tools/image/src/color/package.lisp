@@ -2,7 +2,7 @@
 
 (defpackage #:mfiano.graphics.tools.image.color
   (:local-nicknames
-   (#:b #:mfiano.graphics.tools.image.base)
+   (#:base #:%mfiano.graphics.tools.image.internal.base)
    (#:u #:mfiano.misc.utils)
    (#:v2 #:mfiano.math.origin.dvec2)
    (#:v3 #:mfiano.math.origin.dvec3)
@@ -56,16 +56,8 @@
    #:sharp
    #:von-kries
    #:xyz-scaling)
-  ;; Models
-  (:export
-   #:rgb
-   #:xyz)
   ;; Constructors
   (:export
-   #:abgr
-   #:argb
-   #:bgr
-   #:bgra
    #:rgb
    #:rgba
    #:xyz)

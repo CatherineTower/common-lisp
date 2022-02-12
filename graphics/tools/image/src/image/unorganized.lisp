@@ -29,7 +29,7 @@
 
 ;; TODO: The iteration should be abstracted to a macro, to allow us to perform more than solid color
 ;; fills across a whole image (or sub-image).
-(defun fill-color (image color &key (context b::*context*))
+(defun fill-color (image color &key (context base:*context*))
   (declare (optimize speed))
   (let* ((data (data image))
          (width (width image))
@@ -39,7 +39,7 @@
     (declare ((u:f32a (* * *)) data)
              (u:ub16 width height)
              ((u:f32a (*)) color-data))
-    (b:with-context (context)
+    (base:with-context (context)
       (time
        (lp:pdotimes (x width)
          (dotimes (y height)

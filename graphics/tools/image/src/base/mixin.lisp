@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.base)
+(in-package #:%mfiano.graphics.tools.image.internal.base)
 
 (defclass mixin-class (standard-class)
   ((%classes
@@ -47,7 +47,7 @@
        (typep instance 'mixin)
        (typep instance class-name)))
 
-(defun add-mixin (instance class-name &rest args)
+(defun mix (instance class-name &rest args)
   (if (has-mixin-p instance class-name)
       instance
       (let ((class (%ensure-mixin-class
@@ -57,7 +57,7 @@
                        (t (list class-name (class-of instance))))))))
         (apply #'change-class instance class :allow-other-keys t args))))
 
-(defun remove-mixin (instance class-name)
+(defun unmix (instance class-name)
   (cond
     ((has-mixin-p instance class-name)
      (let ((class (%ensure-mixin-class

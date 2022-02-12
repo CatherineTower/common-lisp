@@ -25,11 +25,11 @@
   (assert (and (plusp x) (plusp y)))
   (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
          (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
-    (setf (u:href (b::illuminants b::*context*) name) illuminant)
+    (setf (u:href (base:illuminants base:*context*) name) illuminant)
     (values)))
 
 (defmacro define-builtin-illuminants (() &body body)
-  `(b:with-context (b::*default-context*)
+  `(base:with-context (base:*default-context*)
      ,@(mapcar
         (lambda (x)
           (destructuring-bind (name &key x y) x
@@ -39,4 +39,4 @@
 (declaim (inline get-white-point))
 (defun get-white-point (illuminant-name)
   (declare (optimize speed))
-  (white-point (u:href (b::illuminants b::*context*) illuminant-name)))
+  (white-point (u:href (base:illuminants base:*context*) illuminant-name)))

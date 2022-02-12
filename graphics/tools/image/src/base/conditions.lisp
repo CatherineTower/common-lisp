@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.base)
+(in-package #:%mfiano.graphics.tools.image.internal.base)
 
 (define-condition mixin-error (error)
   ((%instance
