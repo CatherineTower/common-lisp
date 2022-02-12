@@ -66,6 +66,6 @@
                             (classes (%find-mixin-class (class-of instance))))))))
        (change-class instance class)))
     ((typep instance class-name)
-     (error 'mixin-last-removed-error :instance instance :class-name class-name))
+     (error 'final-mixin-removed :instance instance :class-name class-name))
     (t
-     (error 'mixin-not-present-error :instance instance :class-name class-name))))
+     (error 'mixin-not-present :instance instance :class-name class-name))))

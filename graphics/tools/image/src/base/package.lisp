@@ -14,8 +14,8 @@
   ;; Conditions
   (:export
    #:mixin-error
-   #:mixin-last-removed-error
-   #:mixin-not-present-error)
+   #:final-mixin-removed
+   #:mixin-not-present)
   ;; Protocol
   (:export
    #:convert))

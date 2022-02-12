@@ -8,14 +8,14 @@
     :reader %class-name
     :initarg :class-name)))
 
-(define-condition mixin-last-removed-error (mixin-error) ()
+(define-condition final-mixin-removed (mixin-error) ()
   (:report
    (lambda (condition stream)
      (format stream "Cannot remove the only remaining class ~s of object:~%~%~s"
              (%class-name condition)
              (instance condition)))))
 
-(define-condition mixin-not-present-error (mixin-error) ()
+(define-condition mixin-not-present (mixin-error) ()
   (:report
    (lambda (condition stream)
      (format stream "Cannot remove mixin because object:~%~%~
