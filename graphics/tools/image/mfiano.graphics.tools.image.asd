@@ -24,15 +24,15 @@
    (:module "color"
     :components
     ((:file "package")
+     (:file "protocol")
      (:file "storage")
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
      (:file "models")
      (:file "spaces")
+     (:file "rgb")
      (:file "constructors")
-     (:file "rgb-transforms")
-     (:file "tonal-response-curves")
      (:file "conversion")
      (:file "definitions")))
    (:module "image"
