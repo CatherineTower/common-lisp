@@ -17,3 +17,7 @@
     (reinitialize-instance color :channel-names '(r g b a))
     (base:mix color 'storage4 :channel0 r :channel1 g :channel2 b :channel3 a)
     (base:mix color 'alpha :alpha-index 3 :pre-multiply-alpha pre-multiply-alpha)))
+
+(defun luv (&key (l 0) (u 0) (v 0))
+  (let ((color (make-color 'luv 'luv)))
+    (base:mix color 'storage3 :channel0 l :channel1 u :channel2 v)))

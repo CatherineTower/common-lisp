@@ -70,6 +70,8 @@
 (define-builtin-color-spaces ()
   (xyz
    :illuminant e)
+  (luv
+   :illuminant e)
   (adobe-rgb
    :model rgb
    :illuminant d65
