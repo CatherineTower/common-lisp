@@ -2,7 +2,6 @@
 
 (u:define-constant +epsilon/luv+ #.(float 216/24389 1d0))
 (u:define-constant +kappa/luv+ #.(float 24389/27 1d0))
-(u:define-constant +c/luv+ #.(float -1/3 1d0))
 
 ;;; Luv->XYZ
 
