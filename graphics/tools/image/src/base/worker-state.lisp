@@ -12,7 +12,7 @@
   (let* ((state (make-instance 'worker-state))
          (vectors (vectors state)))
     (dotimes (i (length vectors))
-      (setf (aref vectors i) (v3:zero)))
+      (setf (aref vectors i) (m:vec/zero 3)))
     state))
 
 (defun worker-context (worker)

@@ -46,9 +46,9 @@
   (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
           (model-name model)
           (space-name model)
-          (map 'list (lambda (x y) (list x (float y 1f0)))
+          (map 'list #'list
                (channel-names model)
-               (data model))))
+               (m:to-array (data model) :single-float))))
 
 (defun make-color (model-name space-name)
   (u:if-found (args (u:href (base:color-spaces base:*context*) space-name))

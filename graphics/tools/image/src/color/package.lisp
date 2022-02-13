@@ -3,11 +3,8 @@
 (defpackage #:mfiano.graphics.tools.image.color
   (:local-nicknames
    (#:base #:%mfiano.graphics.tools.image.internal.base)
-   (#:u #:mfiano.misc.utils)
-   (#:v2 #:mfiano.math.origin.dvec2)
-   (#:v3 #:mfiano.math.origin.dvec3)
-   (#:v4 #:mfiano.math.origin.dvec4)
-   (#:m3 #:mfiano.math.origin.dmat3))
+   (#:m #:mfiano.math.gfxmath)
+   (#:u #:mfiano.misc.utils))
   (:use #:cl)
   ;; Context
   (:export

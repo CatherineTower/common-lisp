@@ -4,8 +4,8 @@
   (:local-nicknames
    (#:base #:%mfiano.graphics.tools.image.internal.base)
    (#:lp #:lparallel)
-   (#:u #:mfiano.misc.utils)
-   (#:v4 #:mfiano.math.origin.vec4))
+   (#:m #:mfiano.math.gfxmath)
+   (#:u #:mfiano.misc.utils))
   (:use #:cl)
   (:export
    #:height

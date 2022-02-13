@@ -5,8 +5,8 @@
 (defpackage #:%mfiano.graphics.tools.image.internal.base
   (:local-nicknames
    (#:lp #:lparallel)
-   (#:u #:mfiano.misc.utils)
-   (#:v3 #:mfiano.math.origin.dvec3))
+   (#:m #:mfiano.math.gfxmath)
+   (#:u #:mfiano.misc.utils))
   (:use #:cl)
   ;; Context
   (:export
