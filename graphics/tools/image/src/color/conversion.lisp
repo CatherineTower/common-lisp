@@ -15,6 +15,8 @@
   (let ((xyz (base:convert from (xyz))))
     (base:convert xyz to)))
 
+;;; Luv<->XYZ
+
 (defmethod base:convert ((from luv) (to xyz))
   (declare (optimize speed))
   (adapt-chromaticity from (illuminant-name to))
