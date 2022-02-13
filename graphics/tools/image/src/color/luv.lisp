@@ -6,13 +6,13 @@
 
 ;;; Luv->XYZ
 
-(defun %u-chromaticity (color)
-  (v3:with-components ((color- color))
+(defun %u-chromaticity (color-components)
+  (v3:with-components ((color- color-components))
     (/ (* color-x 4)
        (+ color-x (* color-y 15) (* color-z 3)))))
 
-(defun %v-chromaticity (color)
-  (v3:with-components ((color- color))
+(defun %v-chromaticity (color-components)
+  (v3:with-components ((color- color-components))
     (/ (* color-y 9)
        (+ color-x (* color-y 15) (* color-z 3)))))
 
