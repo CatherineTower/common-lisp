@@ -26,8 +26,8 @@
   ;; Conditions
   (:export
    #:color-error
-   #:mixin-error
    #:final-mixin-removed
+   #:mixin-error
    #:mixin-not-present)
   ;; Protocol
   (:export
@@ -57,9 +57,10 @@
    #:context
    #:make-context
    #:with-context
-   ;; Mixins
-   #:mixin-error
+   ;; Conditions
+   #:color-error
    #:final-mixin-removed
+   #:mixin-error
    #:mixin-not-present
    ;; Protocol
    #:convert))
