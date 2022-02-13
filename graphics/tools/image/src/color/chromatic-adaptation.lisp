@@ -39,4 +39,5 @@
     (let ((data (data color))
           (transform (get-chromatic-adaptation-transform method source target)))
       (m3:*v3! data transform data)
+      (setf (%illuminant-name color) illuminant-name)
       color)))
