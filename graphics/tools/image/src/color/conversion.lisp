@@ -1,5 +1,7 @@
 (in-package #:mfiano.graphics.tools.image.color)
 
+;;; RGB<->XYZ
+
 (defmethod base:convert ((from rgb) (to xyz))
   (declare (optimize speed))
   (linearize-rgb from)
@@ -9,6 +11,8 @@
   (declare (optimize speed))
   (transform-rgb-xyz from to (illuminant-name to))
   (delinearize-rgb to))
+
+;;; RGB<->RGB (the RGB model has multiple color spaces)
 
 (defmethod base:convert ((from rgb) (to rgb))
   (declare (optimize speed))
