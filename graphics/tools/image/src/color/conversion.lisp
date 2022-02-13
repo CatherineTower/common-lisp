@@ -14,3 +14,13 @@
   (declare (optimize speed))
   (let ((xyz (base:convert from (xyz))))
     (base:convert xyz to)))
+
+(defmethod base:convert ((from luv) (to xyz))
+  (declare (optimize speed))
+  (adapt-chromaticity from (illuminant-name to))
+  (%luv->xyz from to))
+
+(defmethod b:convert ((from xyz) (to luv))
+  (declare (optimize speed))
+  (adapt-chromaticity from (illuminant-name to))
+  (%xyz->luv from to))

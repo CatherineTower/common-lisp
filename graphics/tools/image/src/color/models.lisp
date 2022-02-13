@@ -37,6 +37,11 @@
    :model-name 'rgb
    :channel-names '(r g b)))
 
+(defclass luv (model) ()
+  (:default-initargs
+   :model-name 'luv
+   :channel-names '(l u v)))
+
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
           (model-name model)
