@@ -735,6 +735,19 @@ VECTOR into the corresponding locations of the matrix, storing the result in the
     (setf (mref out i i) x))
   out)
 
+(define-op set-diagonal ((matrix :*) (vector :row-sized-vector)) (matrix)
+  "Set the diagonal of the {MATRIX:DESC} MATRIX, by copying the components of the {VECTOR:DESC} ~
+VECTOR into the corresponding locations of the matrix, storing the result in a new {MATRIX:DESC}."
+  (set-diagonal! matrix vector (default matrix)))
+
+(define-op set-diagonal! ((matrix :*) (vector :row-sized-vector) (out :*)) (matrix)
+  "Set the diagonal of the {MATRIX:DESC} MATRIX, by copying the components of the {VECTOR:DESC} ~
+VECTOR into the corresponding locations of the matrix, storing the result in the {OUT:DESC} OUT."
+  (copy! matrix out)
+  (%with-each (vector x i)
+    (setf (mref out i i) x))
+  out)
+
 (define-op set-translation ((matrix :*) (vector :axis-sized-vector)) (matrix3 matrix4)
   "Set the translation of the {MATRIX:DESC} MATRIX from the {VECTOR:DESC} VECTOR, storing the ~
 result in a new {MATRIX:DESC}."

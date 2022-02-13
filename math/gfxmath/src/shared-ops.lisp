@@ -2,20 +2,21 @@
 
 ;;; Protocol for operations that have different semantics across types
 
-(defgeneric * (object1 object2))
-(defgeneric *! (object1 object2 out))
-(defgeneric / (object1 object2))
-(defgeneric /! (object1 object2 out))
-(defgeneric default (object))
-(defgeneric id (object))
-(defgeneric id! (object))
-(defgeneric id? (object))
-(defgeneric interpolate (object1 object2 parameter))
-(defgeneric interpolate! (object1 object2 parameter out))
-(defgeneric invert (object))
-(defgeneric invert! (object out))
-(defgeneric rotate (object1 object2 &key ((:space space))))
-(defgeneric rotate! (object1 object2 out &key ((:space space))))
+(u:eval-always
+  (defgeneric * (object1 object2))
+  (defgeneric *! (object1 object2 out))
+  (defgeneric / (object1 object2))
+  (defgeneric /! (object1 object2 out))
+  (defgeneric default (object))
+  (defgeneric id (object))
+  (defgeneric id! (object))
+  (defgeneric id? (object))
+  (defgeneric interpolate (object1 object2 parameter))
+  (defgeneric interpolate! (object1 object2 parameter out))
+  (defgeneric invert (object))
+  (defgeneric invert! (object out))
+  (defgeneric rotate (object1 object2 &key ((:space space))))
+  (defgeneric rotate! (object1 object2 out &key ((:space space)))))
 
 ;;; Operations shared between all math objects
 
