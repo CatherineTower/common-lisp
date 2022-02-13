@@ -3,8 +3,6 @@
 (u:define-constant +epsilon/luv+ #.(float 216/24389 1d0))
 (u:define-constant +kappa/luv+ #.(float 24389/27 1d0))
 
-;;; Luv->XYZ
-
 (defun %u-chromaticity (color-components)
   (v3:with-components ((color- color-components))
     (/ (* color-x 4)
@@ -15,7 +13,6 @@
     (/ (* color-y 9)
        (+ color-x (* color-y 15) (* color-z 3)))))
 
-;; The mapping for Luvs in WITH-COMPONENTS is thus: x->l, y->u, z->v
 (defun %luv->xyz (in out)
   (flet ((%a (luv-channels illuminant)
            (v3:with-components ((luv- luv-channels))
@@ -29,7 +26,6 @@
                       (+ luv-z (* 13 luv-x (%v-chromaticity illuminant))))
                    5)
                 y)))
-
          (%y (luv-channels)
            (v3:with-components ((luv- luv-channels))
              (if (> luv-x (* +kappa/luv+ +epsilon/luv+))
@@ -42,18 +38,15 @@
         (error "Illegal L value in Luv ~A" in))
       (let* ((a (%a source-channels illuminant))
              (y (%y source-channels))
-             (-5y (* -5 y))
+             (-5y (* y -5))
              (x (/ (- (%d source-channels y illuminant) -5y)
                    (- a -1/3)))
-             (z (+ (* x a)
-                   -5y)))
+             (z (+ (* x a) -5y)))
         (v3:with-components ((xyz- (data out)))
           (setf xyz-x x
                 xyz-y y
                 xyz-z z)))
       out)))
-
-;;; XYZ->LUV
 
 (defun %xyz->luv (in out)
   (let* ((source-channels (data in))
@@ -69,5 +62,5 @@
     (v3:with-components ((luv- (data out)))
       (setf luv-x l
             luv-y u
-            luv-z v)))
-  out)
+            luv-z v))
+    out))

@@ -30,7 +30,7 @@
         transform
         (setf (u:href transforms (copy-list key)) (calculate-transform))))))
 
-(defun adapt-chromaticity (color illuminant-name &key (method :bradford))
+(defun adapt-chromaticity (color illuminant-name &key (method 'bradford))
   (declare (optimize speed))
   (let ((source (illuminant-name color))
         (target illuminant-name))

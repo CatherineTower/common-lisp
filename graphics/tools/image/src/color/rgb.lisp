@@ -5,14 +5,12 @@
 (defun linearize-rgb (color)
   (let ((data (data color))
         (gamma (gamma color)))
-    (declare (u:f64a data))
     (map-into data (lambda (x) (linearize-rgb-channel x gamma)) data)
     color))
 
 (defun delinearize-rgb (color)
   (let ((data (data color))
         (gamma (gamma color)))
-    (declare (u:f64a data))
     (map-into data (lambda (x) (delinearize-rgb-channel x gamma)) data)
     color))
 
