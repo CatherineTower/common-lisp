@@ -32,8 +32,8 @@
      (:file "models")
      (:file "spaces")
      (:file "rgb")
-     (:file "constructors")
      (:file "luv")
+     (:file "constructors")
      (:file "conversion")
      (:file "definitions")))
    (:module "image"
