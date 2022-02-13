@@ -22,7 +22,7 @@
   (adapt-chromaticity from (illuminant-name to))
   (%luv->xyz from to))
 
-(defmethod b:convert ((from xyz) (to luv))
+(defmethod base:convert ((from xyz) (to luv))
   (declare (optimize speed))
   (adapt-chromaticity from (illuminant-name to))
   (%xyz->luv from to))
@@ -31,8 +31,8 @@
 
 (defmethod base:convert ((from luv) (to rgb))
   (declare (optimize speed))
-  (b:convert (b:convert from (xyz)) to))
+  (base:convert (base:convert from (xyz)) to))
 
 (defmethod base:convert ((from rgb) (to luv))
   (declare (optimize speed))
-  (b:convert (b:convert from (xyz)) to))
+  (base:convert (base:convert from (xyz)) to))
