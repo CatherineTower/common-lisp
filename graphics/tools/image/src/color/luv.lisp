@@ -47,9 +47,9 @@
              (z (+ (* x a)
                    (* y -5))))
         (v3:with-components ((xyz- (data out)))
-          (setf xyz-x x)
-          (setf xyz-y y)
-          (setf xyz-z z)))
+          (setf xyz-x x
+                xyz-y y
+                xyz-z z)))
       out)))
 
 ;;; XYZ->LUV
@@ -66,7 +66,7 @@
          (v (* 13 l (- (%v-chromaticity source-channels)
                        (%v-chromaticity illuminant)))))
     (v3:with-components ((luv- (data out)))
-      (setf luv-x l)
-      (setf luv-y u)
-      (setf luv-z v)))
+      (setf luv-x l
+            luv-y u
+            luv-z v)))
   out)
