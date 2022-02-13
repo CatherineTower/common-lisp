@@ -31,8 +31,10 @@
 
 (defmethod base:convert ((from luv) (to rgb))
   (declare (optimize speed))
-  (base:convert (base:convert from (xyz)) to))
+  (let ((xyz (base:convert from (xyz))))
+    (base:convert xyz to)))
 
 (defmethod base:convert ((from rgb) (to luv))
   (declare (optimize speed))
-  (base:convert (base:convert from (xyz)) to))
+  (let ((xyz (base:convert from (xyz))))
+    (base:convert xyz to)))
