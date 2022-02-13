@@ -53,3 +53,25 @@
         (setf xyz-y y)
         (setf xyz-z z)))
     out))
+
+;;; XYZ->LUV
+
+(defun %reference-y (y illuminant)
+  (/ y (v3:y illuminant)))
+
+(defun %xyz->luv (in out)
+  (let* ((source-channels (data in))
+         (illuminant (get-white-point (illuminant-name in)))
+         (reference-y (%reference-y (v3:y source-channels) illuminant))
+         (l (if (> reference-y +epsilon/luv+)
+                (- (* 116 (expt reference-y 1/3)) 16)
+                (* +kappa/luv+ reference-y)))
+         (u (* 13 l (- (%u-chromaticity source-channels)
+                       (%u-chromaticity illuminant))))
+         (v (* 13 l (- (%v-chromaticity source-channels)
+                       (%v-chromaticity illuminant)))))
+    (v3:with-components ((luv- (data out)))
+      (setf luv-x l)
+      (setf luv-y u)
+      (setf luv-z v)))
+  out)
