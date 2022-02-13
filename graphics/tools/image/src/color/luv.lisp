@@ -58,7 +58,7 @@
 (defun %xyz->luv (in out)
   (let* ((source-channels (data in))
          (illuminant (get-white-point (illuminant-name in)))
-         (reference-y (/ y (v3:y illuminant)))
+         (reference-y (/ (v3:y source-channels) (v3:y illuminant)))
          (l (if (> reference-y +epsilon/luv+)
                 (- (* 116 (expt reference-y 1/3)) 16)
                 (* +kappa/luv+ reference-y)))
