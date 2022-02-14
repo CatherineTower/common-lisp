@@ -1,7 +1,7 @@
 (in-package #:mfiano.graphics.tools.image.color)
 
-(u:define-constant +epsilon/luv+ #.(float 216/24389 1d0))
-(u:define-constant +kappa/luv+ #.(float 24389/27 1d0))
+(u:define-constant +cie-e+ #.(float 216/24389 1d0))
+(u:define-constant +cie-k+ #.(float 24389/27 1d0))
 
 (defun %u-chromaticity (color-components)
   (m:with-vector ((3 color- color-components)) ()
