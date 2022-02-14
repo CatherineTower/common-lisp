@@ -24,9 +24,10 @@
                    (source-white-point (get-white-point source-illuminant-name))
                    (target-white-point (get-white-point target-illuminant-name)))
                (m:* (m:invert cone-response)
-                    (m:* (m:set-diagonal m:+m3-zero+
-                                         (m:/ (m:* cone-response target-white-point)
-                                              (m:* cone-response source-white-point)))
+                    (m:* (m:set-diagonal
+                          m:+m3-zero+
+                          (m:/ (m:* cone-response target-white-point)
+                               (m:* cone-response source-white-point)))
                          cone-response)))))
       (u:if-found (transform (u:href transforms key))
         transform
