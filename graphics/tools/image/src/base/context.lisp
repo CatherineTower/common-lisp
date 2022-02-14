@@ -9,7 +9,7 @@
    (%thread-pool
     :type lp:kernel
     :reader thread-pool
-    :initarg :thread-pool)
+    :accessor %thread-pool)
    (%illuminants
     :type hash-table
     :reader illuminants
@@ -34,26 +34,31 @@
     :reader rgb-transforms
     :initform (u:dict #'equal))))
 
-(defun make-thread-pool (&optional worker-count)
+(defun make-thread-pool (context &optional worker-count)
   (lp:make-kernel (or worker-count (cl-cpus:get-number-of-processors))
-                  :context #'worker-context))
+                  :name "image-worker"
+                  :context #'worker-context
+                  :bindings `((*context* . ,context))))
 
-(defvar *default-context*
-  (make-instance 'context :thread-pool (make-thread-pool 4)))
+(defun copy-context (context)
+  (make-instance 'context
+                 :illuminants (u:copy-hash-table (illuminants context))
+                 :color-spaces (u:copy-hash-table (color-spaces context))
+                 :cone-responses (u:copy-hash-table (cone-responses context))))
+
+(defun %make-context (&key default (worker-count 4))
+  (let ((context (if default (copy-context default) (make-instance 'context))))
+    (setf (%thread-pool context) (make-thread-pool context worker-count))
+    context))
+
+(defvar *default-context* (%make-context))
 
 (defvar *context*)
 
-(defun copy-default-context ()
-  (let ((default *default-context*))
-    (make-instance 'context
-                   :illuminants (u:copy-hash-table (illuminants default))
-                   :color-spaces (u:copy-hash-table (color-spaces default))
-                   :cone-responses (u:copy-hash-table (cone-responses default)))))
+;;; Public interface
 
 (defun make-context (&key worker-count)
-  (let ((context (copy-default-context)))
-    (reinitialize-instance context :thread-pool (make-thread-pool worker-count))
-    context))
+  (%make-context :default *default-context* :worker-count worker-count))
 
 (defmacro with-context ((context) &body body)
   `(let* ((*context* ,context)
