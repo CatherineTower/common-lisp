@@ -8,7 +8,8 @@
                   (3 white- (get-white-point (illuminant-name out)))) ()
     (m:with-vector ((3 xyz- (data out))) (:read-only nil)
       (when (zerop luv-x)
-        (error "Illegal L value in Luv ~a." in))
+        (m:zero! (data out))
+        (return-from luv->xyz out))
       (let* ((div (+ white-x (* white-y 15) (* white-z 3)))
              (u* (/ (* white-x 4) div))
              (v* (/ (* white-y 9) div))
@@ -34,10 +35,10 @@
                     (- (* 116 (expt reference-y 1/3)) 16)
                     (* +cie-k+ reference-y)))
              (div-uv (+ xyz-x (* xyz-y 15) (* xyz-z 3)))
-             (div-w (+ white-x (* white-y 15) (* white-z 3)))
-             (u (* l 13 (- (/ (* xyz-x 4) div-uv) (/ (* white-x 4) div-w))))
-             (v (* l 13 (- (/ (* xyz-y 9) div-uv) (/ (* white-y 9) div-w)))))
-        (setf luv-x l
-              luv-y u
-              luv-z v)
+             (div-w (+ white-x (* white-y 15) (* white-z 3))))
+        (if (zerop div-uv)
+            (m:zero! (data out))
+            (setf luv-x l
+                  luv-y (* l 13 (- (/ (* xyz-x 4) div-uv) (/ (* white-x 4) div-w)))
+                  luv-z (* l 13 (- (/ (* xyz-y 9) div-uv) (/ (* white-y 9) div-w)))))
         out))))

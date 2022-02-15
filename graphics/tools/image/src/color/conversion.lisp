@@ -26,13 +26,13 @@
 ;;; Luv <-> RGB
 
 (defmethod base:convert ((from luv) (to rgb))
-  (with-temporary-color (xyz xyz)
+  (with-temporary-color (xyz 'xyz)
     (adapt-chromaticity xyz (illuminant-name to))
     (base:convert from xyz)
     (base:convert xyz to)))
 
 (defmethod base:convert ((from rgb) (to luv))
-  (with-temporary-color (xyz xyz)
+  (with-temporary-color (xyz 'xyz)
     (adapt-chromaticity xyz (illuminant-name from))
     (base:convert from xyz)
     (base:convert xyz to)))
