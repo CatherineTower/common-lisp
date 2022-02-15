@@ -9,6 +9,9 @@
     :type (and symbol (not null))
     :reader space-name
     :initarg :space)
+   (%default-illuminant-name
+    :type (and symbol (not null))
+    :reader default-illuminant-name)
    (%illuminant-name
     :type (and symbol (not null))
     :reader illuminant-name
@@ -19,10 +22,13 @@
     :reader channel-names
     :initarg :channel-names)))
 
-(defclass xyz (model) ()
+(defmethod initialize-instance :after ((instance model) &key illuminant)
+  (setf (slot-value instance '%default-illuminant-name) illuminant))
+
+(defclass luv (model) ()
   (:default-initargs
-   :model-name 'xyz
-   :channel-names '(x y z)))
+   :model-name 'luv
+   :channel-names '(l u v)))
 
 (defclass rgb (model)
   ((%coords
@@ -37,10 +43,10 @@
    :model-name 'rgb
    :channel-names '(r g b)))
 
-(defclass luv (model) ()
+(defclass xyz (model) ()
   (:default-initargs
-   :model-name 'luv
-   :channel-names '(l u v)))
+   :model-name 'xyz
+   :channel-names '(x y z)))
 
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
@@ -50,8 +56,11 @@
                (channel-names model)
                (m:to-array (data model) :single-float))))
 
+(defun get-color-space-args (space-name)
+  (u:href (base:color-spaces base:*context*) space-name))
+
 (defun make-color (model-name space-name)
-  (u:if-found (args (u:href (base:color-spaces base:*context*) space-name))
+  (u:if-found (args (get-color-space-args space-name))
     (destructuring-bind (required-model-name . rest) args
       (declare (ignore rest))
       (if (eq model-name required-model-name)

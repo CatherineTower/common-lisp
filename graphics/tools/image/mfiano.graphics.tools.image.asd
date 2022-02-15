@@ -16,11 +16,11 @@
   ((:module "base"
     :components
     ((:file "package")
+     (:file "protocol")
      (:file "conditions")
      (:file "worker-state")
      (:file "context")
-     (:file "mixin")
-     (:file "protocol")))
+     (:file "mixin")))
    (:module "color"
     :components
     ((:file "package")
@@ -31,6 +31,7 @@
      (:file "chromatic-adaptation")
      (:file "models")
      (:file "spaces")
+     (:file "temporary-pool")
      (:file "rgb")
      (:file "luv")
      (:file "constructors")

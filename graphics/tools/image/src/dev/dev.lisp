@@ -14,4 +14,4 @@
 
 (in-package #:mfiano.graphics.tools.image.user)
 
-(defvar *context* (img:make-context))
+(defvar *context* (img:make-context :worker-count 2))

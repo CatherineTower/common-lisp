@@ -23,6 +23,10 @@
    #:rgb-transforms
    #:unmix
    #:with-context)
+  ;; Worker state
+  (:export
+   #:*worker-state*
+   #:colors)
   ;; Conditions
   (:export
    #:color-error

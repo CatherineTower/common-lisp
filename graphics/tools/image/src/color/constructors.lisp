@@ -2,7 +2,7 @@
 
 ;;; Luv
 
-(defun luv (l u v)
+(defun luv (l u v &key)
   (let ((color (make-color 'luv 'luv)))
     (base:mix color 'storage3 :channel0 l :channel1 u :channel2 v)))
 
@@ -20,7 +20,7 @@
 
 ;;; XYZ
 
-(defun xyz (x y z)
+(defun xyz (x y z &key)
   (let ((color (make-color 'xyz 'xyz)))
     (base:mix color 'storage3 :channel0 x :channel1 y :channel2 z)))
 
