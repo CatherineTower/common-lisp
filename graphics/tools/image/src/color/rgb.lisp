@@ -85,3 +85,15 @@
     (m:*! transform (data from) (data to))
     (setf (%illuminant-name to) illuminant-name)
     to))
+
+(declaim (inline rgb->xyz))
+(defun rgb->xyz (rgb xyz)
+  (declare (optimize speed))
+  (linearize-rgb rgb)
+  (transform-rgb-xyz rgb xyz (illuminant-name rgb)))
+
+(declaim (inline xyz->rgb))
+(defun xyz->rgb (xyz rgb)
+  (declare (optimize speed))
+  (transform-rgb-xyz xyz rgb (illuminant-name rgb))
+  (delinearize-rgb rgb))

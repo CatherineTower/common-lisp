@@ -3,7 +3,7 @@
 (u:define-constant +cie-e+ #.(float 216/24389 1d0))
 (u:define-constant +cie-k+ #.(float 24389/27 1d0))
 
-(defun %luv->xyz (in out)
+(defun luv->xyz (in out)
   (m:with-vector ((3 luv- (data in))
                   (3 white- (get-white-point (illuminant-name out)))) ()
     (m:with-vector ((3 xyz- (data out))) (:read-only nil)
@@ -25,7 +25,7 @@
               xyz-z z)
         out))))
 
-(defun %xyz->luv (in out)
+(defun xyz->luv (in out)
   (m:with-vector ((3 xyz- (data in))
                   (3 white- (get-white-point (illuminant-name in)))) ()
     (m:with-vector ((3 luv- (data out))) (:read-only nil)
