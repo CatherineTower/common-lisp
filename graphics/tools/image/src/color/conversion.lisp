@@ -45,7 +45,9 @@
 ;; investigate this.
 (defmethod base:convert ((from luv) (to rgb))
   (declare (optimize speed))
-  (let ((xyz (base:convert from (xyz))))
+  (let ((xyz (xyz)))
+    (setf (%illuminant-name xyz) (illuminant-name to))
+    (base:convert from xyz)
     (base:convert xyz to)))
 
 ;; TODO: adapt-chromaticity was removed because it was giving wrong results sometimes. We need to
