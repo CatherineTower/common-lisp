@@ -27,32 +27,26 @@
 
 ;;; Luv<->XYZ
 
-;; TODO: adapt-chromaticity was removed because it was giving wrong results sometimes. We need to
-;; investigate this.
 (defmethod base:convert ((from luv) (to xyz))
   (declare (optimize speed))
   (%luv->xyz from to))
 
-;; TODO: adapt-chromaticity was removed because it was giving wrong results sometimes. We need to
-;; investigate this.
 (defmethod base:convert ((from xyz) (to luv))
   (declare (optimize speed))
   (%xyz->luv from to))
 
 ;;; Luv<->RGB
 
-;; TODO: adapt-chromaticity was removed because it was giving wrong results sometimes. We need to
-;; investigate this.
 (defmethod base:convert ((from luv) (to rgb))
   (declare (optimize speed))
   (let ((xyz (xyz)))
-    (setf (%illuminant-name xyz) (illuminant-name to))
+    (adapt-chromaticity xyz (illuminant-name to))
     (base:convert from xyz)
     (base:convert xyz to)))
 
-;; TODO: adapt-chromaticity was removed because it was giving wrong results sometimes. We need to
-;; investigate this.
 (defmethod base:convert ((from rgb) (to luv))
   (declare (optimize speed))
-  (let ((xyz (base:convert from (xyz))))
+  (let ((xyz (xyz)))
+    (adapt-chromaticity xyz (illuminant-name from))
+    (base:convert from xyz)
     (base:convert xyz to)))
