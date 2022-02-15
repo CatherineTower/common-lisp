@@ -1,6 +1,6 @@
 (in-package #:mfiano.graphics.tools.image.color)
 
-;;; Linearize/delinearize transfer functions.
+;;; Linearize/delinearize RGB space.
 
 (defun linearize-rgb (color)
   (let ((data (m:to-array! (data color) :double-float))
