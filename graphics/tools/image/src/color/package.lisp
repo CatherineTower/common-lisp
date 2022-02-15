@@ -55,6 +55,7 @@
    #:xyz-scaling)
   ;; Constructors
   (:export
+   #:default
    #:luv
    #:rgb
    #:rgba
