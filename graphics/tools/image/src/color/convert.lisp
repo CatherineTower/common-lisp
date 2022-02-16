@@ -5,11 +5,6 @@
 (defmethod base:convert ((from rgb) (to xyz))
   (rgb->xyz from to))
 
-(defmethod base:convert ((from rgb) (to (eql 'xyz)))
-  (with-pool-color (xyz to)
-    (base:convert from xyz)
-    (extract-values xyz)))
-
 (defmethod base:convert ((from xyz) (to rgb))
   (xyz->rgb from to))
 
