@@ -25,29 +25,6 @@
 (defmethod initialize-instance :after ((instance model) &key illuminant)
   (setf (slot-value instance '%default-illuminant-name) illuminant))
 
-(defclass luv (model) ()
-  (:default-initargs
-   :model-name 'luv
-   :channel-names '(l u v)))
-
-(defclass rgb (model)
-  ((%coords
-    :type list
-    :reader coords
-    :initarg :coords)
-   (%gamma
-    :type (or u:positive-float symbol)
-    :reader gamma
-    :initarg :gamma))
-  (:default-initargs
-   :model-name 'rgb
-   :channel-names '(r g b)))
-
-(defclass xyz (model) ()
-  (:default-initargs
-   :model-name 'xyz
-   :channel-names '(x y z)))
-
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
           (model-name model)
@@ -55,6 +32,11 @@
           (map 'list (lambda (x y) (list x (float y 1f0)))
                (channel-names model)
                (data model))))
+
+(defun register-color-space (model-name space-name &rest args)
+  (let ((args (list* model-name :space space-name args)))
+    (setf (u:href (base:color-spaces base:*context*) space-name) args)
+    (values)))
 
 (defun get-color-space-args (space-name)
   (u:href (base:color-spaces base:*context*) space-name))
@@ -67,3 +49,28 @@
           (apply #'make-instance args)
           (error "Color space ~s is not valid for color model ~s." space-name model-name)))
     (error "Color space ~s is not defined." space-name)))
+
+(defmacro define-builtin-color-spaces (() &body body)
+  `(base:with-context (base:*default-context*)
+     ,@(mapcar
+        (lambda (x)
+          (destructuring-bind (space-name &rest args &key model &allow-other-keys) x
+            (let ((args (loop :for (k v) :on args :by #'cddr :collect k :collect `',v))
+                  (model-name (or model space-name)))
+              `(register-color-space ',model-name ',space-name ,@(u:plist-remove args :model)))))
+        body)))
+
+(defmacro define-rgb-value-converters ((from))
+  (u:with-gensyms (color)
+    (let* ((model-spaces (u:hash-values (base:color-spaces base:*default-context*)))
+           (rgb-spaces (mapcar
+                        (lambda (x) (u:plist-get (cdr x) :space))
+                        (remove-if-not (lambda (x) (eq x 'rgb)) model-spaces :key #'car))))
+      `(progn
+         ,@(mapcar
+            (lambda (x)
+              (destructuring-bind (from to) x
+                `(defmethod base:convert ((from ,from) (to (eql ',to)))
+                   (with-pool-color (,color to)
+                     (extract-values (base:convert from ,color))))))
+            (u:map-product #'list `(,from) rgb-spaces))))))

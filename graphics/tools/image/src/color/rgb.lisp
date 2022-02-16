@@ -94,13 +94,16 @@
 (declaim (inline rgb->xyz))
 (defun rgb->xyz (rgb xyz)
   (declare (optimize speed))
-  (with-temporary-color (temp-rgb (space-name rgb) :copy rgb)
+  (with-pool-color (temp-rgb (space-name rgb) :copy rgb)
     (linearize-rgb temp-rgb)
     (transform-rgb-xyz temp-rgb xyz (illuminant-name rgb))))
 
 (declaim (inline xyz->rgb))
 (defun xyz->rgb (xyz rgb)
   (declare (optimize speed))
-  (with-temporary-color (temp-rgb (space-name rgb) :copy rgb)
+  (with-pool-color (temp-rgb (space-name rgb) :copy rgb)
     (transform-rgb-xyz xyz temp-rgb (illuminant-name rgb))
     (delinearize-rgb temp-rgb)))
+
+(defmacro generate-xyz->rgb-converters ()
+  )

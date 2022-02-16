@@ -9,11 +9,6 @@
    (#:v3 #:mfiano.math.origin.dvec3)
    (#:v4 #:mfiano.math.origin.dvec4))
   (:use #:cl)
-  ;; Context
-  (:export
-   #:register-chromatic-adaptation-method
-   #:register-color-space
-   #:register-illuminant)
   ;; Illuminants
   (:export
    #:a

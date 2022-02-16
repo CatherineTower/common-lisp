@@ -24,8 +24,14 @@
 
 (defgeneric copy-storage (from to))
 
+(defgeneric extract-values (storage))
+
 ;;; Linearize/delinearize the tonal response curve of a RGB channel.
 
 (defgeneric linearize-rgb-channel (value gamma))
 
 (defgeneric delinearize-rgb-channel (value gamma))
+
+(defgeneric default (model &rest args)
+  (:method ((model symbol) &rest args)
+    (apply model 0 0 0 args)))

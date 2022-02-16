@@ -146,3 +146,15 @@
 
 (defmethod copy-storage ((from storage4) (to storage4))
   (v4:copy! (data to) (data from)))
+
+(defmethod extract-values ((storage storage2))
+  (v2:with-components ((v (data storage)))
+    (values (float vx 1f0) (float vy 1f0))))
+
+(defmethod extract-values ((storage storage3))
+  (v3:with-components ((v (data storage)))
+    (values (float vx 1f0) (float vy 1f0) (float vz 1f0))))
+
+(defmethod extract-values ((storage storage4))
+  (v4:with-components ((v (data storage)))
+    (values (float vx 1f0) (float vy 1f0) (float vz 1f0) (float vw 1f0))))
