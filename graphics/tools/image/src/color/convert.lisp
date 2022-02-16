@@ -36,12 +36,13 @@
 
 (defmethod base:convert ((from rgb) (to luv))
   (with-pool-color (xyz 'xyz)
-    (setf (%illuminant-name xyz) (illuminant-name from))
     (base:convert from xyz)
     (base:convert xyz to)))
 
 (defmethod base:convert ((from luv) (to rgb))
   (with-pool-color (xyz 'xyz)
+    ;; Whenever we convert from a non-RGB space to XYZ as part of an intermediary conversion, we
+    ;; must set the temporary XYZ color's illuminant name to that of the target RGB.
     (setf (%illuminant-name xyz) (illuminant-name to))
     (base:convert from xyz)
     (base:convert xyz to)))
