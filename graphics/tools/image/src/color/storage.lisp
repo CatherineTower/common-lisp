@@ -12,23 +12,23 @@
 ;; Provides storage for a color with 2 channels.
 (defclass storage2 (storage)
   ((%data
-    :type m:vector2
+    :type v2:vec
     :reader data
-    :initform (m:vec/zero 2))))
+    :initform (v2:zero))))
 
 ;; Provides storage for a color with 3 channels.
 (defclass storage3 (storage)
   ((%data
-    :type m:vector3
+    :type v3:vec
     :reader data
-    :initform (m:vec/zero 3))))
+    :initform (v3:zero))))
 
 ;; Provides storage for a color with 4 channels.
 (defclass storage4 (storage)
   ((%data
-    :type m:vector4
+    :type v4:vec
     :reader data
-    :initform (m:vec/zero 4))))
+    :initform (v4:zero))))
 
 ;;; Sized color initialization
 
@@ -73,58 +73,76 @@
   (aref (data storage) 0))
 
 (defmethod channel0 ((storage storage2))
-  (m:x (data storage)))
+  (v2:x (data storage)))
 
 (defmethod channel0 ((storage storage3))
-  (m:x (data storage)))
+  (v3:x (data storage)))
 
 (defmethod channel0 ((storage storage4))
-  (m:x (data storage)))
+  (v4:x (data storage)))
 
 (defmethod (setf channel0) ((value real) (storage storage1))
   (setf (aref (data storage) 0) (float value 1d0)))
 
 (defmethod (setf channel0) ((value real) (storage storage2))
-  (setf (m:x (data storage)) (float value 1d0)))
+  (setf (v2:x (data storage)) (float value 1d0)))
 
 (defmethod (setf channel0) ((value real) (storage storage3))
-  (setf (m:x (data storage)) (float value 1d0)))
+  (setf (v3:x (data storage)) (float value 1d0)))
 
 (defmethod (setf channel0) ((value real) (storage storage4))
-  (setf (m:x (data storage)) (float value 1d0)))
+  (setf (v4:x (data storage)) (float value 1d0)))
 
 (defmethod channel1 ((storage storage2))
-  (m:y (data storage)))
+  (v2:y (data storage)))
 
 (defmethod channel1 ((storage storage3))
-  (m:y (data storage)))
+  (v3:y (data storage)))
 
 (defmethod channel1 ((storage storage4))
-  (m:y (data storage)))
+  (v4:y (data storage)))
 
 (defmethod (setf channel1) ((value real) (storage storage2))
-  (setf (m:y (data storage)) (float value 1d0)))
+  (setf (v2:y (data storage)) (float value 1d0)))
 
 (defmethod (setf channel1) ((value real) (storage storage3))
-  (setf (m:y (data storage)) (float value 1d0)))
+  (setf (v3:y (data storage)) (float value 1d0)))
 
 (defmethod (setf channel1) ((value real) (storage storage4))
-  (setf (m:y (data storage)) (float value 1d0)))
+  (setf (v4:y (data storage)) (float value 1d0)))
 
 (defmethod channel2 ((storage storage3))
-  (m:z (data storage)))
+  (v3:z (data storage)))
 
 (defmethod channel2 ((storage storage4))
-  (m:z (data storage)))
+  (v4:z (data storage)))
 
 (defmethod (setf channel2) ((value real) (storage storage3))
-  (setf (m:z (data storage)) (float value 1d0)))
+  (setf (v3:z (data storage)) (float value 1d0)))
 
 (defmethod (setf channel2) ((value real) (storage storage4))
-  (setf (m:z (data storage)) (float value 1d0)))
+  (setf (v4:z (data storage)) (float value 1d0)))
 
 (defmethod channel3 ((storage storage4))
-  (m:w (data storage)))
+  (v4:w (data storage)))
 
 (defmethod (setf channel3) ((value real) (storage storage4))
-  (setf (m:w (data storage)) (float value 1d0)))
+  (setf (v4:w (data storage)) (float value 1d0)))
+
+(defmethod zero-storage ((storage storage2))
+  (v2:zero! (data storage)))
+
+(defmethod zero-storage ((storage storage3))
+  (v3:zero! (data storage)))
+
+(defmethod zero-storage ((storage storage4))
+  (v4:zero! (data storage)))
+
+(defmethod copy-storage ((from storage2) (to storage2))
+  (v2:copy! (data to) (data from)))
+
+(defmethod copy-storage ((from storage3) (to storage3))
+  (v3:copy! (data to) (data from)))
+
+(defmethod copy-storage ((from storage4) (to storage4))
+  (v4:copy! (data to) (data from)))

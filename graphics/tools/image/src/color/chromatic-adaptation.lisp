@@ -1,7 +1,7 @@
 (in-package #:mfiano.graphics.tools.image.color)
 
 (defun register-chromatic-adaptation-method (name matrix)
-  (check-type matrix m:matrix3)
+  (check-type matrix m3:mat)
   (setf (u:href (base:cone-responses base:*context*) name) matrix))
 
 (defmacro define-builtin-chromatic-adaptation-methods (() &body body)
@@ -11,7 +11,7 @@
           (destructuring-bind (name (column0 column1 column2)) x
             `(register-chromatic-adaptation-method
               ',name
-              (m:mat/from-vecs (m:vec ,@column0) (m:vec ,@column1) (m:vec ,@column2)))))
+              (m3:mat (v3:vec ,@column0) (v3:vec ,@column1) (v3:vec ,@column2)))))
         body)))
 
 (defun get-chromatic-adaptation-transform (method source-illuminant-name target-illuminant-name)
@@ -23,12 +23,12 @@
              (let ((cone-response (u:href (base:cone-responses base:*context*) method))
                    (source-white-point (get-white-point source-illuminant-name))
                    (target-white-point (get-white-point target-illuminant-name)))
-               (m:* (m:invert cone-response)
-                    (m:* (m:set-diagonal
-                          m:+m3-zero+
-                          (m:/ (m:* cone-response target-white-point)
-                               (m:* cone-response source-white-point)))
-                         cone-response)))))
+               (m3:* (m3:invert cone-response)
+                     (m3:* (m3:set-diagonal
+                            m3:+zero+
+                            (v3:/ (m3:*v3 cone-response target-white-point)
+                                  (m3:*v3 cone-response source-white-point)))
+                           cone-response)))))
       (u:if-found (transform (u:href transforms key))
         transform
         (setf (u:href transforms (copy-list key)) (calculate-transform))))))
@@ -41,6 +41,6 @@
       (return-from adapt-chromaticity color))
     (let ((data (data color))
           (transform (get-chromatic-adaptation-transform method source target)))
-      (m:*! transform data data)
+      (m3:*v3! data transform data)
       (setf (%illuminant-name color) illuminant-name)
       color)))

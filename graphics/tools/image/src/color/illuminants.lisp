@@ -14,7 +14,7 @@
     :reader y
     :initarg :y)
    (%white-point
-    :type m:vector3
+    :type v3:vec
     :reader white-point
     :initarg :white-point)))
 
@@ -23,7 +23,7 @@
 
 (defun register-illuminant (name x y)
   (assert (and (plusp x) (plusp y)))
-  (let* ((white-point (m:vec (/ x y) 1 (/ (- 1 x y) y)))
+  (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
          (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
     (setf (u:href (base:illuminants base:*context*) name) illuminant)
     (values)))

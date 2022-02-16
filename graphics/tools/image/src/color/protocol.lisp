@@ -18,6 +18,12 @@
 
 (defgeneric (setf channel3) (value storage))
 
+;;; Storage
+
+(defgeneric zero-storage (storage))
+
+(defgeneric copy-storage (from to))
+
 ;;; Linearize/delinearize the tonal response curve of a RGB channel.
 
 (defgeneric linearize-rgb-channel (value gamma))

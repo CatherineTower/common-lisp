@@ -20,7 +20,10 @@
   `(case ,profile-type
      (:deterministic
       (sb-profile:reset)
-      (sb-profile:profile "MFIANO.MATH.GFXMATH"
+      (sb-profile:profile "MFIANO.MATH.ORIGIN.DVEC2"
+                          "MFIANO.MATH.ORIGIN.DVEC3"
+                          "MFIANO.MATH.ORIGIN.DVEC4"
+                          "MFIANO.MATH.ORIGIN.DMAT3"
                           "%MFIANO.GRAPHICS.TOOLS.IMAGE.INTERNAL.BASE"
                           "MFIANO.GRAPHICS.TOOLS.IMAGE.BASE"
                           "MFIANO.GRAPHICS.TOOLS.IMAGE.COLOR"

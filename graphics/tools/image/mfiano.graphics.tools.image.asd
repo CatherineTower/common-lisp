@@ -7,7 +7,7 @@
   :depends-on (#:cl-cpus
                #:closer-mop
                #:lparallel
-               #:mfiano.math.gfxmath
+               #:mfiano.math.origin
                #:mfiano.misc.utils)
   :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.tools.image.test)))
   :pathname "src"
