@@ -18,7 +18,7 @@
         (return-from luv->xyz out))
       (let* ((div (+ wx (* wy 15) (* wz 3)))
              (a (* (1- (/ (* 52 ix) (+ iy (* 13 ix (/ (* wx 4) div))))) #.(/ 3)))
-             (y (if (> ix (* +cie-k+ +cie-e+))
+             (y (if (> ix #.(* +cie-k+ +cie-e+))
                     (expt (* (+ ix 16) #.(/ 116)) 3)
                     (* ix #.(/ +cie-k+))))
              (d (* (- (/ (* 39 ix) (+ iz (* 13 ix (/ (* wy 9) div)))) 5) y))
