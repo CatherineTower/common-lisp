@@ -11,7 +11,7 @@
 ;;; RGB <-> RGB (the RGB model has multiple color spaces)
 
 (defmethod base:convert ((from rgb) (to rgb))
-  (let ((xyz (default 'xyz)))
+  (with-temporary-color (xyz 'xyz)
     (base:convert from xyz)
     (base:convert xyz to)))
 

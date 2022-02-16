@@ -31,7 +31,7 @@
 
 (defmacro with-temporary-color ((binding space-name &key copy) &body body)
   (u:with-gensyms (model-name)
-    `(if (boundp '*worker-state*)
+    `(if (boundp 'base:*worker-state*)
          (let ((,binding (request-temporary-color ,space-name :copy ,copy)))
            (unwind-protect (progn ,@body)
              (return-temporary-color ,binding)))
