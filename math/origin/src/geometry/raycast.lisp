@@ -32,7 +32,7 @@
            (t3 (/ (- min-y oy) dy))
            (t4 (/ (- max-y oy) dy))
            (t5 (/ (- min-z oz) dz))
-           (t6 (/ (- max-x oz) dz))
+           (t6 (/ (- max-z oz) dz))
            (t-min (max (max (min t1 t2) (min t3 t4)) (min t5 t6)))
            (t-max (min (min (max t1 t2) (max t3 t4)) (max t5 t6))))
       (cond
