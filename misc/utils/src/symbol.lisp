@@ -1,17 +1,23 @@
 (in-package #:mfiano.misc.utils)
 
-(defun collect-symbols (&optional (package *package*))
+(defun collect-symbols (package &key key test)
   "Collect a list of all symbols of `PACKAGE`."
-  (let (symbols)
+  (let ((key (or key #'identity))
+        (test (or test (constantly t)))
+        (symbols nil))
     (do-symbols (symbol package)
-      (push symbol symbols))
+      (when (funcall test symbol)
+        (push (funcall key symbol) symbols)))
     (nreverse symbols)))
 
-(defun collect-external-symbols (&optional (package *package*))
+(defun collect-external-symbols (package &key key test)
   "Collect a list of all external symbols of `PACKAGE`."
-  (let (symbols)
+  (let ((key (or key #'identity))
+        (test (or test (constantly t)))
+        (symbols nil))
     (do-external-symbols (symbol package)
-      (push symbol symbols))
+      (when (funcall test symbol)
+        (push (funcall key symbol) symbols)))
     (nreverse symbols)))
 
 (defun make-keyword (object)
