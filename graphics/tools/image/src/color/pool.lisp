@@ -22,7 +22,7 @@
 
 (defun get-pool-color (space-name &key copy)
   (declare (optimize speed))
-  (let* ((model-name (car (get-color-space-args space-name)))
+  (let* ((model-name (car (get-color-space-spec space-name)))
          (pool (ensure-color-pool model-name space-name)))
     (declare ((vector t) pool))
     (when (zerop (fill-pointer pool))
@@ -35,7 +35,7 @@
 
 (defun put-pool-color (color)
   (declare (optimize speed))
-  (let ((pool (ensure-color-pool (model-name color) (space-name color))))
+  (let ((pool (ensure-color-pool (type-of color) (space-name color))))
     (declare (vector pool))
     (vector-push-extend color pool (array-total-size pool))
     (values)))
@@ -46,7 +46,7 @@
          (let ((,binding (get-pool-color ,space-name :copy ,copy)))
            (unwind-protect (progn ,@body)
              (put-pool-color ,binding)))
-         (let* ((,model-name (car (get-color-space-args ,space-name)))
+         (let* ((,model-name (car (get-color-space-spec ,space-name)))
                 (,binding (make-pool-color ,model-name ,space-name)))
            ,@(when copy
                `((copy-storage ,copy ,binding)))

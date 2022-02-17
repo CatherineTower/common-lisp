@@ -32,40 +32,32 @@
 
 ;;; Sized color initialization
 
-(defmethod update-instance-for-different-class :after (previous (current storage1)
-                                                       &key (channel0 0d0))
-  (unless (base:has-mixin-p previous 'storage1)
-    (setf (channel0 current) (float channel0 1d0))))
+(defmethod initialize-instance :after ((instance storage1) &key (channel0 0d0))
+  (setf (channel0 instance) (float channel0 1d0)))
 
-(defmethod update-instance-for-different-class :after (previous (current storage2)
-                                                       &key
-                                                         (channel0 0d0)
-                                                         (channel1 0d0))
-  (unless (base:has-mixin-p previous 'storage2)
-    (setf (channel0 current) (float channel0 1d0)
-          (channel1 current) (float channel1 1d0))))
+(defmethod initialize-instance :after ((instance storage2) &key (channel0 0d0) (channel1 0d0))
+  (setf (channel0 instance) (float channel0 1d0)
+        (channel1 instance) (float channel1 1d0)))
 
-(defmethod update-instance-for-different-class :after (previous (current storage3)
-                                                       &key
-                                                         (channel0 0d0)
-                                                         (channel1 0d0)
-                                                         (channel2 0d0))
-  (unless (base:has-mixin-p previous 'storage3)
-    (setf (channel0 current) (float channel0 1d0)
-          (channel1 current) (float channel1 1d0)
-          (channel2 current) (float channel2 1d0))))
+(defmethod initialize-instance :after ((instance storage3)
+                                       &key
+                                         (channel0 0d0)
+                                         (channel1 0d0)
+                                         (channel2 0d0))
+  (setf (channel0 instance) (float channel0 1d0)
+        (channel1 instance) (float channel1 1d0)
+        (channel2 instance) (float channel2 1d0)))
 
-(defmethod update-instance-for-different-class :after (previous (current storage4)
-                                                       &key
-                                                         (channel0 0d0)
-                                                         (channel1 0d0)
-                                                         (channel2 0d0)
-                                                         (channel3 0d0))
-  (unless (base:has-mixin-p previous 'storage4)
-    (setf (channel0 current) (float channel0 1d0)
-          (channel1 current) (float channel1 1d0)
-          (channel2 current) (float channel2 1d0)
-          (channel3 current) (float channel3 1d0))))
+(defmethod initialize-instance :after ((instance storage4)
+                                       &key
+                                         (channel0 0d0)
+                                         (channel1 0d0)
+                                         (channel2 0d0)
+                                         (channel3 0d0))
+  (setf (channel0 instance) (float channel0 1d0)
+        (channel1 instance) (float channel1 1d0)
+        (channel2 instance) (float channel2 1d0)
+        (channel3 instance) (float channel3 1d0)))
 
 ;;; Sized color accessors
 

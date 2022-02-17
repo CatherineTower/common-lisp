@@ -1,16 +1,11 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
 (defclass model ()
-  ((%model-name
-    :type (and symbol (not null))
-    :reader model-name
-    :initarg :model-name)
-   (%space-name
+  ((%space-name
     :type (and symbol (not null))
     :reader space-name
     :initarg :space)
    (%default-illuminant-name
-    :type (and symbol (not null))
     :reader default-illuminant-name)
    (%illuminant-name
     :type (and symbol (not null))
@@ -22,33 +17,32 @@
     :reader channel-names
     :initarg :channel-names)))
 
-(defmethod initialize-instance :after ((instance model) &key illuminant)
-  (setf (slot-value instance '%default-illuminant-name) illuminant))
-
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
-          (model-name model)
+          (type-of model)
           (space-name model)
           (map 'list (lambda (x y) (list x (float y 1f0)))
                (channel-names model)
                (data model))))
 
+(declaim (inline get-color-space-spec))
+(defun get-color-space-spec (space-name)
+  (u:href (base:color-spaces base:*context*) space-name))
+
+(defmethod initialize-instance :after ((instance model) &key space)
+  (let ((model (type-of instance)))
+    (u:if-found (spec (get-color-space-spec (or space model)))
+      (destructuring-bind (space-model . space-args) spec
+        (if (eq model space-model)
+            (apply #'reinitialize-instance instance space-args)
+            (error "Color space ~s is not valid for color model ~s." space model)))
+      (error "Color space ~s is not defined." space))
+    (setf (slot-value instance '%default-illuminant-name) (illuminant-name instance))))
+
 (defun register-color-space (model-name space-name &rest args)
   (let ((args (list* model-name :space space-name args)))
     (setf (u:href (base:color-spaces base:*context*) space-name) args)
     (values)))
-
-(defun get-color-space-args (space-name)
-  (u:href (base:color-spaces base:*context*) space-name))
-
-(defun make-color (model-name space-name)
-  (u:if-found (args (get-color-space-args space-name))
-    (destructuring-bind (required-model-name . rest) args
-      (declare (ignore rest))
-      (if (eq model-name required-model-name)
-          (apply #'make-instance args)
-          (error "Color space ~s is not valid for color model ~s." space-name model-name)))
-    (error "Color space ~s is not defined." space-name)))
 
 (defmacro define-builtin-color-spaces (() &body body)
   `(base:with-context (base:*default-context*)

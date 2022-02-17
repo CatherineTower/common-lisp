@@ -4,6 +4,13 @@
   (u:define-constant +cie-e+ #.(float 216/24389 1d0))
   (u:define-constant +cie-k+ #.(float 24389/27 1d0)))
 
+(defclass luv (model storage3) ()
+  (:default-initargs
+   :channel-names '(l u v)))
+
+(defun luv (l u v &key)
+  (make-instance 'luv :channel0 l :channel1 u :channel2 v))
+
 (defun luv->xyz (in out)
   (declare (optimize speed))
   (let ((in-data (data in))

@@ -1,12 +1,7 @@
 (in-package #:%mfiano.graphics.tools.image.base)
 
 (defclass context ()
-  ((%mixins
-    :type hash-table
-    :reader mixins
-    :allocation :class
-    :initform (u:dict #'equal))
-   (%thread-pool
+  ((%thread-pool
     :type lp:kernel
     :reader thread-pool
     :accessor %thread-pool)

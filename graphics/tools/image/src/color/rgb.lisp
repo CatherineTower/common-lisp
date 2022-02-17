@@ -1,5 +1,39 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
+(defclass rgb-base (model)
+  ((%coords
+    :type list
+    :reader coords
+    :initarg :coords)
+   (%gamma
+    :type (or u:positive-float symbol)
+    :reader gamma
+    :initarg :gamma))
+  (:default-initargs
+   :channel-names '(r g b)))
+
+(defclass rgb (rgb-base storage3) ())
+
+(defun rgb (r g b &key (space 'srgb))
+  (make-instance 'rgb :space space :channel0 r :channel1 g :channel2 b))
+
+(defclass rgba (rgb-base storage4 alpha) ()
+  (:default-initargs
+   :channel-names '(r g b a)
+   :alpha-index 3))
+
+(defun rgba (r b g a &key (space 'srgb) pre-multiply-alpha)
+  (make-instance 'rgba
+                 :space space
+                 :channel0 r
+                 :channel1 g
+                 :channel2 b
+                 :channel3 a
+                 :pre-multiply-alpha pre-multiply-alpha))
+
+(defmethod default ((model (eql 'rgba)) &rest args)
+  (apply #'rgba 0 0 0 1 args))
+
 ;;; Linearize/delinearize RGB space.
 
 (defun linearize-rgb (color)
@@ -104,6 +138,3 @@
   (with-pool-color (temp-rgb (space-name rgb) :copy rgb)
     (transform-rgb-xyz xyz temp-rgb (illuminant-name rgb))
     (delinearize-rgb temp-rgb)))
-
-(defmacro generate-xyz->rgb-converters ()
-  )

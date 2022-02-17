@@ -10,9 +10,6 @@
    #:with-context
    ;; Conditions
    #:color-error
-   #:final-mixin-removed
-   #:mixin-error
-   #:mixin-not-present
    ;; Protocol
    #:convert)
   (:inherit-external

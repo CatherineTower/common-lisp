@@ -13,12 +13,9 @@
    #:color-spaces
    #:cone-responses
    #:context
-   #:has-mixin-p
    #:illuminants
    #:make-context
-   #:mix
    #:rgb-transforms
-   #:unmix
    #:with-context)
   ;; Worker state
   (:export
@@ -26,10 +23,7 @@
    #:color-pools)
   ;; Conditions
   (:export
-   #:color-error
-   #:final-mixin-removed
-   #:mixin-error
-   #:mixin-not-present)
+   #:color-error)
   ;; Protocol
   (:export
    #:convert))

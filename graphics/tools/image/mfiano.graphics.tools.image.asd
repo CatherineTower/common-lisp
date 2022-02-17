@@ -20,8 +20,7 @@
      (:file "protocol")
      (:file "conditions")
      (:file "worker-state")
-     (:file "context")
-     (:file "mixin")))
+     (:file "context")))
    (:module "color"
     :components
     ((:file "package")
@@ -30,12 +29,12 @@
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
+     (:file "model")
      (:file "pool")
-     (:file "color")
-     (:file "types")
-     (:file "definitions")
-     (:file "rgb")
+     (:file "xyz")
      (:file "luv")
+     (:file "rgb")
+     (:file "definitions")
      (:file "convert")))
    (:module "image"
     :components
