@@ -105,3 +105,13 @@ GETHASH."
             (let ((*package* ,package))
               ,@body)
          (delete-package ,package)))))
+
+(defmacro define-package (package &body options)
+  `(defpackage ,package
+     ,@(remove :inherit-from options :key #'car)
+     ,@(mappend
+        (lambda (x)
+          (destructuring-bind (from . symbols) (rest x)
+            `((:shadowing-import-from ,from ,@symbols)
+              (:export ,@symbols))))
+        (remove :inherit-from options :key #'car :test (complement #'eq)))))
