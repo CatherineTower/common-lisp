@@ -127,7 +127,7 @@
    :coords ((0.64d0 0.33d0) (0.3d0 0.6d0) (0.15d0 0.06d0))
    :gamma srgb))
 
-(defclass rgb-base (model)
+(defclass rgb (model)
   ((%coords
     :type list
     :reader coords
@@ -139,13 +139,12 @@
   (:default-initargs
    :channel-names '(r g b)))
 
-(defclass rgb (rgb-base storage3) ())
-
 (defun rgb (r g b &key (space 'srgb))
   (make-instance 'rgb :space space :channel0 r :channel1 g :channel2 b))
 
-(defclass rgba (rgb-base storage4 alpha) ()
+(defclass rgba (rgb alpha) ()
   (:default-initargs
+   :channels (v4:zero)
    :channel-names '(r g b a)
    :alpha-index 3))
 
@@ -164,15 +163,15 @@
 ;;; Linearize/delinearize RGB space.
 
 (defun linearize-rgb (color)
-  (let ((data (data color))
+  (let ((channels (channels color))
         (gamma (gamma color)))
-    (map-into data (lambda (x) (linearize-rgb-channel x gamma)) data)
+    (map-into channels (lambda (x) (linearize-rgb-channel x gamma)) channels)
     color))
 
 (defun delinearize-rgb (color)
-  (let ((data (data color))
+  (let ((channels (channels color))
         (gamma (gamma color)))
-    (map-into data (lambda (x) (delinearize-rgb-channel x gamma)) data)
+    (map-into channels (lambda (x) (delinearize-rgb-channel x gamma)) channels)
     color))
 
 (defgeneric linearize-rgb-channel (value gamma))
@@ -252,7 +251,7 @@
 (defun transform-rgb-xyz (from to illuminant-name)
   (declare (optimize speed))
   (let ((transform (get-rgb-transform from to illuminant-name)))
-    (m3:*v3! (data to) transform (data from))
+    (m3:*v3! (channels to) transform (channels from))
     (setf (%illuminant-name to) illuminant-name)
     to))
 

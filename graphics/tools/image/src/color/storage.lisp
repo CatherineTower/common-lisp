@@ -1,90 +1,54 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
-(defclass storage () ())
-
-;; Provides storage for a color with 1 channel.
-(defclass storage1 (storage)
-  ((%data
-    :type (u:f64a (1))
-    :reader data
-    :initform (make-array 1 :element-type 'u:f64 :initial-element 0d0))))
-
-;; Provides storage for a color with 2 channels.
-(defclass storage2 (storage)
-  ((%data
-    :type v2:vec
-    :reader data
-    :initform (v2:zero))))
-
-;; Provides storage for a color with 3 channels.
-(defclass storage3 (storage)
-  ((%data
-    :type v3:vec
-    :reader data
-    :initform (v3:zero))))
-
-;; Provides storage for a color with 4 channels.
-(defclass storage4 (storage)
-  ((%data
-    :type v4:vec
-    :reader data
-    :initform (v4:zero))))
+(defclass storage ()
+  ((%channels
+    :type u:f64a
+    :reader channels
+    :initarg :channels
+    :initform (v3:zero))
+   (%channel-names
+    :type list
+    :reader channel-names
+    :initarg :channel-names)))
 
 ;;; Sized color initialization
 
-(defmethod initialize-instance :after ((instance storage1) &key (channel0 0d0))
-  (setf (aref (data instance) 0) (float channel0 1d0)))
-
-(defmethod initialize-instance :after ((instance storage2) &key (channel0 0d0) (channel1 0d0))
-  (let ((data (data instance)))
-    (setf (aref data 0) (float channel0 1d0)
-          (aref data 1) (float channel1 1d0))))
-
-(defmethod initialize-instance :after ((instance storage3)
+(defmethod initialize-instance :after ((instance storage)
                                        &key
                                          (channel0 0d0)
-                                         (channel1 0d0)
-                                         (channel2 0d0))
-  (let ((data (data instance)))
-    (setf (aref data 0) (float channel0 1d0)
-          (aref data 1) (float channel1 1d0)
-          (aref data 2) (float channel2 1d0))))
+                                         (channel1 0d0 channel1-p)
+                                         (channel2 0d0 channel2-p)
+                                         (channel3 0d0 channel3-p))
+  (let ((channels (channels instance)))
+    (setf (aref channels 0) (float channel0 1d0))
+    (when channel1-p
+      (setf (aref channels 1) (float channel1 1d0)))
+    (when channel2-p
+      (setf (aref channels 2) (float channel2 1d0)))
+    (when channel3-p
+      (setf (aref channels 3) (float channel3 1d0)))))
 
-(defmethod initialize-instance :after ((instance storage4)
-                                       &key
-                                         (channel0 0d0)
-                                         (channel1 0d0)
-                                         (channel2 0d0)
-                                         (channel3 0d0))
-  (let ((data (data instance)))
-    (setf (aref data 0) (float channel0 1d0)
-          (aref data 1) (float channel1 1d0)
-          (aref data 2) (float channel2 1d0)
-          (aref data 2) (float channel3 1d0))))
+(declaim (inline zero-channels))
+(defun zero-channels (storage)
+  (let ((channels (channels storage)))
+    (declare ((u:f64a (*)) channels))
+    (fill channels 0d0)))
 
-(defgeneric zero-channels (storage)
-  (:method ((storage storage2))
-    (v2:zero! (data storage)))
-  (:method ((storage storage3))
-    (v3:zero! (data storage)))
-  (:method ((storage storage4))
-    (v4:zero! (data storage))))
+(declaim (inline copy-channels))
+(defun copy-channels (from to)
+  (let ((from-channels (channels from))
+        (to-channels (channels to)))
+    (declare ((u:f64a (*)) to-channels from-channels))
+    (replace to-channels from-channels)))
 
-(defgeneric copy-channels (from to)
-  (:method ((from storage2) (to storage2))
-    (v2:copy! (data to) (data from)))
-  (:method ((from storage3) (to storage3))
-    (v3:copy! (data to) (data from)))
-  (:method ((from storage4) (to storage4))
-    (v4:copy! (data to) (data from))))
-
-(defgeneric decompose-channels (storage)
-  (:method ((storage storage2))
-    (v2:with-components ((v (data storage)))
-      (values (float vx 1f0) (float vy 1f0))))
-  (:method ((storage storage3))
-    (v3:with-components ((v (data storage)))
-      (values (float vx 1f0) (float vy 1f0) (float vz 1f0))))
-  (:method ((storage storage4))
-    (v4:with-components ((v (data storage)))
-      (values (float vx 1f0) (float vy 1f0) (float vz 1f0) (float vw 1f0)))))
+(defun decompose-channels (storage)
+  (let ((channels (channels storage)))
+    (etypecase channels
+      ((u:f64a (1))
+       (aref channels 0))
+      (v2:vec
+       (values (v2:x channels) (v2:y channels)))
+      (v3:vec
+       (values (v3:x channels) (v3:y channels) (v3:z channels)))
+      (v4:vec
+       (values (v4:x channels) (v4:y channels) (v4:z channels) (v4:w channels))))))

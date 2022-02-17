@@ -4,7 +4,7 @@
 (define-color-spaces ()
   (xyz :illuminant e))
 
-(defclass xyz (model storage3) ()
+(defclass xyz (model) ()
   (:default-initargs
    :channel-names '(x y z)))
 

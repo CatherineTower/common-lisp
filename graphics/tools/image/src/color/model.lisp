@@ -1,6 +1,6 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
-(defclass model ()
+(defclass model (storage)
   ((%space-name
     :type (and symbol (not null))
     :reader space-name
@@ -11,11 +11,7 @@
     :type (and symbol (not null))
     :reader illuminant-name
     :accessor %illuminant-name
-    :initarg :illuminant)
-   (%channel-names
-    :type list
-    :reader channel-names
-    :initarg :channel-names)))
+    :initarg :illuminant)))
 
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
@@ -23,13 +19,13 @@
           (space-name model)
           (map 'list (lambda (x y) (list x (float y 1f0)))
                (channel-names model)
-               (data model))))
+               (channels model))))
 
 (defmethod initialize-instance :after ((instance model) &key space)
   (let ((model (type-of instance)))
     (u:if-found (spec (get-color-space-spec (or space model)))
       (destructuring-bind (space-model . space-args) spec
-        (if (eq model space-model)
+        (if (subtypep model space-model)
             (apply #'reinitialize-instance instance space-args)
             (error "Color space ~s is not valid for color model ~s." space model)))
       (error "Color space ~s is not defined." space))

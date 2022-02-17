@@ -25,9 +25,9 @@
         (target illuminant-name))
     (when (eq source target)
       (return-from adapt-chromaticity color))
-    (let ((data (data color))
+    (let ((channels (channels color))
           (transform (get-chromatic-adaptation-transform method source target)))
-      (m3:*v3! data transform data)
+      (m3:*v3! channels transform channels)
       (setf (%illuminant-name color) illuminant-name)
       color)))
 

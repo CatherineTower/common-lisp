@@ -10,7 +10,7 @@
 
 (defmethod initialize-instance :after ((instance alpha) &key alpha-index pre-multiply-alpha)
   (when pre-multiply-alpha
-    (let ((data (data instance)))
-      (dotimes (i (length data))
+    (let ((channels (channels instance)))
+      (dotimes (i (length channels))
         (unless (= i alpha-index)
-          (setf (aref data i) (* (aref data i) (aref data alpha-index))))))))
+          (setf (aref channels i) (* (aref channels i) (aref channels alpha-index))))))))
