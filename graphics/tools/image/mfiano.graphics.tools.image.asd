@@ -6,7 +6,6 @@
   :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/tools/image"
   :encoding :utf-8
   :depends-on (#:cl-cpus
-               #:closer-mop
                #:lparallel
                #:mfiano.math.origin
                #:mfiano.misc.utils)
