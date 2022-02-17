@@ -12,7 +12,6 @@
   ;; Macros
   (:export
    #:define-printer
-   #:defun-inline
    #:fn->
    #:if-found
    #:mvlet
