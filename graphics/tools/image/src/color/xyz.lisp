@@ -1,5 +1,9 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
+;; Reference: https://en.wikipedia.org/wiki/CIE_1931_color_space
+(define-color-spaces ()
+  (xyz :illuminant e))
+
 (defclass xyz (model storage3) ()
   (:default-initargs
    :channel-names '(x y z)))

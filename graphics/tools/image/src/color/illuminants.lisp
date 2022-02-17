@@ -21,20 +21,20 @@
 (u:define-printer (illuminant stream)
   (format stream "~s" (name illuminant)))
 
-(defun register-illuminant (name x y)
-  (assert (and (plusp x) (plusp y)))
-  (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
-         (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
-    (setf (u:href (base:illuminants base:*context*) name) illuminant)
-    (values)))
-
 (declaim (inline get-white-point))
 (defun get-white-point (illuminant-name)
   (declare (optimize speed))
   (white-point (u:href (base:illuminants base:*context*) illuminant-name)))
 
-(defmacro define-builtin-illuminants (() &body body)
-  `(base:with-context (base:*default-context*)
+(defun register-illuminant (name x y)
+  (assert (and (<= 0 x 1) (<= 0 y 1)))
+  (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
+         (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
+    (setf (u:href (base:illuminants base:*default-context*) name) illuminant)
+    (values)))
+
+(defmacro define-illuminants (() &body body)
+  `(progn
      ,@(mapcar
         (lambda (x)
           (destructuring-bind (name &key x y) x
@@ -42,8 +42,7 @@
         body)))
 
 ;; Reference: https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
-;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
-(define-builtin-illuminants ()
+(define-illuminants ()
   (a :x 0.44757 :y 0.40745)
   (b :x 0.34842 :y 0.35161)
   (c :x 0.31006 :y 0.31616)
@@ -52,7 +51,6 @@
   (d65 :x 0.31271 :y 0.32902)
   (d75 :x 0.29902 :y 0.31485)
   (d93 :x 0.28315 :y 0.29711)
-  (dci :x 0.314 :y 0.351)
   (e :x 1/3 :y 1/3)
   (f1 :x 0.3131 :y 0.33727)
   (f2 :x 0.37208 :y 0.37529)
@@ -75,3 +73,7 @@
   (led-rgb1 :x 0.4557 :y 0.4211)
   (led-v1 :x 0.456 :y 0.4548)
   (led-v2 :x 0.3781 :y 0.3775))
+
+;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
+(define-illuminants ()
+  (dci :x 0.314 :y 0.351))

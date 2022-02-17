@@ -1,5 +1,132 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
+(define-color-spaces ()
+  (adobe-rgb
+   ;; Reference: http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+   :model rgb
+   :illuminant d65
+   :coords ((0.64d0 0.33d0) (0.21d0 0.71d0) (0.15d0 0.06d0))
+   :gamma #.(float 563/256 1d0))
+  (adobe-wide-gamut-rgb
+   ;; Reference: https://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
+   :model rgb
+   :illuminant d50
+   :coords ((0.7347d0 0.2653d0) (0.1152d0 0.8264d0) (0.1566d0 0.0177d0))
+   :gamma #.(float 563/256 1d0))
+  (apple-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d65
+   :coords ((0.625d0 0.34d0) (0.28d0 0.595d0) (0.155d0 0.07d0))
+   :gamma 1.8d0)
+  (best-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d50
+   :coords ((0.7347d0 0.2653d0) (0.215d0 0.775d0) (0.13d0 0.035d0))
+   :gamma 2.2d0)
+  (beta-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d50
+   :coords ((0.6888d0 0.3112d0) (0.1986d0 0.7551d0) (0.1265d0 0.0352d0))
+   :gamma 2.2d0)
+  (bruce-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d65
+   :coords ((0.64d0 0.33d0) (0.28d0 0.65d0) (0.15d0 0.06d0))
+   :gamma 2.2d0)
+  (bt.2020
+   ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-S!!PDF-E.pdf
+   :model rgb
+   :illuminant d65
+   :coords ((0.708d0 0.292d0) (0.17d0 0.797d0) (0.131d0 0.046d0))
+   :gamma rec.709)
+  (bt.470-ntsc
+   ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+   :model rgb
+   :illuminant c
+   :coords ((0.67d0 0.33d0) (0.21d0 0.71d0) (0.14d0 0.08d0))
+   :gamma 2.2d0)
+  (bt.470-pal/secam
+   ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+   :model rgb
+   :illuminant d65
+   :coords ((0.64d0 0.33d0) (0.29d0 0.6d0) (0.15d0 0.06d0))
+   :gamma 2.8d0)
+  (bt.709
+   ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-S!!PDF-E.pdf
+   :model rgb
+   :illuminant d65
+   :coords ((0.64d0 0.33d0) (0.3d0 0.6d0) (0.15d0 0.06d0))
+   :gamma rec.709)
+  (cie-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant e
+   :coords ((0.7347d0 0.2653d0) (0.2738d0 0.7174d0) (0.1666d0 0.0089d0))
+   :gamma 2.2d0)
+  (colormatch-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d50
+   :coords ((0.63d0 0.34d0) (0.295d0 0.605d0) (0.15d0 0.075d0))
+   :gamma 1.8d0)
+  (dci-p3
+   ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
+   :model rgb
+   :illuminant dci
+   :coords ((0.68d0 0.32d0) (0.265d0 0.69d0) (0.15d0 0.06d0))
+   :gamma 2.6d0)
+  (dci-p3+
+   ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#DCI-P3+_and_Cinema_Gamut
+   :model rgb
+   :illuminant dci
+   :coords ((0.74d0 0.27d0) (0.22d0 0.78d0) (0.09d0 -0.09d0))
+   :gamma 2.6d0)
+  (don-rgb-4
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d50
+   :coords ((0.696d0 0.3d0) (0.215d0 0.765d0) (0.13d0 0.035d0))
+   :gamma 2.2d0)
+  (eci-rgb-v2
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d50
+   :coords ((0.67d0 0.33d0) (0.21d0 0.71d0) (0.14d0 0.08d0))
+   :gamma L*)
+  (ekta-space-ps5
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d50
+   :coords ((0.695d0 0.305d0) (0.26d0 0.7d0) (0.11d0 0.005d0))
+   :gamma 2.2d0)
+  (romm-rgb
+   ;; Reference: https://www.color.org/ROMMRGB.pdf
+   :model rgb
+   :illuminant d50
+   :coords ((0.7347d0 0.2653d0) (0.1596d0 0.8404d0) (0.0366d0 0.0001d0))
+   :gamma 1.8d0)
+  (simple-srgb
+   :model rgb
+   :illuminant d65
+   :coords ((0.64d0 0.33d0) (0.3d0 0.6d0) (0.15d0 0.06d0))
+   :gamma 2.2d0)
+  (smpte-c-rgb
+   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
+   :model rgb
+   :illuminant d65
+   :coords ((0.63d0 0.34d0) (0.31d0 0.595d0) (0.155d0 0.07d0))
+   :gamma 2.2d0)
+  (srgb
+   ;; Reference: https://en.wikipedia.org/wiki/SRGB
+   :model rgb
+   :illuminant d65
+   :coords ((0.64d0 0.33d0) (0.3d0 0.6d0) (0.15d0 0.06d0))
+   :gamma srgb))
+
 (defclass rgb-base (model)
   ((%coords
     :type list
