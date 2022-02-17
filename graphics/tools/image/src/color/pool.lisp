@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.tools.image.color)
 
 (declaim (inline make-pool-color))
 (defun make-pool-color (model-name space-name)
@@ -6,12 +6,12 @@
 
 (defun ensure-color-pool (model-name space-name)
   (declare (optimize speed))
-  (let ((colors (base:colors base:*worker-state*)))
-    (or (u:href colors space-name)
+  (let ((pools (base:color-pools base:*worker-state*)))
+    (or (u:href pools space-name)
         (let ((array (make-array 2 :adjustable t :fill-pointer 0)))
           (dotimes (i (length array))
             (setf (aref array i) (make-pool-color model-name space-name)))
-          (setf (u:href colors space-name) array)
+          (setf (u:href pools space-name) array)
           array))))
 
 (declaim (inline reset-pool-color))

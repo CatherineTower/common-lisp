@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.tools.image.color)
 
 (defclass model ()
   ((%model-name

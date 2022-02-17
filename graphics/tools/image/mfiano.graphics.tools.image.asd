@@ -43,6 +43,4 @@
      (:file "image")
      (:file "unorganized")
      (:file "types")))
-   (:module "dev"
-    :components
-    ((:file "dev")))))
+   (:file "package")))

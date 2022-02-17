@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.tools.image.color)
 
 ;; Reference: https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
 ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry

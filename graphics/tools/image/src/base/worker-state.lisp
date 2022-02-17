@@ -1,11 +1,11 @@
-(in-package #:%mfiano.graphics.tools.image.internal.base)
+(in-package #:%mfiano.graphics.tools.image.base)
 
 (defvar *worker-state*)
 
 (defclass worker-state ()
-  ((%colors
+  ((%color-pools
     :type hash-table
-    :reader colors
+    :reader color-pools
     :initform (u:dict #'eq))))
 
 (defun worker-context (worker)

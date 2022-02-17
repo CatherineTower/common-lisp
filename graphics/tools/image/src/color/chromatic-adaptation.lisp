@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.tools.image.color)
 
 (defun register-chromatic-adaptation-method (name matrix)
   (check-type matrix m3:mat)

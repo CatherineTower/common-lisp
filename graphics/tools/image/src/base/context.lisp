@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.internal.base)
+(in-package #:%mfiano.graphics.tools.image.base)
 
 (defclass context ()
   ((%mixins

@@ -1,8 +1,6 @@
 (in-package #:cl-user)
 
-;;; Internal interface
-
-(defpackage #:%mfiano.graphics.tools.image.internal.base
+(defpackage #:%mfiano.graphics.tools.image.base
   (:local-nicknames
    (#:lp #:lparallel)
    (#:u #:mfiano.misc.utils))
@@ -25,7 +23,7 @@
   ;; Worker state
   (:export
    #:*worker-state*
-   #:colors)
+   #:color-pools)
   ;; Conditions
   (:export
    #:color-error
@@ -34,36 +32,4 @@
    #:mixin-not-present)
   ;; Protocol
   (:export
-   #:convert))
-
-(in-package #:%mfiano.graphics.tools.image.internal.base)
-
-;;; Convenience macro for package inheritance.
-
-(defmacro define-package (package &body options)
-  `(defpackage ,package
-     ,@(remove :inherit-from options :key #'car)
-     ,@(u:mappend
-        (lambda (x)
-          (destructuring-bind (from . symbols) (rest x)
-            `((:shadowing-import-from ,from ,@symbols)
-              (:export ,@symbols))))
-        (remove :inherit-from options :key #'car :test (complement #'eq)))))
-
-;;; Public interface
-
-(define-package #:mfiano.graphics.tools.image.base
-  (:use #:cl)
-  (:inherit-from
-   #:%mfiano.graphics.tools.image.internal.base
-   ;; Context
-   #:context
-   #:make-context
-   #:with-context
-   ;; Conditions
-   #:color-error
-   #:final-mixin-removed
-   #:mixin-error
-   #:mixin-not-present
-   ;; Protocol
    #:convert))

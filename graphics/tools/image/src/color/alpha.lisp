@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.tools.image.color)
 
 ;;; A mixin class that is added to all models with an alpha channel.
 

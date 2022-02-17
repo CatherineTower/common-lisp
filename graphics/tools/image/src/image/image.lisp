@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.image)
+(in-package #:%mfiano.graphics.tools.image)
 
 (defclass image ()
   ((%width
