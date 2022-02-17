@@ -107,11 +107,21 @@ GETHASH."
          (delete-package ,package)))))
 
 (defmacro define-package (package &body options)
-  `(defpackage ,package
-     ,@(remove :inherit-from options :key #'car)
-     ,@(mappend
-        (lambda (x)
-          (destructuring-bind (from . symbols) (rest x)
-            `((:shadowing-import-from ,from ,@symbols)
-              (:export ,@symbols))))
-        (remove :inherit-from options :key #'car :test (complement #'eq)))))
+  (let ((extension-keywords '(:inherit :inherit-external)))
+    `(defpackage ,package
+       ,@(remove-if (lambda (x) (member x extension-keywords)) options :key #'car)
+       ,@(mappend
+          (lambda (x)
+            (destructuring-bind (package . symbols) (rest x)
+              `((:shadowing-import-from ,package ,@symbols)
+                (:export ,@symbols))))
+          (remove :inherit options :key #'car :test (complement #'eq)))
+       ,@(mappend
+          (lambda (x)
+            (destructuring-bind (package) (rest x)
+              (let ((symbols (collect-external-symbols
+                              package
+                              :key (lambda (x) (make-symbol (symbol-name x))))))
+                `((:shadowing-import-from ,package ,@symbols)
+                  (:export ,@symbols)))))
+          (remove :inherit-external options :key #'car :test (complement #'eq))))))
