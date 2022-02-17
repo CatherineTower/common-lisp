@@ -28,12 +28,12 @@
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
-     (:file "model")
+     (:file "spaces")
      (:file "pool")
+     (:file "model")
      (:file "xyz")
      (:file "luv")
      (:file "rgb")
-     (:file "definitions")
      (:file "convert")))
    (:module "image"
     :components
