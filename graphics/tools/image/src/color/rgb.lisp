@@ -148,7 +148,7 @@
    :channel-names '(r g b a)
    :alpha-index 3))
 
-(defun rgba (r b g a &key (space 'srgb) pre-multiply-alpha)
+(defun rgba (r g b a &key (space 'srgb) pre-multiply-alpha)
   (make-instance 'rgba
                  :space space
                  :channel0 r
