@@ -16,7 +16,7 @@
 
 (declaim (inline reset-pool-color))
 (defun reset-pool-color (color)
-  (zero-storage color)
+  (zero-channels color)
   (setf (%illuminant-name color) (default-illuminant-name color))
   (values))
 
@@ -29,7 +29,7 @@
       (map-into pool (lambda () (make-pool-color model-name space-name))))
     (let ((color (vector-pop pool)))
       (if copy
-          (copy-storage copy color)
+          (copy-channels copy color)
           (reset-pool-color color))
       color)))
 
@@ -49,5 +49,5 @@
          (let* ((,model-name (car (get-color-space-spec ,space-name)))
                 (,binding (make-pool-color ,model-name ,space-name)))
            ,@(when copy
-               `((copy-storage ,copy ,binding)))
+               `((copy-channels ,copy ,binding)))
            ,@body))))

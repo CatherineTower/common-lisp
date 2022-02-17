@@ -175,6 +175,10 @@
     (map-into data (lambda (x) (delinearize-rgb-channel x gamma)) data)
     color))
 
+(defgeneric linearize-rgb-channel (value gamma))
+
+(defgeneric delinearize-rgb-channel (value gamma))
+
 (defmethod linearize-rgb-channel (value (gamma double-float))
   (expt value gamma))
 

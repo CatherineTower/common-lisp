@@ -23,7 +23,6 @@
    (:module "color"
     :components
     ((:file "package")
-     (:file "protocol")
      (:file "storage")
      (:file "alpha")
      (:file "illuminants")

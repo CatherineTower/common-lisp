@@ -35,6 +35,10 @@
       (error "Color space ~s is not defined." space))
     (setf (slot-value instance '%default-illuminant-name) (illuminant-name instance))))
 
+(defgeneric default (model &rest args)
+  (:method ((model symbol) &rest args)
+    (apply model 0 0 0 args)))
+
 (defmacro define-rgb-value-converters ((model))
   (u:with-gensyms (color)
     (let* ((model-spaces (u:hash-values (base:color-spaces base:*default-context*)))
@@ -47,11 +51,11 @@
          ,@(unless (eq model 'rgb)
              `((defmethod base:convert ((from rgb) (to (eql ',model)))
                  (with-pool-color (,color to)
-                   (extract-values (base:convert from ,color))))))
+                   (decompose-channels (base:convert from ,color))))))
          ,@(mapcar
             (lambda (x)
               (destructuring-bind (from to) x
                 `(defmethod base:convert ((from ,from) (to (eql ',to)))
                    (with-pool-color (,color to)
-                     (extract-values (base:convert from ,color))))))
+                     (decompose-channels (base:convert from ,color))))))
             (u:map-product #'list `(,model) rgb-spaces))))))
