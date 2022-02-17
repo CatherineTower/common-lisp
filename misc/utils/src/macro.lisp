@@ -6,17 +6,6 @@
      (print-unreadable-object (,object ,stream :type ,type :identity ,identity)
        ,@body)))
 
-(defmacro defun-inline (name args &body body)
-  "Conveniently define the function `NAME` and also inline it."
-  (multiple-value-bind (body decls doc)
-      (alexandria:parse-body body :documentation t)
-    `(progn
-       (declaim (inline ,name))
-       (defun ,name ,args
-         ,@(when doc `(,doc))
-         ,@decls
-         ,@body))))
-
 (defmacro when-found ((var lookup) &body body)
   "If `LOOKUP` is successful, perform `BODY` with `VAR` bound to the result.
 `LOOKUP` is an expression that returns two values, with the second value
@@ -116,3 +105,13 @@ GETHASH."
             (let ((*package* ,package))
               ,@body)
          (delete-package ,package)))))
+
+(defmacro define-package (package &body options)
+  `(defpackage ,package
+     ,@(remove :inherit-from options :key #'car)
+     ,@(mappend
+        (lambda (x)
+          (destructuring-bind (from . symbols) (rest x)
+            `((:shadowing-import-from ,from ,@symbols)
+              (:export ,@symbols))))
+        (remove :inherit-from options :key #'car :test (complement #'eq)))))
