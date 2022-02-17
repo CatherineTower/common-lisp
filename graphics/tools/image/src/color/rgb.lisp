@@ -179,10 +179,14 @@
 (defgeneric delinearize-rgb-channel (value gamma))
 
 (defmethod linearize-rgb-channel (value (gamma double-float))
-  (expt value gamma))
+  (if (minusp value)
+      0d0
+      (expt value gamma)))
 
 (defmethod delinearize-rgb-channel (value (gamma double-float))
-  (expt value (/ gamma)))
+  (if (minusp value)
+      0d0
+      (expt value (/ gamma))))
 
 (defmethod linearize-rgb-channel (value (gamma (eql 'L*)))
   (if (<= value 0.08)
