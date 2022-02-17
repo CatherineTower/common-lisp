@@ -30,7 +30,7 @@
   (assert (and (<= 0 x 1) (<= 0 y 1)))
   (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
          (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
-    (setf (u:href (base:illuminants base:*default-context*) name) illuminant)
+    (setf (u:href (base:illuminants base:*context*) name) illuminant)
     (values)))
 
 (defmacro define-illuminants (() &body body)

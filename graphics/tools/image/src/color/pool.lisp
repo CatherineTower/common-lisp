@@ -6,7 +6,7 @@
 
 (defun ensure-color-pool (model-name space-name)
   (declare (optimize speed))
-  (let ((pools (base:color-pools base:*worker-state*)))
+  (let ((pools base:*worker-pools*))
     (or (u:href pools space-name)
         (let ((array (make-array 2 :adjustable t :fill-pointer 0)))
           (dotimes (i (length array))
@@ -42,7 +42,7 @@
 
 (defmacro with-pool-color ((binding space-name &key copy) &body body)
   (u:with-gensyms (model-name)
-    `(if (boundp 'base:*worker-state*)
+    `(if (boundp 'base:*worker-pools*)
          (let ((,binding (get-pool-color ,space-name :copy ,copy)))
            (unwind-protect (progn ,@body)
              (put-pool-color ,binding)))

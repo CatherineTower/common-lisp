@@ -41,7 +41,7 @@
 
 (defmacro define-rgb-value-converters ((model))
   (u:with-gensyms (color)
-    (let* ((model-spaces (u:hash-values (base:color-spaces base:*default-context*)))
+    (let* ((model-spaces (u:hash-values (base:color-spaces base:*context*)))
            (rgb-spaces (mapcar
                         (lambda (x) (u:plist-get (cdr x) :space))
                         (remove-if-not

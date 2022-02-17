@@ -5,8 +5,7 @@
   :license "MIT"
   :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/tools/image"
   :encoding :utf-8
-  :depends-on (#:cl-cpus
-               #:lparallel
+  :depends-on (#:lparallel
                #:mfiano.math.origin
                #:mfiano.misc.utils)
   :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.tools.image.test)))
@@ -18,7 +17,6 @@
     ((:file "package")
      (:file "protocol")
      (:file "conditions")
-     (:file "worker-state")
      (:file "context")))
    (:module "color"
     :components

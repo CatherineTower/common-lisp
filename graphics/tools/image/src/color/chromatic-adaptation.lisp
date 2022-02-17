@@ -33,7 +33,7 @@
 
 (defun register-chromatic-adaptation-method (name matrix)
   (check-type matrix m3:mat)
-  (setf (u:href (base:cone-responses base:*default-context*) name) matrix))
+  (setf (u:href (base:cone-responses base:*context*) name) matrix))
 
 (defmacro define-chromatic-adaptation-methods (() &body body)
   `(progn

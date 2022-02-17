@@ -8,19 +8,13 @@
   ;; Context
   (:export
    #:*context*
-   #:*default-context*
+   #:*worker-pools*
    #:chromatic-adaptation-transforms
    #:color-spaces
    #:cone-responses
-   #:context
    #:illuminants
-   #:make-context
    #:rgb-transforms
-   #:with-context)
-  ;; Worker state
-  (:export
-   #:*worker-state*
-   #:color-pools)
+   #:with-threads)
   ;; Conditions
   (:export
    #:color-error)
