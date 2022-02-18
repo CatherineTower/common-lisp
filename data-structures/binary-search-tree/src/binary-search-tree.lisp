@@ -28,7 +28,8 @@
 (u:define-printer (node stream :identity t :type nil)
   (format stream "NODE"))
 
-(u:defun-inline node-p (node)
+(declaim (inline node-p))
+(defun node-p (node)
   (declare (optimize speed))
   (unless (and node (eq node (tree-sentinel (node-tree node))))
     node))
@@ -121,7 +122,8 @@
       (:post (%walk/post-order node func)))))
 
 (u:fn-> transplant (node node) node)
-(u:defun-inline transplant (node1 node2)
+(declaim (inline transplant))
+(defun transplant (node1 node2)
   (declare (optimize speed))
   (let ((parent (node-parent node1)))
     (cond

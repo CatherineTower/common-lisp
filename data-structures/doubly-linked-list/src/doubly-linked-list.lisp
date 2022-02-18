@@ -39,7 +39,8 @@
           :then (insert list value :target node)
         :finally (return list)))
 
-(u:defun-inline length (list)
+(declaim (inline length))
+(defun length (list)
   "Return the number of elements in the doubly linked list `LIST`."
   (%length list))
 

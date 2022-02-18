@@ -31,7 +31,8 @@
   (format stream "NODE"))
 
 (u:fn-> node-p ((or node null)) (or node null))
-(u:defun-inline node-p (node)
+(declaim (inline node-p))
+(defun node-p (node)
   (declare (optimize speed))
   (unless (and node (eq node (tree-sentinel (node-tree node))))
     node))

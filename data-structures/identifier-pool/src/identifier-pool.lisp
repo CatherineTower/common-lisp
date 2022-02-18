@@ -19,24 +19,28 @@
   (count 0 :type u:ub24))
 
 (u:fn-> unpack (fixnum) (values u:ub24 u:ub32))
-(u:defun-inline unpack (identifier)
+(declaim (inline unpack))
+(defun unpack (identifier)
   (declare (optimize speed))
   (values (ldb (byte +id-bits+ 0) identifier)
           (ldb (byte +version-bits+ +id-bits+) identifier)))
 
 (u:fn-> pack (u:ub24 u:ub32) fixnum)
-(u:defun-inline pack (id version)
+(declaim (inline pack))
+(defun pack (id version)
   (declare (optimize speed))
   (dpb version (byte +version-bits+ +id-bits+)
        (dpb id (byte +id-bits+ 0) 0)))
 
 (u:fn-> id (fixnum) u:ub24)
-(u:defun-inline id (identifier)
+(declaim (inline id))
+(defun id (identifier)
   (declare (optimize speed))
   (nth-value 0 (unpack identifier)))
 
 (u:fn-> version (fixnum) u:ub32)
-(u:defun-inline version (identifier)
+(declaim (inline version))
+(defun version (identifier)
   (declare (optimize speed))
   (nth-value 1 (unpack identifier)))
 

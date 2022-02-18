@@ -10,6 +10,6 @@ An implementation of the binary search tree data structure.
 
 ## License
 
-Copyright © 2018-2021 Michael Fiano <mail@mfiano.net>
+Copyright © 2018-2022 Michael Fiano <mail@mfiano.net>
 
 Licensed under the MIT License.

@@ -10,6 +10,6 @@ An implementation of the quad tree data structure.
 
 ## License
 
-Copyright © 2019-2021 Michael Fiano <mail@mfiano.net>
+Copyright © 2019-2022 Michael Fiano <mail@mfiano.net>
 
 Licensed under the MIT License.
