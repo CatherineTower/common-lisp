@@ -41,14 +41,18 @@
     (declare ((u:f64a (*)) to-channels from-channels))
     (replace to-channels from-channels)))
 
+(declaim (inline decompose-channels))
 (defun decompose-channels (storage)
   (let ((channels (channels storage)))
-    (etypecase channels
-      ((u:f64a (1))
-       (aref channels 0))
-      (v2:vec
-       (values (v2:x channels) (v2:y channels)))
-      (v3:vec
-       (values (v3:x channels) (v3:y channels) (v3:z channels)))
-      (v4:vec
-       (values (v4:x channels) (v4:y channels) (v4:z channels) (v4:w channels))))))
+    (flet ((%get (index)
+             (float (aref channels index) 1f0)))
+      (declare (inline %get))
+      (ecase (length channels)
+        (1
+         (%get 0))
+        (2
+         (values (%get 0) (%get 1)))
+        (3
+         (values (%get 0) (%get 1) (%get 2)))
+        (4
+         (values (%get 0) (%get 1) (%get 2) (%get 3)))))))
