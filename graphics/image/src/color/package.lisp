@@ -53,6 +53,7 @@
    #:xyz-scaling)
   ;; Constructors
   (:export
+   #:cielab
    #:default-color
    #:luv
    #:rgb

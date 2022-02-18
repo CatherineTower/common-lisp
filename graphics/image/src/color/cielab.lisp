@@ -1,0 +1,46 @@
+(in-package #:%mfiano.graphics.image.color)
+
+(define-color-spaces ()
+  (cielab :illuminant d65))
+
+(defclass cielab (model) ()
+  (:default-initargs
+   :channel-names '("L*" "a*" "b*")))
+
+(defun cielab (l a b)
+  (make-instance 'cielab :channel0 l :channel1 a :channel2 b))
+
+(defmethod default-color ((model (eql 'cielab)) &rest args)
+  (declare (ignore args))
+  (cielab 0 0 0))
+
+(declaim (inline cielab->xyz))
+(defun cielab->xyz (cielab xyz)
+  ;; TODO
+  (declare (optimize speed)
+           (ignore cielab xyz)))
+
+(declaim (inline xyz->cielab))
+(defun xyz->cielab (xyz cielab)
+  (declare (optimize speed))
+  (let* ((xyz-channels (channels xyz))
+         (lab-channels (channels cielab))
+         (white-point (get-white-point (illuminant-name xyz)))
+         (r (v3:/ xyz-channels white-point)))
+    (declare (v3:vec xyz-channels lab-channels white-point)
+             (dynamic-extent r))
+    (v3:with-components ((lab- lab-channels)
+                         (r r))
+      (let ((fx (if (> rx +cie-e+)
+                    (expt rx #.(/ 3))
+                    (* (+ (* +cie-k+ rx) 16) #.(/ 116))))
+            (fy (if (> ry +cie-e+)
+                    (expt ry #.(/ 3))
+                    (* (+ (* +cie-k+ ry) 16) #.(/ 116))))
+            (fz (if (> rz +cie-e+)
+                    (expt rz #.(/ 3))
+                    (* (+ (* +cie-k+ rz) 16) #.(/ 116)))))
+        (setf lab-x (- (* fy 116) 16)
+              lab-y (* (- fx fy) 500)
+              lab-z (* (- fy fz) 200))
+        cielab))))

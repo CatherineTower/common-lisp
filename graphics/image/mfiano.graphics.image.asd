@@ -31,6 +31,7 @@
      (:file "pool")
      (:file "xyz")
      (:file "xyy")
+     (:file "cielab")
      (:file "luv")
      (:file "rgb")
      (:file "convert")))
