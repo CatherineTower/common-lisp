@@ -51,3 +51,11 @@
     (base:convert xyz to)))
 
 (define-rgb-value-converters (luv))
+
+;;; xyY <-> XYZ
+
+(defmethod base:convert ((from xyz) (to xyy))
+  (xyz->xyy from to))
+
+(defmethod base:convert ((from xyy) (to xyz))
+  (xyy->xyz from to))

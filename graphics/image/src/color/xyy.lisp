@@ -36,6 +36,6 @@
     (v3:with-components ((xyy- xyy-channels)
                          (xyz- xyz-channels))
       (setf xyz-x (/ (* xyy-x xyy-z) xyy-y)
-            xyz-y xyy-y
+            xyz-y xyy-z
             xyz-z (/ (* (- 1 xyy-x xyy-y) xyy-z) xyy-y))
       xyz)))
