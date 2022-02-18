@@ -9,7 +9,7 @@
 
 (defclass luv (model) ()
   (:default-initargs
-   :channel-names '(l u v)))
+   :channel-names '(#\L #\u #\v)))
 
 (defun luv (l u v &key)
   (make-instance 'luv :channel0 l :channel1 u :channel2 v))

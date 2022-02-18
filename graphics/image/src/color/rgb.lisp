@@ -137,7 +137,7 @@
     :reader gamma
     :initarg :gamma))
   (:default-initargs
-   :channel-names '(r g b)))
+   :channel-names '(#\R #\G #\B)))
 
 (defun rgb (r g b &key (space 'srgb))
   (make-instance 'rgb :space space :channel0 r :channel1 g :channel2 b))
@@ -148,7 +148,7 @@
 (defclass rgba (rgb alpha) ()
   (:default-initargs
    :channels (v4:zero)
-   :channel-names '(r g b a)
+   :channel-names '(#\R #\G #\B #\A)
    :alpha-index 3))
 
 (defun rgba (r g b a &key (space 'srgb) pre-multiply-alpha)

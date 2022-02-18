@@ -6,7 +6,7 @@
 
 (defclass xyz (model) ()
   (:default-initargs
-   :channel-names '(x y z)))
+   :channel-names '(#\X #\Y #\Z)))
 
 (defun xyz (x y z &key)
   (make-instance 'xyz :channel0 x :channel1 y :channel2 z))
