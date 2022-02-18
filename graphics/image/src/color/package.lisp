@@ -55,6 +55,8 @@
   (:export
    #:cielab
    #:default-color
+   #:lch-ab
+   #:lch-uv
    #:luv
    #:rgb
    #:rgba

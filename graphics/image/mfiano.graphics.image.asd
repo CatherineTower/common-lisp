@@ -32,6 +32,8 @@
      (:file "xyz")
      (:file "xyy")
      (:file "cielab")
+     (:file "lch-ab")
+     (:file "lch-uv")
      (:file "luv")
      (:file "rgb")
      (:file "convert")))
