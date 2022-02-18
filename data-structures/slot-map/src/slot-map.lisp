@@ -31,22 +31,26 @@
                     :reverse-map (da:make-array :capacity capacity))))
 
 (u:fn-> pack (u:ub24 u:ub32) fixnum)
-(u:defun-inline pack (id version)
+(declaim (inline pack))
+(defun pack (id version)
   (declare (optimize speed))
   (dpb version (byte +version-bits+ +id-bits+)
        (dpb id (byte +id-bits+ 0) 0)))
 
 (u:fn-> unpack (fixnum) (values u:ub24 u:ub32))
-(u:defun-inline unpack (packed)
+(declaim (inline unpack))
+(defun unpack (packed)
   (declare (optimize speed))
   (values (ldb (byte +id-bits+ 0) packed)
           (ldb (byte +version-bits+ +id-bits+) packed)))
 
-(u:defun-inline id (packed)
+(declaim (inline id))
+(defun id (packed)
   (declare (optimize speed))
   (nth-value 0 (unpack packed)))
 
-(u:defun-inline version (packed)
+(declaim (inline version))
+(defun version (packed)
   (declare (optimize speed))
   (nth-value 1 (unpack packed)))
 
@@ -54,7 +58,8 @@
   `(setf ,place (pack ,id (version ,place))))
 
 (u:fn-> enqueue-free (slot-map fixnum) null)
-(u:defun-inline enqueue-free (slot-map key)
+(declaim (inline enqueue-free))
+(defun enqueue-free (slot-map key)
   (declare (optimize speed))
   (let ((slots (slots slot-map))
         (tail (free-tail slot-map))
@@ -67,7 +72,8 @@
     (values)))
 
 (u:fn-> dequeue-free (slot-map) (or u:ub24 null))
-(u:defun-inline dequeue-free (slot-map)
+(declaim (inline dequeue-free))
+(defun dequeue-free (slot-map)
   (declare (optimize speed))
   (u:when-let* ((head (free-head slot-map))
                 (next (id (da:aref (slots slot-map) head))))

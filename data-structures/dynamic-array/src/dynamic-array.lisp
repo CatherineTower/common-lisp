@@ -28,11 +28,13 @@
                :fill-pointer (fill-pointer dynamic-array)))
 
 (u:fn-> length (dynamic-array) fixnum)
-(u:defun-inline length (dynamic-array)
+(declaim (inline length))
+(defun length (dynamic-array)
   (fill-pointer dynamic-array))
 
 (u:fn-> aref (dynamic-array fixnum) t)
-(u:defun-inline aref (dynamic-array index)
+(declaim (inline aref))
+(defun aref (dynamic-array index)
   (declare (optimize speed))
   (if (< index (fill-pointer dynamic-array))
       (locally (declare (optimize (safety 0)))
@@ -40,7 +42,8 @@
       (error "Index out of bounds.")))
 
 (u:fn-> (setf aref) (t dynamic-array fixnum) t)
-(u:defun-inline (setf aref) (value dynamic-array index)
+(declaim (inline (setf aref)))
+(defun (setf aref) (value dynamic-array index)
   (declare (optimize speed))
   (if (< index (fill-pointer dynamic-array))
       (locally (declare (optimize (safety 0)))
@@ -48,7 +51,8 @@
       (error "Index out of bounds.")))
 
 (u:fn-> pop (dynamic-array &optional boolean) t)
-(u:defun-inline pop (dynamic-array &optional delete-p)
+(declaim (inline pop))
+(defun pop (dynamic-array &optional delete-p)
   (declare (optimize speed))
   (let ((data (data dynamic-array))
         (length (fill-pointer dynamic-array)))

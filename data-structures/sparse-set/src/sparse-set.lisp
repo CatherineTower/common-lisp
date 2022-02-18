@@ -68,7 +68,8 @@
   (values))
 
 (u:fn-> length (sparse-set) fixnum)
-(u:defun-inline length (sparse-set)
+(declaim (inline length))
+(defun length (sparse-set)
   (declare (optimize speed))
   (%length sparse-set))
 
