@@ -291,3 +291,18 @@
   (with-pool-color (temp-rgb (type-of rgb) :space (space-name rgb) :copy rgb)
     (%xyz->rgb xyz temp-rgb)
     (delinearize-rgb temp-rgb)))
+
+(declaim (inline *->xyz->rgb))
+(defun *->xyz->rgb (from rgb)
+  (with-pool-color (xyz 'xyz)
+    ;; Whenever we convert from a non-RGB space to XYZ as part of an intermediary conversion, we
+    ;; must set the temporary XYZ color's illuminant name to that of the target RGB.
+    (copy-illuminant-name rgb xyz)
+    (base:convert from xyz)
+    (xyz->rgb xyz rgb)))
+
+(declaim (inline rgb->*))
+(defun rgb->* (rgb to)
+  (with-pool-color (xyz 'xyz)
+    (rgb->xyz rgb xyz)
+    (base:convert xyz to)))

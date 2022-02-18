@@ -21,24 +21,15 @@
 ;;; RGB <-> xyY
 
 (defmethod base:convert ((from rgb) (to xyy))
-  (with-pool-color (xyz 'xyz)
-    (rgb->xyz from xyz)
-    (xyz->xyy xyz to)))
+  (rgb->* from to))
 
 (defmethod base:convert ((from xyy) (to rgb))
-  (with-pool-color (xyz 'xyz)
-    ;; Whenever we convert from a non-RGB space to XYZ as part of an intermediary conversion, we
-    ;; must set the temporary XYZ color's illuminant name to that of the target RGB.
-    (copy-illuminant-name to xyz)
-    (base:convert from xyz)
-    (base:convert xyz to)))
+  (*->xyz->rgb from to))
 
 ;;; RGB <-> RGB (the RGB model has multiple color spaces)
 
 (defmethod base:convert ((from rgb) (to rgb))
-  (with-pool-color (xyz 'xyz)
-    (base:convert from xyz)
-    (base:convert xyz to)))
+  (rgb->* from to))
 
 (define-rgb-value-converters (rgb))
 
@@ -53,17 +44,10 @@
 ;;; Luv <-> RGB
 
 (defmethod base:convert ((from rgb) (to luv))
-  (with-pool-color (xyz 'xyz)
-    (base:convert from xyz)
-    (base:convert xyz to)))
+  (rgb->* from to))
 
 (defmethod base:convert ((from luv) (to rgb))
-  (with-pool-color (xyz 'xyz)
-    ;; Whenever we convert from a non-RGB space to XYZ as part of an intermediary conversion, we
-    ;; must set the temporary XYZ color's illuminant name to that of the target RGB.
-    (copy-illuminant-name to xyz)
-    (base:convert from xyz)
-    (base:convert xyz to)))
+  (*->xyz->rgb from to))
 
 (define-rgb-value-converters (luv))
 

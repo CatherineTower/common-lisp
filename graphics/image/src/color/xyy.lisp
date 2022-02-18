@@ -15,6 +15,7 @@
   (declare (ignore args))
   (xyy 0 0 0))
 
+(declaim (inline xyz->xyy))
 (defun xyz->xyy (xyz xyy)
   (declare (optimize speed))
   (let ((xyz-channels (channels xyz))
@@ -28,6 +29,7 @@
               xyy-z xyz-y)
         xyy))))
 
+(declaim (inline xyy->xyz))
 (defun xyy->xyz (xyy xyz)
   (declare (optimize speed))
   (let ((xyy-channels (channels xyy))
