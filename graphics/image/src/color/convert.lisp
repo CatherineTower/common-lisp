@@ -120,7 +120,7 @@
 (defmethod base:convert ((from lch-uv) (to rgb))
   (error "Not implemented."))
 
-;;; RGB <-> *
+;;; RGB -> *
 
 (defmethod base:convert ((from rgba) to)
   (with-pool-color (rgba 'rgba :space (space-name from) :copy from)
