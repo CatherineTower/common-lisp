@@ -31,6 +31,13 @@
       (error "Color space ~s is not defined." space))
     (setf (slot-value instance '%default-illuminant-name) (illuminant-name instance))))
 
+(defgeneric default-color (model &rest args))
+
+(declaim (inline make-model-from-space))
+(defun make-model-from-space (space-name)
+  (let ((model-name (car (get-color-space-spec space-name))))
+    (make-instance model-name :space space-name :allow-other-keys t)))
+
 (declaim (inline copy-illuminant-name))
 (defun copy-illuminant-name (from to &optional default)
   (declare (optimize speed))

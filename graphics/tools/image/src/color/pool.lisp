@@ -1,16 +1,12 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
-(declaim (inline make-pool-color))
-(defun make-pool-color (model-name space-name)
-  (default model-name :space space-name :allow-other-keys t))
-
-(defun ensure-color-pool (model-name space-name)
+(defun ensure-color-pool (space-name)
   (declare (optimize speed))
   (let ((pools base:*worker-pools*))
     (or (u:href pools space-name)
         (let ((array (make-array 2 :adjustable t :fill-pointer 0)))
           (dotimes (i (length array))
-            (setf (aref array i) (make-pool-color model-name space-name)))
+            (setf (aref array i) (make-model-from-space space-name)))
           (setf (u:href pools space-name) array)
           array))))
 
@@ -22,11 +18,10 @@
 
 (defun get-pool-color (space-name &key copy)
   (declare (optimize speed))
-  (let* ((model-name (car (get-color-space-spec space-name)))
-         (pool (ensure-color-pool model-name space-name)))
+  (let ((pool (ensure-color-pool space-name)))
     (declare ((vector t) pool))
     (when (zerop (fill-pointer pool))
-      (map-into pool (lambda () (make-pool-color model-name space-name))))
+      (map-into pool (lambda () (make-model-from-space space-name))))
     (let ((color (vector-pop pool)))
       (if copy
           (copy-channels copy color)
@@ -35,19 +30,17 @@
 
 (defun put-pool-color (color)
   (declare (optimize speed))
-  (let ((pool (ensure-color-pool (type-of color) (space-name color))))
+  (let ((pool (ensure-color-pool (space-name color))))
     (declare (vector pool))
     (vector-push-extend color pool (array-total-size pool))
     (values)))
 
 (defmacro with-pool-color ((binding space-name &key copy) &body body)
-  (u:with-gensyms (model-name)
-    `(if (boundp 'base:*worker-pools*)
-         (let ((,binding (get-pool-color ,space-name :copy ,copy)))
-           (unwind-protect (progn ,@body)
-             (put-pool-color ,binding)))
-         (let* ((,model-name (car (get-color-space-spec ,space-name)))
-                (,binding (make-pool-color ,model-name ,space-name)))
-           ,@(when copy
-               `((copy-channels ,copy ,binding)))
-           ,@body))))
+  `(if (boundp 'base:*worker-pools*)
+       (let ((,binding (get-pool-color ,space-name :copy ,copy)))
+         (unwind-protect (progn ,@body)
+           (put-pool-color ,binding)))
+       (let ((,binding (make-model-from-space ,space-name)))
+         ,@(when copy
+             `((copy-channels ,copy ,binding)))
+         ,@body)))
