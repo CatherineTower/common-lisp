@@ -20,7 +20,7 @@
   (lp:make-kernel worker-count
                   :name "image-worker"
                   :context (lambda (x)
-                             (let ((*worker-pools* (u:dict #'eq)))
+                             (let ((*worker-pools* (u:dict #'equal)))
                                (funcall x)))
                   :bindings `((*context* . ,context))))
 

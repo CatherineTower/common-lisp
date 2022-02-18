@@ -33,8 +33,9 @@
 
 (defgeneric default-color (model &rest args))
 
-(defun make-model (name &rest args)
-  (apply #'make-instance name :allow-other-keys t args))
+(declaim (inline make-model))
+(defun make-model (model-name space-name)
+  (make-instance model-name :space space-name :allow-other-keys t))
 
 (declaim (inline copy-illuminant-name))
 (defun copy-illuminant-name (from to &optional default)
