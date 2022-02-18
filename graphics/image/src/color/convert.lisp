@@ -11,15 +11,11 @@
 (defmethod base:convert ((from rgb) (to rgb))
   (rgb->* from to))
 
-(define-rgb-value-converters (rgb))
-
 (defmethod base:convert ((from rgb) (to xyz))
   (rgb->xyz from to))
 
 (defmethod base:convert ((from xyz) (to rgb))
   (xyz->rgb from to))
-
-(define-rgb-value-converters (xyz))
 
 (defmethod base:convert ((from rgb) (to xyy))
   (rgb->* from to))
@@ -27,14 +23,15 @@
 (defmethod base:convert ((from xyy) (to rgb))
   (*->xyz->rgb from to))
 
-(define-rgb-value-converters (xyy))
-
 (defmethod base:convert ((from rgb) (to luv))
   (rgb->* from to))
 
 (defmethod base:convert ((from luv) (to rgb))
   (*->xyz->rgb from to))
 
+(define-rgb-value-converters (rgb))
+(define-rgb-value-converters (xyz))
+(define-rgb-value-converters (xyy))
 (define-rgb-value-converters (luv))
 
 ;;; XYZ <-> *
