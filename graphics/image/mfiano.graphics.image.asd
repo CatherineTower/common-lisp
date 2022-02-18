@@ -28,6 +28,7 @@
      (:file "spaces")
      (:file "model")
      (:file "pool")
+     (:file "xyy")
      (:file "xyz")
      (:file "luv")
      (:file "rgb")
