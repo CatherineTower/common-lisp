@@ -35,7 +35,11 @@
     (declare (v3:vec xyy-channels xyz-channels))
     (v3:with-components ((xyy- xyy-channels)
                          (xyz- xyz-channels))
-      (setf xyz-x (/ (* xyy-x xyy-z) xyy-y)
-            xyz-y xyy-z
-            xyz-z (/ (* (- 1 xyy-x xyy-y) xyy-z) xyy-y))
+      (if (zerop xyy-y)
+          (setf xyz-x 0d0
+                xyz-y 0d0
+                xyz-z 0d0)
+          (setf xyz-x (/ (* xyy-x xyy-z) xyy-y)
+                xyz-y xyy-z
+                xyz-z (/ (* (- 1 xyy-x xyy-y) xyy-z) xyy-y)))
       xyz)))
