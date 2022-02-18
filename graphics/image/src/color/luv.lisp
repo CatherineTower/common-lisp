@@ -28,7 +28,7 @@
         (v3:zero! xyz-channels)
         (return-from luv->xyz xyz))
       (let* ((div (+ wx (* wy 15) (* wz 3)))
-             (a (* (1- (/ (* 52 luv-x) (+ luv-y (* 13 luv-x(/ (* wx 4) div))))) #.(/ 3)))
+             (a (* (1- (/ (* 52 luv-x) (+ luv-y (* 13 luv-x (/ (* wx 4) div))))) #.(/ 3)))
              (y (if (> luv-x #.(* +cie-k+ +cie-e+))
                     (expt (* (+ luv-x 16) #.(/ 116)) 3)
                     (* luv-x #.(/ +cie-k+))))
