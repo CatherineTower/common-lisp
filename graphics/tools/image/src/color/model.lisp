@@ -38,10 +38,6 @@
     (setf (%illuminant-name to) illuminant-name)
     (values)))
 
-(defgeneric default (model &rest args)
-  (:method ((model symbol) &rest args)
-    (apply model 0 0 0 args)))
-
 (defmacro define-rgb-value-converters ((model))
   (u:with-gensyms (color)
     (let* ((model-spaces (u:hash-values (base:color-spaces base:*context*)))

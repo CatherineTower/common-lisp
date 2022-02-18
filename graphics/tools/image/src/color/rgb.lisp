@@ -142,6 +142,9 @@
 (defun rgb (r g b &key (space 'srgb))
   (make-instance 'rgb :space space :channel0 r :channel1 g :channel2 b))
 
+(defmethod default-color ((model (eql 'rgb)) &rest args)
+  (apply #'rgb 0 0 0 args))
+
 (defclass rgba (rgb alpha) ()
   (:default-initargs
    :channels (v4:zero)
@@ -157,7 +160,7 @@
                  :channel3 a
                  :pre-multiply-alpha pre-multiply-alpha))
 
-(defmethod default ((model (eql 'rgba)) &rest args)
+(defmethod default-color ((model (eql 'rgba)) &rest args)
   (apply #'rgba 0 0 0 1 args))
 
 ;;; Linearize/delinearize RGB space.

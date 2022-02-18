@@ -14,6 +14,10 @@
 (defun luv (l u v &key)
   (make-instance 'luv :channel0 l :channel1 u :channel2 v))
 
+(defmethod default-color ((model (eql 'luv)) &rest args)
+  (declare (ignore args))
+  (luv 0 0 0))
+
 (defun luv->xyz (in out)
   (declare (optimize speed))
   (let ((in-channels (channels in))
