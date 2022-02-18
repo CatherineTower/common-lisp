@@ -31,6 +31,13 @@
       (error "Color space ~s is not defined." space))
     (setf (slot-value instance '%default-illuminant-name) (illuminant-name instance))))
 
+(declaim (inline copy-illuminant-name))
+(defun copy-illuminant-name (from to &optional default)
+  (declare (optimize speed))
+  (let ((illuminant-name (if default (default-illuminant-name from) (illuminant-name from))))
+    (setf (%illuminant-name to) illuminant-name)
+    (values)))
+
 (defgeneric default (model &rest args)
   (:method ((model symbol) &rest args)
     (apply model 0 0 0 args)))

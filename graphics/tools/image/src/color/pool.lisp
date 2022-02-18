@@ -17,7 +17,7 @@
 (declaim (inline reset-pool-color))
 (defun reset-pool-color (color)
   (zero-channels color)
-  (setf (%illuminant-name color) (default-illuminant-name color))
+  (copy-illuminant-name color color t)
   (values))
 
 (defun get-pool-color (space-name &key copy)

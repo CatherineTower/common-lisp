@@ -38,7 +38,7 @@
   (with-pool-color (xyz 'xyz)
     ;; Whenever we convert from a non-RGB space to XYZ as part of an intermediary conversion, we
     ;; must set the temporary XYZ color's illuminant name to that of the target RGB.
-    (setf (%illuminant-name xyz) (illuminant-name to))
+    (copy-illuminant-name to xyz)
     (base:convert from xyz)
     (base:convert xyz to)))
 
