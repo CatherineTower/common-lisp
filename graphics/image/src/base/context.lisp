@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.base)
+(in-package #:%mfiano.graphics.image.base)
 
 (defstruct (context
             (:conc-name nil)

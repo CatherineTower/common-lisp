@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image)
+(in-package #:%mfiano.graphics.image)
 
 ;;;; TODO: This file needs some work to integrate additional color models and somehow map them to a
 ;;;; color space. Additionally, PIXEL-CHANNEL-COUNT is redundant, and should be query-able from the

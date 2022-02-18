@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.image.color)
 
 ;;; RGBA -> anything (handles un-pre-multiplying alpha before calling next method)
 

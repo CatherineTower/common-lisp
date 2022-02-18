@@ -1,4 +1,4 @@
-(in-package #:mfiano.graphics.tools.color.test)
+(in-package #:mfiano.graphics.color.test)
 
 (defun test/canonicalize (color expected)
   (let ((result (multiple-value-list (c:decompose (c::%canonicalize color)))))

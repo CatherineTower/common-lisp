@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.image.color)
 
 (defun ensure-color-pool (model space)
   (declare (optimize speed))

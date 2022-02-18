@@ -1,6 +1,6 @@
 (in-package #:cl-user)
 
-(defpackage #:%mfiano.graphics.tools.image.base
+(defpackage #:%mfiano.graphics.image.base
   (:local-nicknames
    (#:lp #:lparallel)
    (#:u #:mfiano.misc.utils))

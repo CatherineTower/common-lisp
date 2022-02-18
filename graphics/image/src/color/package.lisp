@@ -1,8 +1,8 @@
 (in-package #:cl-user)
 
-(defpackage #:%mfiano.graphics.tools.image.color
+(defpackage #:%mfiano.graphics.image.color
   (:local-nicknames
-   (#:base #:%mfiano.graphics.tools.image.base)
+   (#:base #:%mfiano.graphics.image.base)
    (#:m3 #:mfiano.math.origin.dmat3)
    (#:u #:mfiano.misc.utils)
    (#:v2 #:mfiano.math.origin.dvec2)

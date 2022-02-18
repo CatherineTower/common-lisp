@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.image.color)
 
 (defun get-chromatic-adaptation-transform (method source-illuminant-name target-illuminant-name)
   (declare (optimize speed))

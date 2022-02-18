@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image)
+(in-package #:%mfiano.graphics.image)
 
 ;;; TODO: The functions in this file have not been organized into the project architecture yet.
 

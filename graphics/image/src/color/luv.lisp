@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.image.color)
 
 (u:eval-always
   (u:define-constant +cie-e+ #.(float 216/24389 1d0))

@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.image.color)
 
 ;; Reference: https://en.wikipedia.org/wiki/CIE_1931_color_space
 (define-color-spaces ()

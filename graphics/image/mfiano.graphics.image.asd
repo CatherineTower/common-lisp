@@ -1,14 +1,14 @@
-(asdf:defsystem #:mfiano.graphics.tools.image
+(asdf:defsystem #:mfiano.graphics.image
   :description "A simple color library."
   :author ("Michael Fiano <mail@mfiano.net>"
            "Catherine Tower <catherine@towernet.dev>")
   :license "MIT"
-  :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/tools/image"
+  :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/image"
   :encoding :utf-8
   :depends-on (#:lparallel
                #:mfiano.math.origin
                #:mfiano.misc.utils)
-  :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.tools.image.test)))
+  :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.image.test)))
   :pathname "src"
   :serial t
   :components

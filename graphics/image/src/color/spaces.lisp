@@ -1,4 +1,4 @@
-(in-package #:%mfiano.graphics.tools.image.color)
+(in-package #:%mfiano.graphics.image.color)
 
 (declaim (inline get-color-space-spec))
 (defun get-color-space-spec (space-name)
