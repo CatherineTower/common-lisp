@@ -8,7 +8,8 @@
     :type boolean
     :reader pre-multiply-alpha-p)))
 
-(defmethod initialize-instance :after ((instance alpha) &key alpha-index pre-multiply-alpha)
+(defmethod initialize-instance :around ((instance alpha) &key alpha-index pre-multiply-alpha)
+  (call-next-method)
   (when pre-multiply-alpha
     (let ((channels (channels instance)))
       (dotimes (i (length channels))
