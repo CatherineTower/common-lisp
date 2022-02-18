@@ -21,6 +21,7 @@
    (:module "color"
     :components
     ((:file "package")
+     (:file "constants")
      (:file "storage")
      (:file "alpha")
      (:file "illuminants")
