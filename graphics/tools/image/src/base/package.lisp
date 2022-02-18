@@ -8,8 +8,10 @@
   ;; Context
   (:export
    #:*context*
+   #:*parallel-p*
    #:*worker-pools*
    #:chromatic-adaptation-transforms
+   #:color-pools
    #:color-spaces
    #:cone-responses
    #:illuminants

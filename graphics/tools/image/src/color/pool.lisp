@@ -2,7 +2,7 @@
 
 (defun ensure-color-pool (model space)
   (declare (optimize speed))
-  (let ((pools base:*worker-pools*)
+  (let ((pools (or base:*worker-pools* (base:color-pools base:*context*)))
         (key (cons model space)))
     (declare (dynamic-extent key))
     (or (u:href pools key)
@@ -18,7 +18,7 @@
   (copy-illuminant-name color color t)
   (values))
 
-(defun get-pool-color (model &key space copy)
+(defun get-pool-color (model space &key copy)
   (declare (optimize speed))
   (let ((pool (ensure-color-pool model space)))
     (declare ((vector t) pool))
@@ -38,11 +38,7 @@
     (values)))
 
 (defmacro with-pool-color ((binding model &key space copy) &body body)
-  `(if (boundp 'base:*worker-pools*)
-       (let ((,binding (get-pool-color ,model :space ,(or space model) :copy ,copy)))
-         (unwind-protect (progn ,@body)
-           (put-pool-color ,binding)))
-       (let ((,binding (make-model ,model ,(or space model))))
-         ,@(when copy
-             `((copy-channels ,copy ,binding)))
-         ,@body)))
+  (let ((space (or space model)))
+    `(let ((,binding (get-pool-color ,model ,space :copy ,copy)))
+       (unwind-protect (progn ,@body)
+         (put-pool-color ,binding)))))

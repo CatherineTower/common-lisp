@@ -6,6 +6,7 @@
             (:copier nil))
   (illuminants (u:dict) :type hash-table)
   (color-spaces (u:dict) :type hash-table)
+  (color-pools (u:dict #'equal) :type hash-table)
   (cone-responses (u:dict) :type hash-table)
   (chromatic-adaptation-transforms (u:dict #'equal) :type hash-table)
   (rgb-transforms (u:dict #'equal) :type hash-table))
@@ -14,7 +15,7 @@
 
 (defvar *parallel-p* nil)
 
-(defvar *worker-pools*)
+(defvar *worker-pools* nil)
 
 (defun make-thread-pool (context worker-count)
   (lp:make-kernel worker-count
