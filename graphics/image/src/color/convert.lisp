@@ -29,10 +29,17 @@
 (defmethod base:convert ((from luv) (to rgb))
   (*->xyz->rgb from to))
 
+(defmethod base:convert ((from rgb) (to cielab))
+  (rgb->* from to))
+
+(defmethod base:convert ((from cielab) (to rgb))
+  (*->xyz->rgb from to))
+
 (define-rgb-value-converters (rgb))
 (define-rgb-value-converters (xyz))
 (define-rgb-value-converters (xyy))
 (define-rgb-value-converters (luv))
+(define-rgb-value-converters (cielab))
 
 ;;; XYZ <-> *
 
@@ -47,3 +54,9 @@
 
 (defmethod base:convert ((from xyy) (to xyz))
   (xyy->xyz from to))
+
+(defmethod base:convert ((from xyz) (to cielab))
+  (xyz->cielab from to))
+
+(defmethod base:convert ((from cielab) (to xyz))
+  (cielab->xyz from to))
