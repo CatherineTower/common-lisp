@@ -11,7 +11,7 @@
 (defun xyy (|x| |y| Y)
   (make-instance 'xyy :channel0 |x| :channel1 |y| :channel2 Y))
 
-(defmethod default-color ((mode (eql 'xyy)) &rest args)
+(defmethod default-color ((model (eql 'xyy)) &rest args)
   (declare (ignore args))
   (xyy 0 0 0))
 
