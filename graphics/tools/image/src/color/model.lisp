@@ -33,10 +33,8 @@
 
 (defgeneric default-color (model &rest args))
 
-(declaim (inline make-model-from-space))
-(defun make-model-from-space (space-name)
-  (let ((model-name (car (get-color-space-spec space-name))))
-    (make-instance model-name :space space-name :allow-other-keys t)))
+(defun make-model (name &rest args)
+  (apply #'make-instance name :allow-other-keys t args))
 
 (declaim (inline copy-illuminant-name))
 (defun copy-illuminant-name (from to &optional default)
@@ -56,12 +54,12 @@
       `(progn
          ,@(unless (eq model 'rgb)
              `((defmethod base:convert ((from rgb) (to (eql ',model)))
-                 (with-pool-color (,color to)
+                 (with-pool-color (,color ',model :space to)
                    (decompose-channels (base:convert from ,color))))))
          ,@(mapcar
             (lambda (x)
               (destructuring-bind (from to) x
                 `(defmethod base:convert ((from ,from) (to (eql ',to)))
-                   (with-pool-color (,color to)
+                   (with-pool-color (,color (get-space-model to) :space to)
                      (decompose-channels (base:convert from ,color))))))
             (u:map-product #'list `(,model) rgb-spaces))))))

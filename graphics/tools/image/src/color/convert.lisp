@@ -1,5 +1,13 @@
 (in-package #:%mfiano.graphics.tools.image.color)
 
+;;; RGBA -> anything (handles un-pre-multiplying alpha before calling next method)
+
+(defmethod base:convert ((from rgba) to)
+  (with-pool-color (rgba 'rgba :space (space-name from) :copy from)
+    (when (pre-multiplied-alpha-p from)
+      (un-pre-multiply-alpha rgba))
+    (call-next-method rgba to)))
+
 ;;; RGB <-> XYZ
 
 (defmethod base:convert ((from rgb) (to xyz))

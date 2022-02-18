@@ -4,6 +4,10 @@
 (defun get-color-space-spec (space-name)
   (u:href (base:color-spaces base:*context*) space-name))
 
+(declaim (inline get-space-model))
+(defun get-space-model (space-name)
+  (car (get-color-space-spec space-name)))
+
 (defun register-color-space (model-name space-name &rest args)
   (let ((args (list* model-name :space space-name args)))
     (setf (u:href (base:color-spaces base:*context*) space-name) args)
