@@ -57,6 +57,7 @@
    #:luv
    #:rgb
    #:rgba
+   #:xyy
    #:xyz)
   ;; Spaces
   (:export
