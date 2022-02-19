@@ -36,7 +36,8 @@
      (:file "lch-uv")
      (:file "luv")
      (:file "rgb")
-     (:file "convert")))
+     #+nil (:file "convert")
+     (:file "transform-paths")))
    (:module "image"
     :components
     ((:file "package")
