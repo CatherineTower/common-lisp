@@ -49,3 +49,14 @@
 
 (defun transform-paths-for (model)
   (cdr (assoc model *transform-paths* :test #'eq)))
+
+(defparameter *conversion-functions*
+  `(((rgb xyz) . ,#'%rgb-xyz)
+    ((xyz rgb) . ,#'%xyz->rgb)
+    ((luv xyz) . ,#'luv->xyz)
+    ((xyz luv) . ,#'xyz->luv)))
+
+(defun conversion-function-for (from-type to-type)
+  (cdr (assoc (list from-type to-type)
+              *conversion-functions*
+              :test #'equal)))
