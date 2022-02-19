@@ -18,31 +18,31 @@
     (nreverse (%find-transform-path paths nil))))
 
 (defparameter *rgb-transform-paths*
-  '(rgb (xyz (xyy) (luv lchuv) (lab lchab))))
+  '(rgb (xyz (xyy) (luv lchuv) (cielab lchab))))
 
 (defparameter *xyz-transform-paths*
-  '(xyz (lab lchab) (luv lchuv) (rgb) (xyy)))
+  '(xyz (cielab lchab) (luv lchuv) (rgb) (xyy)))
 
 (defparameter *xyy-transform-paths*
-  '(xyy (xyz (rgb) (lab lchab) (luv lchuv))))
+  '(xyy (xyz (rgb) (cielab lchab) (luv lchuv))))
 
-(defparameter *lab-transform-paths*
-  '(lab (lchab) (xyz (luv lchuv) (xyy) (rgb))))
+(defparameter *cielab-transform-paths*
+  '(cielab (lchab) (xyz (luv lchuv) (xyy) (rgb))))
 
 (defparameter *luv-transform-paths*
-  '(luv (lchuv) (xyz (lab lchab) (xyy) (rgb))))
+  '(luv (lchuv) (xyz (cielab lchab) (xyy) (rgb))))
 
 (defparameter *lchab-transform-paths*
-  '(lchab (lab (xyz (luv lchuv) (xyy) (rgb)))))
+  '(lchab (cielab (xyz (luv lchuv) (xyy) (rgb)))))
 
 (defparameter *lchuv-transform-paths*
-  '(lchuv (luv (xyz (lab lchab) (xyy) (rgb)))))
+  '(lchuv (luv (xyz (cielab lchab) (xyy) (rgb)))))
 
 (defparameter *transform-paths*
   `((rgb . ,*rgb-transform-paths*)
     (xyz . ,*xyz-transform-paths*)
     (xyy . ,*xyy-transform-paths*)
-    (lab . ,*lab-transform-paths*)
+    (cielab . ,*cielab-transform-paths*)
     (luv . ,*luv-transform-paths*)
     (lchab . ,*lchab-transform-paths*)
     (lchuv . ,*lchuv-transform-paths*)))
