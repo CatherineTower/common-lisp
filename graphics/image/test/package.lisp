@@ -1,13 +1,13 @@
 (in-package #:cl-user)
 
-(defpackage #:mfiano.graphics.color.test
+(defpackage #:mfiano.graphics.image.test
   (:local-nicknames
-   (#:c #:mfiano.graphics.color)
+   (#:c #:%mfiano.graphics.image.color)
    (#:u #:mfiano.misc.utils))
   (:use #:cl
         #:prove))
 
-(in-package #:mfiano.graphics.color.test)
+(in-package #:mfiano.graphics.image.test)
 
 (setf *enable-colors* nil)
 

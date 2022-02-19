@@ -12,4 +12,4 @@
   :perform (asdf:test-op (op c) (uiop:symbol-call '#:mfiano.graphics.image.test '#:run-tests c))
   :components
   ((:file "package")
-   (:test-file "test")))
+   (:test-file "color-convert")))
