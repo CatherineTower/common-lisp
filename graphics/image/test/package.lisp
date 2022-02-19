@@ -3,7 +3,11 @@
 (defpackage #:mfiano.graphics.image.test
   (:local-nicknames
    (#:c #:%mfiano.graphics.image.color)
-   (#:u #:mfiano.misc.utils))
+   (#:i #:mfiano.graphics.image)
+   (#:u #:mfiano.misc.utils)
+   (#:v2 #:mfiano.math.origin.dvec2)
+   (#:v3 #:mfiano.math.origin.dvec3)
+   (#:v4 #:mfiano.math.origin.dvec4))
   (:use #:cl
         #:prove))
 
