@@ -54,7 +54,9 @@
   `(((rgb xyz) . ,#'%rgb-xyz)
     ((xyz rgb) . ,#'%xyz->rgb)
     ((luv xyz) . ,#'luv->xyz)
-    ((xyz luv) . ,#'xyz->luv)))
+    ((xyz luv) . ,#'xyz->luv)
+    ((cielab xyz) . ,#'cielab->xyz)
+    ((xyz cielab) . ,#'xyz->cielab)))
 
 (defun conversion-function-for (from-type to-type)
   (cdr (assoc (list from-type to-type)
