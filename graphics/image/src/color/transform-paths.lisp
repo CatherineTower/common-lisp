@@ -60,3 +60,17 @@
   (cdr (assoc (list from-type to-type)
               *conversion-functions*
               :test #'equal)))
+
+(defmethod base:convert ((from model) (to model))
+  (let* ((from-name (class-name (class-of from)))
+         (to-name (class-name (class-of to)))
+         (path (find-transform-path to-name (transform-paths-for from-name))))
+    (loop for sublist on path
+          for current-model = (first sublist)
+          for next-model = (second sublist)
+          for current-color = from then temp-color
+          for temp-color = (default-color next-model)
+          for converter = (conversion-function-for current-model next-model)
+          when (eq next-model to-name) do
+            (return (funcall converter current-color to))
+          do (funcall converter current-color temp-color))))
