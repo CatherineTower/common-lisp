@@ -37,3 +37,15 @@
 
 (defparameter *lchuv-transform-paths*
   '(lchuv (luv (xyz (lab lchab) (xyy) (rgb)))))
+
+(defparameter *transform-paths*
+  `((rgb . ,*rgb-transform-paths*)
+    (xyz . ,*xyz-transform-paths*)
+    (xyy . ,*xyy-transform-paths*)
+    (lab . ,*lab-transform-paths*)
+    (luv . ,*luv-transform-paths*)
+    (lchab . ,*lchab-transform-paths*)
+    (lchuv . ,*lchuv-transform-paths*)))
+
+(defun transform-paths-for (model)
+  (cdr (assoc model *transform-paths* :test #'eq)))
