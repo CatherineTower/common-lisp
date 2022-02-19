@@ -16,3 +16,24 @@
                           (cons node result)
                           nil)))))
     (nreverse (%find-transform-path paths nil))))
+
+(defparameter *rgb-transform-paths*
+  '(rgb (xyz (xyy) (luv lchuv) (lab lchab))))
+
+(defparameter *xyz-transform-paths*
+  '(xyz (lab lchab) (luv lchuv) (rgb) (xyy)))
+
+(defparameter *xyy-transform-paths*
+  '(xyy (xyz (rgb) (lab lchab) (luv lchuv))))
+
+(defparameter *lab-transform-paths*
+  '(lab (lchab) (xyz (luv lchuv) (xyy) (rgb))))
+
+(defparameter *luv-transform-paths*
+  '(luv (lchuv) (xyz (lab lchab) (xyy) (rgb))))
+
+(defparameter *lchab-transform-paths*
+  '(lchab (lab (xyz (luv lchuv) (xyy) (rgb)))))
+
+(defparameter *lchuv-transform-paths*
+  '(lchuv (luv (xyz (lab lchab) (xyy) (rgb)))))
