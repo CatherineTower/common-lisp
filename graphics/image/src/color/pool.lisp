@@ -42,3 +42,9 @@
     `(let ((,binding (get-pool-color ,model ,space :copy ,copy)))
        (unwind-protect (progn ,@body)
          (put-pool-color ,binding)))))
+
+(defmacro with-pool-colors ((model &rest rest) &body body)
+  `(with-pool-color (,model ',model)
+     ,@(if rest
+           `((with-pool-colors ,rest ,@body))
+           body)))
