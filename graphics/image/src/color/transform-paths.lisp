@@ -51,8 +51,8 @@
   (cdr (assoc model *transform-paths* :test #'eq)))
 
 (defparameter *conversion-functions*
-  `(((rgb xyz) . ,#'%rgb-xyz)
-    ((xyz rgb) . ,#'%xyz->rgb)
+  `(((rgb xyz) . ,#'rgb->xyz)
+    ((xyz rgb) . ,#'xyz->rgb)
     ((luv xyz) . ,#'luv->xyz)
     ((xyz luv) . ,#'xyz->luv)
     ((cielab xyz) . ,#'cielab->xyz)
