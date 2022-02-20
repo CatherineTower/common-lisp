@@ -49,11 +49,7 @@
        (test xyz (color 'i:rgb 'i:srgb) '(0 0.944556 0.933363))))
 
 (subtest "From XYZ (one way)"
-  (test-one-way i:xyz i:xyy)
-  (test-one-way i:xyz i:cielab)
-  (test-one-way i:xyz i:lch-ab)
-  (test-one-way i:xyz i:lch-uv)
-  (test-one-way i:xyz i:luv))
+  (test-one-way i:xyz i:xyy (0.066667 0.066667 0.5)))
 
 (subtest "From XYZ (round trip)"
   (test-round-trip i:xyz i:xyy)
