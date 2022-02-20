@@ -5,7 +5,7 @@
 (subtest "From XYZ (one way)"
   ;; select illuminant E on Lindbloom
   (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
-  ;; broken
+  ;; select illuminant E on Lindbloom
   (test-one-way (i:xyz 0.1 0.5 0.9) i:cielab (76.0693 -160.8076 -28.9570))
   ;; select illuminant E on Lindbloom
   (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 163.3940 190.2080))

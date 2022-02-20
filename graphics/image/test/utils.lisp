@@ -34,7 +34,7 @@
                        (adjoin (type-of ,from) (list (c::space-name ,from)))
                        (adjoin ',to-model (list ',to-space)))))))))
 
-(defmacro test-round-trip (from to &key (count 1000) (min 0d0) (max 0d0))
+(defmacro test-round-trip (from to &key (count 100) (min 0d0) (max 0d0))
   (u:once-only (min max)
     (u:with-gensyms (from-color from-channels to-color results result fail check)
       (destructuring-bind (from-model &optional (from-space from-model)) (u:ensure-list from)
