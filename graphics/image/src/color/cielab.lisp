@@ -7,12 +7,11 @@
   (:default-initargs
    :channel-names '("L*" "a*" "b*")))
 
-(defun cielab (l a b)
-  (make-instance 'cielab :channel0 l :channel1 a :channel2 b))
+(defun cielab (l a b &key illuminant)
+  (make-instance 'cielab :illuminant illuminant :channel0 l :channel1 a :channel2 b))
 
 (defmethod default-color ((model (eql 'cielab)) &rest args)
-  (declare (ignore args))
-  (cielab 0 0 0))
+  (apply #'cielab 0 0 0 :allow-other-keys t args))
 
 (declaim (notinline cielab->xyz))
 (defun cielab->xyz (cielab xyz)

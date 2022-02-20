@@ -6,9 +6,11 @@
     :reader space-name
     :initarg :space)
    (%default-illuminant-name
-    :reader default-illuminant-name)
+    :initarg :default-illuminant
+    :reader default-illuminant-name
+    :accessor %default-illuminant-name)
    (%illuminant-name
-    :type (and symbol (not null))
+    :type symbol
     :reader illuminant-name
     :accessor %illuminant-name
     :initarg :illuminant)))
@@ -22,15 +24,16 @@
                (channel-names model)
                (channels model))))
 
-(defmethod initialize-instance :after ((instance model) &key space)
+(defmethod initialize-instance :after ((instance model) &key space illuminant)
   (let ((model (type-of instance)))
     (u:if-found (spec (get-color-space-spec (or space model)))
-      (destructuring-bind (space-model . space-args) spec
-        (if (subtypep model space-model)
-            (apply #'reinitialize-instance instance space-args)
-            (error "Color space ~s is not valid for color model ~s." space model)))
-      (error "Color space ~s is not defined." space))
-    (setf (slot-value instance '%default-illuminant-name) (illuminant-name instance))))
+      (destructuring-bind (space-model &rest args &key ((:illuminant default-illuminant)) &allow-other-keys) spec
+        (setf (%default-illuminant-name instance) default-illuminant)
+        (let ((args (if illuminant (list* :illuminant illuminant args) args)))
+          (if (subtypep model space-model)
+              (apply #'reinitialize-instance instance args)
+              (error "Color space ~s is not valid for color model ~s." space model))))
+      (error "Color space ~s is not defined." space))))
 
 (defgeneric default-color (model &rest args))
 

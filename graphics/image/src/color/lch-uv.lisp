@@ -7,12 +7,11 @@
   (:default-initargs
    :channel-names '(#\L #\C #\H)))
 
-(defun lch-uv (l c h)
-  (make-instance 'lch-uv :channel0 l :channel1 c :channel2 h))
+(defun lch-uv (l c h &key illuminant)
+  (make-instance 'lch-uv :illuminant illuminant :channel0 l :channel1 c :channel2 h))
 
 (defmethod default-color ((model (eql 'lch-uv)) &rest args)
-  (declare (ignore args))
-  (lch-uv 0 0 0))
+  (apply #'lch-uv 0 0 0 :allow-other-keys t args))
 
 (declaim (inline lch-uv->luv))
 (defun lch-uv->luv (lch-uv luv)

@@ -139,11 +139,11 @@
   (:default-initargs
    :channel-names '(#\R #\G #\B)))
 
-(defun rgb (r g b &key (space 'srgb))
-  (make-instance 'rgb :space space :channel0 r :channel1 g :channel2 b))
+(defun rgb (r g b &key (space 'srgb) illuminant)
+  (make-instance 'rgb :space space :illuminant illuminant :channel0 r :channel1 g :channel2 b))
 
 (defmethod default-color ((model (eql 'rgb)) &rest args)
-  (apply #'rgb 0 0 0 args))
+  (apply #'rgb 0 0 0 :allow-other-keys t args))
 
 (defclass rgba (rgb alpha) ()
   (:default-initargs
@@ -151,17 +151,18 @@
    :channel-names '(#\R #\G #\B #\A)
    :alpha-index 3))
 
-(defun rgba (r g b a &key (space 'srgb) pre-multiply-alpha)
+(defun rgba (r g b a &key (space 'srgb) illuminant pre-multiply-alpha)
   (make-instance 'rgba
                  :space space
+                 :illuminant illuminant
+                 :pre-multiply-alpha pre-multiply-alpha
                  :channel0 r
                  :channel1 g
                  :channel2 b
-                 :channel3 a
-                 :pre-multiply-alpha pre-multiply-alpha))
+                 :channel3 a))
 
 (defmethod default-color ((model (eql 'rgba)) &rest args)
-  (apply #'rgba 0 0 0 1 args))
+  (apply #'rgba 0 0 0 1 :allow-other-keys t args))
 
 ;;; Linearize/delinearize RGB space.
 

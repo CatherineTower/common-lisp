@@ -8,9 +8,8 @@
   (:default-initargs
    :channel-names '(#\X #\Y #\Z)))
 
-(defun xyz (x y z &key)
-  (make-instance 'xyz :channel0 x :channel1 y :channel2 z))
+(defun xyz (x y z &key illuminant)
+  (make-instance 'xyz :illuminant illuminant :channel0 x :channel1 y :channel2 z))
 
 (defmethod default-color ((model (eql 'xyz)) &rest args)
-  (declare (ignore args))
-  (xyz 0 0 0))
+  (apply #'xyz 0 0 0 :allow-other-keys t args))

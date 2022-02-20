@@ -7,12 +7,11 @@
   (:default-initargs
    :channel-names '(#\L #\u #\v)))
 
-(defun luv (l u v &key)
-  (make-instance 'luv :channel0 l :channel1 u :channel2 v))
+(defun luv (l u v &key illuminant)
+  (make-instance 'luv :illuminant illuminant :channel0 l :channel1 u :channel2 v))
 
 (defmethod default-color ((model (eql 'luv)) &rest args)
-  (declare (ignore args))
-  (luv 0 0 0))
+  (apply #'luv 0 0 0 :allow-other-keys t args))
 
 (declaim (notinline luv->xyz))
 (defun luv->xyz (luv xyz)

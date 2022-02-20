@@ -7,12 +7,11 @@
   (:default-initargs
    :channel-names '(#\L #\C #\H)))
 
-(defun lch-ab (l c h)
-  (make-instance 'lch-ab :channel0 l :channel1 c :channel2 h))
+(defun lch-ab (l c h &key illuminant)
+  (make-instance 'lch-ab :illuminant illuminant :channel0 l :channel1 c :channel2 h))
 
 (defmethod default-color ((model (eql 'lch-ab)) &rest args)
-  (declare (ignore args))
-  (lch-ab 0 0 0))
+  (apply #'lch-ab 0 0 0 :allow-other-keys t args))
 
 (declaim (inline lch-ab->cielab))
 (defun lch-ab->cielab (lch-ab cielab)

@@ -8,12 +8,11 @@
   (:default-initargs
    :channel-names '(#\x #\y #\Y)))
 
-(defun xyy (|x| |y| Y)
-  (make-instance 'xyy :channel0 |x| :channel1 |y| :channel2 Y))
+(defun xyy (|x| |y| Y &key illuminant)
+  (make-instance 'xyy :illuminant illuminant :channel0 |x| :channel1 |y| :channel2 Y))
 
 (defmethod default-color ((model (eql 'xyy)) &rest args)
-  (declare (ignore args))
-  (xyy 0 0 0))
+  (apply #'xyy 0 0 0 :allow-other-keys t args))
 
 (declaim (inline xyy->xyz))
 (defun xyy->xyz (xyy xyz)
