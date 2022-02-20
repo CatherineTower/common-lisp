@@ -3,27 +3,49 @@
 (plan nil)
 
 (subtest "From XYZ (one way)"
-  ;; select illuminant E on Lindbloom, because xyY is D65.
+
+  ;; Select illuminant D65 on Lindbloom.
+  ;; The conversion pipeline is: XYZ -> xyY.
+  ;; The second element is xyY, which is defined to use E.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
-  ;; select illuminant D65 on Lindbloom, because CIELAB is D65.
+
+  ;; Select illuminant D65 on Lindbloom.
+  ;; The conversion pipeline is: XYZ -> CIELAB.
+  ;; The second element is CIELAB, which is defined to use D65.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:cielab (76.0693 -160.8076 -28.957))
-  ;; select illuminant D65 on Lindbloom, because LCHab is D65.
+
+  ;; Select illuminant D65 on Lindbloom.
+  ;; The conversion pipeline is: XYZ -> CIELAB -> LCHab.
+  ;; The second element is CIELAB, which is defined to use D65.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 163.394 190.208))
-  ;; select illuminant E on Lindbloom, because I have no idea: LCHub is specified for D65.
+
+  ;; Select illuminant E on Lindbloom.
+  ;; The conversion pipeline is: XYZ -> Luv -> LCHuv.
+  ;; The second element is Luv, which is defined to use E.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 173.64 192.0948))
-  ;; select illuminant E on Lindbloom, because I have no idea: Luv is specified for D65.
+
+  ;; Select illuminant E on Lindbloom.
+  ;; The conversion pipeline is: XYZ -> Luv.
+  ;; The second element is Luv, which is defined to use E.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -169.7857 -36.3826)))
 
 (subtest "From xyY (one way)"
-  ;; select illuminant E on Lindbloom, because XYZ is E.
+
+  ;; Select illuminant E on Lindbloom.
+  ;; The conversion pipeline is: xyY -> XYZ.
+  ;; The second element is XYZ, which is defined to use E.
   (test-one-way (i:xyy 0.1 0.5 0.9) i:xyz (0.18 0.9 0.72))
-  ;; select illuminant D65 on Lindbloom, because CIELAB is D65.
+
+  ;; Un-analyzed.
   (test-one-way (i:xyy 0.1 0.5 0.9) i:cielab (95.9968 -195.6128 18.8554))
-  ;; select illuminant D65 on Lindbloom, because LCHab is D65.
+
+  ;; Un-analyzed.
   (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-ab (95.9968 196.5195 174.4942))
-  ;; select illuminant E on Lindbloom, because I have no idea: LCHuv is specified for D65.
+
+  ;; Un-analyzed.
   (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-uv (95.9968 211.3012 167.1419))
-  ;; select illuminant E on Lindbloom, because I have no idea: Luv is specified for D65.
+
+  ;; Un-analyzed.
   (test-one-way (i:xyy 0.1 0.5 0.9) i:luv (95.9968 -206.0026 47.0223)))
 
 ;; (subtest "From XYZ (round trip)"
