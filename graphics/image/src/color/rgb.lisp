@@ -197,8 +197,8 @@
       (expt (* (+ value 0.16d0) (/ 1.16d0)) 3d0)))
 
 (defmethod delinearize-rgb-channel (value (gamma (eql 'L*)))
-  (if (<= value #.(float 216/24389 1d0))
-      (* (* value #.(float 24389/27 1d0) 100d0))
+  (if (<= value +cie-e+)
+      (* value +cie-k+ #.(/ 100d0))
       (- (* 1.16d0 (expt value #.(float (/ 3) 1d0))) 0.16d0)))
 
 (defmethod linearize-rgb-channel (value (gamma (eql 'srgb)))
