@@ -8,8 +8,8 @@
              :for (x y) :on (car body) :by #'cdr
              :for first := from :then nil
              :for op := (u:symbolicate x '#:-> y)
-             :when first
-               :collect `(copy-illuminant-name ,to ,y)
+             :when (and first (subtypep last 'rgb))
+               :collect `(copy-illuminant-name ,to xyz)
              :unless (or (eq x last) (eq y last))
                :collect `(,op ,(if first from x) ,y)
              :when (and y (eq y last))
