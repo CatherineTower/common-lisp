@@ -3,11 +3,16 @@
 (plan nil)
 
 (subtest "From XYZ (one way)"
+  ;; select illuminant E on Lindbloom
   (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
+  ;; broken
   (test-one-way (i:xyz 0.1 0.5 0.9) i:cielab (76.0693 -160.8076 -28.9570))
+  ;; select illuminant E on Lindbloom
   (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 163.3940 190.2080))
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 160.2849 191.1859))
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -157.2400 -31.0941)))
+  ;; select illuminant E on Lindbloom
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 173.6400 192.0948))
+  ;; select illuminant E on Lindbloom
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -169.7857 -36.3826)))
 
 (subtest "From XYZ (round trip)"
   (test-round-trip i:xyz i:xyy)
