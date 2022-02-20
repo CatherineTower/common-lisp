@@ -14,16 +14,6 @@
          (out (color (type-of from-color) from-space)))
     (c::channels (i:convert to-color out))))
 
-(defun test/round-trip (from-color to-color expected)
-  (let* ((from-model/space (adjoin (type-of from-color) (list (c::space-name from-color))))
-         (to-model/space (adjoin (type-of to-color) (list(c::space-name to-color))))
-         (result (round-trip from-color to-color))
-         (string (format nil "~{~a~^/~} -> ~{~a~^/~} -> ~{~a~^/~}"
-                         from-model/space
-                         to-model/space
-                         from-model/space)))
-    (compare-channels result expected string)))
-
 (defmacro with-round-trips (from to &key (count 1000) (min 0d0) (max 0d0))
   (u:once-only (min max)
     (u:with-gensyms (from-color from-channels to-color results result fail check)
