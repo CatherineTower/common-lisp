@@ -49,7 +49,7 @@
 (defun xyz->cielab (xyz cielab)
   (declare (optimize speed))
   (let* ((lab-channels (channels cielab))
-         (r (v3:/ (channels xyz) (get-white-point (illuminant-name cielab))))
+         (r (v3:/ (channels xyz) (get-white-point (illuminant-name xyz))))
          (rx (v3:x r))
          (ry (v3:y r))
          (rz (v3:z r))
