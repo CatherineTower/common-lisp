@@ -40,10 +40,10 @@
                                  pass))
                              ,results)))
                (ok ,check
-                   (if ,fail
-                       (format nil "~a is expected to be ~a" (car ,fail) (cdr ,fail))
-                       ,(format nil "~{~a~^/~} -> ~{~a~^/~} -> ~{~a~^/~} (~d iterations)"
-                                (adjoin from-model `(,from-space))
-                                (adjoin to-model `(,to-space))
-                                (adjoin from-model `(,from-space))
-                                count))))))))))
+                   ,(format nil "~{~a~^/~} -> ~{~a~^/~} -> ~{~a~^/~} (~d iterations)"
+                            (adjoin from-model `(,from-space))
+                            (adjoin to-model `(,to-space))
+                            (adjoin from-model `(,from-space))
+                            count))
+               (when ,fail
+                 (format t "~a is expected to be ~a" (car ,fail) (cdr ,fail))))))))))
