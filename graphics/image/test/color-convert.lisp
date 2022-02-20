@@ -4,7 +4,7 @@
 
 (subtest "From XYZ (one way)"
 
-  ;; Select illuminant D65 on Lindbloom.
+  ;; Select illuminant E on Lindbloom.
   ;; The conversion pipeline is: XYZ -> xyY.
   ;; The second element is xyY, which is defined to use E.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
