@@ -19,21 +19,20 @@
     (c::channels (i:convert to-color out))))
 
 (defmacro test-one-way (from to expected)
-  (u:with-gensyms (from-color from-channels expected-channels to-color result)
-    (destructuring-bind (from-model &optional (from-space from-model)) (u:ensure-list from)
+  (u:once-only (from)
+    (u:with-gensyms (from-channels expected-channels to-color result)
       (destructuring-bind (to-model &optional (to-space to-model)) (u:ensure-list to)
-        `(let* ((,from-color (color ',from-model ',from-space))
-                (,from-channels (c::channels ,from-color))
+        `(let* ((,from-channels (c::channels ,from))
                 (,expected-channels (make-array (length ,from-channels)
                                                 :element-type 'u:f64
                                                 :initial-element 0d0))
                 (,to-color (color ',to-model ',to-space))
-                (,result (one-way ,from-color ,to-color)))
+                (,result (one-way ,from ,to-color)))
            (map-into ,expected-channels (lambda (x) (float x 1d0)) ',expected)
-           (is ,result ,expected-channels
-               ,(format nil "~{~a~^/~} -> ~{~a~^/~}"
-                        (adjoin from-model `(,from-space))
-                        (adjoin to-model `(,to-space)))))))))
+           (is ,result ,expected-channels :test (lambda (x y) (v3:= x y :rel 1d-3))
+               (format nil "~{~a~^/~} -> ~{~a~^/~}"
+                       (adjoin (type-of ,from) (list (c::space-name ,from)))
+                       (adjoin ',to-model (list ',to-space)))))))))
 
 (defmacro test-round-trip (from to &key (count 1000) (min 0d0) (max 0d0))
   (u:once-only (min max)
