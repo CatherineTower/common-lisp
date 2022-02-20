@@ -193,28 +193,28 @@
 
 (defmethod linearize-rgb-channel (value (gamma (eql 'L*)))
   (if (<= value 0.08)
-      (* 100d0 value #.(/ (float 24389/27 1d0)))
-      (expt (* (+ value 0.16d0) (/ 1.16d0)) 3d0)))
+      (/ (* value 100d0) +cie-k+)
+      (expt (/ (+ value 0.16d0) 1.16d0) 3d0)))
 
 (defmethod delinearize-rgb-channel (value (gamma (eql 'L*)))
   (if (<= value +cie-e+)
-      (* value +cie-k+ #.(/ 100d0))
-      (- (* 1.16d0 (expt value #.(float (/ 3) 1d0))) 0.16d0)))
+      (/ (* value +cie-k+) 100d0)
+      (- (* 1.16d0 (expt value (/ 3))) 0.16d0)))
 
 (defmethod linearize-rgb-channel (value (gamma (eql 'srgb)))
   (if (<= value 0.04045)
-      (* value #.(/ 12.92d0))
-      (expt (* (+ value 0.055d0) #.(/ 1.055d0)) 2.4d0)))
+      (/ value 12.92d0)
+      (expt (/ (+ value 0.055d0) 1.055d0) 2.4d0)))
 
 (defmethod delinearize-rgb-channel (value (gamma (eql 'srgb)))
   (if (<= value 0.0031308)
       (* value 12.92d0)
-      (- (* (expt value #.(/ 2.4d0)) 1.055d0) 0.055d0)))
+      (- (* (expt value (/ 2.4d0)) 1.055d0) 0.055d0)))
 
 (defmethod linearize-rgb-channel (value (gamma (eql 'rec.709)))
   (if (< value 0.081)
-      (* value #.(/ 4.5d0))
-      (expt (* (+ value 0.099d0) #.(/ 1.099d0)) (/ 0.45d0))))
+      (/ value 4.5d0)
+      (expt (/ (+ value 0.099d0) 1.099d0) (/ 0.45d0))))
 
 (defmethod delinearize-rgb-channel (value (gamma (eql 'rec.709)))
   (if (< value 0.018)
