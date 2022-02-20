@@ -4,10 +4,10 @@
 
 (subtest "From XYZ (one way)"
   (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:cielab (76.0693 -161.9350 -47.1281))
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 168.6535 196.2266))
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 175.8743 196.7247))
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -168.4346 -50.6121)))
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:cielab (76.0693 -160.8076 -28.9570))
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 163.3940 190.2080))
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 160.2849 191.1859))
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -157.2400 -31.0941)))
 
 (subtest "From XYZ (round trip)"
   (test-round-trip i:xyz i:xyy)
