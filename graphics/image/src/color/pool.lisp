@@ -1,5 +1,7 @@
 (in-package #:%mfiano.graphics.image.color)
 
+(defvar *pooling-enabled* nil)
+
 (defun ensure-color-pool (model space)
   (declare (optimize speed))
   (let ((pools (or base:*worker-pools* (base:color-pools base:*context*)))
@@ -39,9 +41,14 @@
 
 (defmacro with-pool-color ((binding model &key space copy) &body body)
   (let ((space (or space model)))
-    `(let ((,binding (get-pool-color ,model ,space :copy ,copy)))
-       (unwind-protect (progn ,@body)
-         (put-pool-color ,binding)))))
+    `(if *pooling-enabled*
+         (let ((,binding (get-pool-color ,model ,space :copy ,copy)))
+           (unwind-protect (progn ,@body)
+             (put-pool-color ,binding)))
+         (let ((,binding (default-color ,model :space ,space)))
+           ,@(when copy
+               `((copy-channels ,copy ,binding)))
+           ,@body))))
 
 (defmacro with-pool-colors ((model &rest rest) &body body)
   `(with-pool-color (,model ',model)
