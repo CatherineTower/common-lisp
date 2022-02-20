@@ -14,9 +14,10 @@
     :initarg :illuminant)))
 
 (u:define-printer (model stream :type nil)
-  (format stream "COLOR (model: ~s, space: ~s)~%  ~{~{~a~^: ~}~^~%  ~}"
+  (format stream "COLOR (model: ~a, space: ~a, illuminant: ~a)~%  ~{~{~a~^: ~}~^~%  ~}"
           (type-of model)
           (space-name model)
+          (illuminant-name model)
           (map 'list (lambda (x y) (list x (float y 1f0)))
                (channel-names model)
                (channels model))))
