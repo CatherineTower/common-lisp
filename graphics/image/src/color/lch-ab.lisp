@@ -21,6 +21,7 @@
     (v3:with-components ((lch- lch-channels)
                          (lab- lab-channels))
       (let ((h (u:degrees->radians lch-z)))
+        (copy-illuminant-name lch-ab lab)
         (setf lab-x lch-x
               lab-y (* lch-y (cos h))
               lab-z (* lch-y (sin h)))
@@ -35,6 +36,7 @@
     (v3:with-components ((lab- lab-channels)
                          (lch- lch-channels))
       (let ((arctan (atan lab-z lab-y)))
+        (copy-illuminant-name lab lch-ab)
         (setf lch-x lab-x
               lch-y (sqrt (+ (expt lab-y 2) (expt lab-z 2)))
               lch-z (if (plusp arctan)

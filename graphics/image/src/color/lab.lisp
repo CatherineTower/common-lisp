@@ -38,6 +38,7 @@
              (rz (if (> fz^3 +cie-e+)
                      fz^3
                      (* (- (* fz 116) 16) #.(/ +cie-k+)))))
+        (copy-illuminant-name lab xyz)
         (setf xyz-x (* rx wx)
               xyz-y (* ry wy)
               xyz-z (* rz wz))

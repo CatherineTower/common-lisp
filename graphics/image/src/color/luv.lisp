@@ -32,6 +32,7 @@
                     (* luv-x #.(/ +cie-k+))))
              (d (* (- (/ (* 39 luv-x) (+ luv-z (* 13 luv-x (/ (* wy 9) div)))) 5) y))
              (-5y (* y -5)))
+        (copy-illuminant-name luv xyz)
         (setf xyz-x (/ (- d -5y) (- a -1/3))
               xyz-y y
               xyz-z (+ (* xyz-x a) -5y))
@@ -50,6 +51,7 @@
       (let ((reference-y (/ xyz-y wy))
             (div-uv (+ xyz-x (* xyz-y 15) (* xyz-z 3)))
             (div-w (+ wx (* wy 15) (* wz 3))))
+        (copy-illuminant-name xyz luv)
         (if (zerop div-uv)
             (v3:zero! luv-channels)
             (setf luv-x (if (> reference-y +cie-e+)
