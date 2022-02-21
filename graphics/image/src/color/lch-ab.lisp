@@ -1,7 +1,7 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (lch-ab :illuminant d65))
+  (lch-ab :illuminant :d65))
 
 (defclass lch-ab (model) ()
   (:default-initargs

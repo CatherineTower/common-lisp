@@ -2,7 +2,7 @@
 
 ;; Reference: https://en.wikipedia.org/wiki/CIE_1931_color_space
 (define-color-spaces ()
-  (xyz :illuminant e))
+  (xyz :illuminant :e))
 
 (defclass xyz (model) ()
   (:default-initargs

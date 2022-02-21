@@ -1,7 +1,7 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (luv :illuminant e))
+  (luv :illuminant :e))
 
 (defclass luv (model) ()
   (:default-initargs
