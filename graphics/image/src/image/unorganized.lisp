@@ -2,11 +2,11 @@
 
 ;;; TODO: The functions in this file have not been organized into the project architecture yet.
 
-(declaim (inline %image-channel))
+(declaim (notinline %image-channel))
 (defun %image-channel (data x y index)
   (aref data x y index))
 
-(declaim (inline (setf %image-channel)))
+(declaim (notinline (setf %image-channel)))
 (defun (setf %image-channel) (value data x y index)
   (setf (aref data x y index) value))
 

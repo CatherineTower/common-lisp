@@ -13,7 +13,7 @@
 (defun xyy (|x| |y| Y &key illuminant)
   (make-instance 'xyy :illuminant illuminant :channel0 |x| :channel1 |y| :channel2 Y))
 
-(declaim (inline xyy->xyz))
+(declaim (notinline xyy->xyz))
 (defun xyy->xyz (xyy xyz)
   (declare (optimize speed))
   (let ((xyy-channels (channels xyy))
@@ -28,7 +28,7 @@
                 xyz-z (/ (* (- 1 xyy-x xyy-y) xyy-z) xyy-y)))
       xyz)))
 
-(declaim (inline xyz->xyy))
+(declaim (notinline xyz->xyy))
 (defun xyz->xyy (xyz xyy)
   (declare (optimize speed))
   (let ((xyz-channels (channels xyz))

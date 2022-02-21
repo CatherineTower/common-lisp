@@ -12,7 +12,7 @@
 (defun lch-uv (l c h &key illuminant)
   (make-instance 'lch-uv :illuminant illuminant :channel0 l :channel1 c :channel2 h))
 
-(declaim (inline lch-uv->luv))
+(declaim (notinline lch-uv->luv))
 (defun lch-uv->luv (lch-uv luv)
   (declare (optimize speed))
   (let ((lch-channels (channels lch-uv))
@@ -26,7 +26,7 @@
               luv-z (* lch-y (sin h)))
         luv))))
 
-(declaim (inline luv->lch-uv))
+(declaim (notinline luv->lch-uv))
 (defun luv->lch-uv (luv lch-uv)
   (declare (optimize speed))
   (let ((luv-channels (channels luv))

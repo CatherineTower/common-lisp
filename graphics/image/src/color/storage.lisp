@@ -28,25 +28,25 @@
     (when channel3-p
       (setf (aref channels 3) (float channel3 1d0)))))
 
-(declaim (inline zero-channels))
+(declaim (notinline zero-channels))
 (defun zero-channels (storage)
   (let ((channels (channels storage)))
     (declare ((u:f64a (*)) channels))
     (fill channels 0d0)))
 
-(declaim (inline copy-channels))
+(declaim (notinline copy-channels))
 (defun copy-channels (from to)
   (let ((from-channels (channels from))
         (to-channels (channels to)))
     (declare ((u:f64a (*)) to-channels from-channels))
     (replace to-channels from-channels)))
 
-(declaim (inline decompose-channels))
+(declaim (notinline decompose-channels))
 (defun decompose-channels (storage)
   (let ((channels (channels storage)))
     (flet ((%get (index)
              (float (aref channels index) 1f0)))
-      (declare (inline %get))
+      (declare (notinline %get))
       (ecase (length channels)
         (1
          (%get 0))

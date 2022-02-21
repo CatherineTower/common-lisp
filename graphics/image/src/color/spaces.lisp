@@ -1,10 +1,10 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(declaim (inline get-color-space-spec))
+(declaim (notinline get-color-space-spec))
 (defun get-color-space-spec (space-name)
   (u:href (base:color-spaces base:*context*) space-name))
 
-(declaim (inline get-space-model))
+(declaim (notinline get-space-model))
 (defun get-space-model (space-name)
   (car (get-color-space-spec space-name)))
 

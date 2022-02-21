@@ -14,7 +14,7 @@
           (setf (u:href pools (copy-list key)) array)
           array))))
 
-(declaim (inline reset-pool-color))
+(declaim (notinline reset-pool-color))
 (defun reset-pool-color (color)
   (zero-channels color)
   (copy-illuminant-name color color t)

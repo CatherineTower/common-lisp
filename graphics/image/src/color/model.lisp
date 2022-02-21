@@ -44,7 +44,7 @@
         (apply #'make-instance model :space space args))
       (error "Color model ~s is not defined." model)))
 
-(declaim (inline copy-illuminant-name))
+(declaim (notinline copy-illuminant-name))
 (defun copy-illuminant-name (from to &optional default)
   (declare (optimize speed))
   (let ((illuminant-name (if default (default-illuminant-name from) (illuminant-name from))))

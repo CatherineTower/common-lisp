@@ -12,7 +12,7 @@
 (defun lch-ab (l c h &key illuminant)
   (make-instance 'lch-ab :illuminant illuminant :channel0 l :channel1 c :channel2 h))
 
-(declaim (inline lch-ab->lab))
+(declaim (notinline lch-ab->lab))
 (defun lch-ab->lab (lch-ab lab)
   (declare (optimize speed))
   (let ((lch-channels (channels lch-ab))
@@ -26,7 +26,7 @@
               lab-z (* lch-y (sin h)))
         lab))))
 
-(declaim (inline lab->lch-ab))
+(declaim (notinline lab->lch-ab))
 (defun lab->lch-ab (lab lch-ab)
   (declare (optimize speed))
   (let ((lab-channels (channels lab))
