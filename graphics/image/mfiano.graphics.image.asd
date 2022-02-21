@@ -31,7 +31,7 @@
      (:file "pool")
      (:file "xyz")
      (:file "xyy")
-     (:file "cielab")
+     (:file "lab")
      (:file "lch-ab")
      (:file "lch-uv")
      (:file "luv")

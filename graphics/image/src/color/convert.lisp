@@ -24,12 +24,12 @@
 (defmethod base:convert ((from xyz) (to xyy))
   (xyz->xyy from to))
 
-(defmethod base:convert ((from xyz) (to cielab))
-  (xyz->cielab from to))
+(defmethod base:convert ((from xyz) (to lab))
+  (xyz->lab from to))
 
 (defmethod base:convert ((from xyz) (to lch-ab))
   (with-convert (from to)
-    (xyz cielab lch-ab)))
+    (xyz lab lch-ab)))
 
 (defmethod base:convert ((from xyz) (to lch-uv))
   (with-convert (from to)
@@ -46,13 +46,13 @@
 (defmethod base:convert ((from xyy) (to xyz))
   (xyy->xyz from to))
 
-(defmethod base:convert ((from xyy) (to cielab))
+(defmethod base:convert ((from xyy) (to lab))
   (with-convert (from to)
-    (xyy xyz cielab)))
+    (xyy xyz lab)))
 
 (defmethod base:convert ((from xyy) (to lch-ab))
   (with-convert (from to)
-    (xyy xyz cielab lch-ab)))
+    (xyy xyz lab lch-ab)))
 
 (defmethod base:convert ((from xyy) (to lch-uv))
   (with-convert (from to)
@@ -66,54 +66,54 @@
   (with-convert (from to)
     (xyy xyz rgb)))
 
-;;; From CIELAB
+;;; From Lab
 
-(defmethod base:convert ((from cielab) (to xyz))
-  (cielab->xyz from to))
+(defmethod base:convert ((from lab) (to xyz))
+  (lab->xyz from to))
 
-(defmethod base:convert ((from cielab) (to xyy))
+(defmethod base:convert ((from lab) (to xyy))
   (with-convert (from to)
-    (cielab xyz xyy)))
+    (lab xyz xyy)))
 
-(defmethod base:convert ((from cielab) (to lch-ab))
-  (cielab->lch-ab from to))
+(defmethod base:convert ((from lab) (to lch-ab))
+  (lab->lch-ab from to))
 
-(defmethod base:convert ((from cielab) (to lch-uv))
+(defmethod base:convert ((from lab) (to lch-uv))
   (with-convert (from to)
-    (cielab xyz luv lch-uv)))
+    (lab xyz luv lch-uv)))
 
-(defmethod base:convert ((from cielab) (to luv))
+(defmethod base:convert ((from lab) (to luv))
   (with-convert (from to)
-    (cielab xyz luv)))
+    (lab xyz luv)))
 
-(defmethod base:convert ((from cielab) (to rgb))
+(defmethod base:convert ((from lab) (to rgb))
   (with-convert (from to)
-    (cielab xyz rgb)))
+    (lab xyz rgb)))
 
 ;;; From LCHab
 
 (defmethod base:convert ((from lch-ab) (to xyz))
   (with-convert (from to)
-    (lch-ab cielab xyz)))
+    (lch-ab lab xyz)))
 
 (defmethod base:convert ((from lch-ab) (to xyy))
   (with-convert (from to)
-    (lch-ab cielab xyz xyy)))
+    (lch-ab lab xyz xyy)))
 
-(defmethod base:convert ((from lch-ab) (to cielab))
-  (lch-ab->cielab from to))
+(defmethod base:convert ((from lch-ab) (to lab))
+  (lch-ab->lab from to))
 
 (defmethod base:convert ((from lch-ab) (to lch-uv))
   (with-convert (from to)
-    (lch-ab cielab xyz luv lch-uv)))
+    (lch-ab lab xyz luv lch-uv)))
 
 (defmethod base:convert ((from lch-ab) (to luv))
   (with-convert (from to)
-    (lch-ab cielab xyz luv)))
+    (lch-ab lab xyz luv)))
 
 (defmethod base:convert ((from lch-ab) (to rgb))
   (with-convert (from to)
-    (lch-ab cielab xyz rgb)))
+    (lch-ab lab xyz rgb)))
 
 ;;; From LCHuv
 
@@ -125,13 +125,13 @@
   (with-convert (from to)
     (lch-uv luv xyz xyy)))
 
-(defmethod base:convert ((from lch-uv) (to cielab))
+(defmethod base:convert ((from lch-uv) (to lab))
   (with-convert (from to)
-    (lch-uv luv xyz cielab)))
+    (lch-uv luv xyz lab)))
 
 (defmethod base:convert ((from lch-uv) (to lch-ab))
   (with-convert (from to)
-    (lch-uv luv xyz cielab lch-ab)))
+    (lch-uv luv xyz lab lch-ab)))
 
 (defmethod base:convert ((from lch-uv) (to luv))
   (lch-uv->luv from to))
@@ -149,13 +149,13 @@
   (with-convert (from to)
     (luv xyz xyy)))
 
-(defmethod base:convert ((from luv) (to cielab))
+(defmethod base:convert ((from luv) (to lab))
   (with-convert (from to)
-    (luv xyz cielab)))
+    (luv xyz lab)))
 
 (defmethod base:convert ((from luv) (to lch-ab))
   (with-convert (from to)
-    (luv xyz cielab lch-ab)))
+    (luv xyz lab lch-ab)))
 
 (defmethod base:convert ((from luv) (to lch-uv))
   (luv->lch-uv from to))
@@ -179,13 +179,13 @@
   (with-convert (from to)
     (rgb xyz xyy)))
 
-(defmethod base:convert ((from rgb) (to cielab))
+(defmethod base:convert ((from rgb) (to lab))
   (with-convert (from to)
-    (rgb xyz cielab)))
+    (rgb xyz lab)))
 
 (defmethod base:convert ((from rgb) (to lch-ab))
   (with-convert (from to)
-    (rgb xyz cielab lch-ab)))
+    (rgb xyz lab lch-ab)))
 
 (defmethod base:convert ((from rgb) (to lch-uv))
   (with-convert (from to)
@@ -200,7 +200,7 @@
 
 (define-rgb-value-converters (xyz))
 (define-rgb-value-converters (xyy))
-(define-rgb-value-converters (cielab))
+(define-rgb-value-converters (lab))
 (define-rgb-value-converters (lch-ab))
 (define-rgb-value-converters (lch-uv))
 (define-rgb-value-converters (luv))

@@ -11,8 +11,8 @@
   (:use #:cl)
   ;; Constructors
   (:export
-   #:cielab
    #:default-color
+   #:lab
    #:lch-ab
    #:lch-uv
    #:luv

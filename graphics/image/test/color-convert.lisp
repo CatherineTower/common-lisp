@@ -8,7 +8,7 @@
   (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
 
   ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:cielab (76.0693 -164.7708 -34.3578))
+  (test-one-way (i:xyz 0.1 0.5 0.9) i:lab (76.0693 -164.7708 -34.3578))
 
   ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
   (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 168.3148 191.7785))
@@ -25,7 +25,7 @@
   (test-one-way (i:xyy 0.1 0.5 0.9) i:xyz (0.18 0.9 0.72))
 
   ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
-  (test-one-way (i:xyy 0.1 0.5 0.9) i:cielab (95.9968 -200.4339 13.8417))
+  (test-one-way (i:xyy 0.1 0.5 0.9) i:lab (95.9968 -200.4339 13.8417))
 
   ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
   (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-ab (95.9968 200.9113 176.0495))
@@ -38,7 +38,7 @@
 
 ;; (subtest "From XYZ (round trip)"
 ;;   (test-round-trip i:xyz i:xyy)
-;;   (test-round-trip i:xyz i:cielab)
+;;   (test-round-trip i:xyz i:lab)
 ;;   (test-round-trip i:xyz i:lch-ab)
 ;;   (test-round-trip i:xyz i:lch-uv)
 ;;   (test-round-trip i:xyz i:luv)
@@ -66,7 +66,7 @@
 
 ;; (subtest "From xyY (round trip)"
 ;;   (test-round-trip i:xyy i:xyz)
-;;   (test-round-trip i:xyy i:cielab)
+;;   (test-round-trip i:xyy i:lab)
 ;;   (test-round-trip i:xyy i:lch-ab)
 ;;   (test-round-trip i:xyy i:lch-uv)
 ;;   (test-round-trip i:xyy i:luv)
@@ -93,39 +93,39 @@
 ;;   (test-round-trip i:xyy (i:rgb i:smpte-c-rgb))
 ;;   (test-round-trip i:xyy (i:rgb i:srgb)))
 
-;; (subtest "From CIELAB (round trip)"
-;;   (test-round-trip i:cielab i:xyz)
-;;   (test-round-trip i:cielab i:xyy)
-;;   (test-round-trip i:cielab i:lch-ab)
-;;   (test-round-trip i:cielab i:lch-uv)
-;;   (test-round-trip i:cielab i:luv)
-;;   (test-round-trip i:cielab (i:rgb i:adobe-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:adobe-wide-gamut-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:apple-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:best-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:beta-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:bruce-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:bt.2020))
-;;   (test-round-trip i:cielab (i:rgb i:bt.470-ntsc))
-;;   (test-round-trip i:cielab (i:rgb i:bt.470-pal/secam))
-;;   (test-round-trip i:cielab (i:rgb i:bt.709))
-;;   (test-round-trip i:cielab (i:rgb i:cie-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:colormatch-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:dci-p3))
-;;   (test-round-trip i:cielab (i:rgb i:dci-p3+))
-;;   (test-round-trip i:cielab (i:rgb i:don-rgb-4))
-;;   (test-round-trip i:cielab (i:rgb i:eci-rgb-v2))
-;;   (test-round-trip i:cielab (i:rgb i:ekta-space-ps5))
-;;   (test-round-trip i:cielab (i:rgb i:romm-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:simple-srgb))
-;;   (test-round-trip i:cielab (i:rgb i:smpte-c-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:smpte-c-rgb))
-;;   (test-round-trip i:cielab (i:rgb i:srgb)))
+;; (subtest "From Lab (round trip)"
+;;   (test-round-trip i:lab i:xyz)
+;;   (test-round-trip i:lab i:xyy)
+;;   (test-round-trip i:lab i:lch-ab)
+;;   (test-round-trip i:lab i:lch-uv)
+;;   (test-round-trip i:lab i:luv)
+;;   (test-round-trip i:lab (i:rgb i:adobe-rgb))
+;;   (test-round-trip i:lab (i:rgb i:adobe-wide-gamut-rgb))
+;;   (test-round-trip i:lab (i:rgb i:apple-rgb))
+;;   (test-round-trip i:lab (i:rgb i:best-rgb))
+;;   (test-round-trip i:lab (i:rgb i:beta-rgb))
+;;   (test-round-trip i:lab (i:rgb i:bruce-rgb))
+;;   (test-round-trip i:lab (i:rgb i:bt.2020))
+;;   (test-round-trip i:lab (i:rgb i:bt.470-ntsc))
+;;   (test-round-trip i:lab (i:rgb i:bt.470-pal/secam))
+;;   (test-round-trip i:lab (i:rgb i:bt.709))
+;;   (test-round-trip i:lab (i:rgb i:cie-rgb))
+;;   (test-round-trip i:lab (i:rgb i:colormatch-rgb))
+;;   (test-round-trip i:lab (i:rgb i:dci-p3))
+;;   (test-round-trip i:lab (i:rgb i:dci-p3+))
+;;   (test-round-trip i:lab (i:rgb i:don-rgb-4))
+;;   (test-round-trip i:lab (i:rgb i:eci-rgb-v2))
+;;   (test-round-trip i:lab (i:rgb i:ekta-space-ps5))
+;;   (test-round-trip i:lab (i:rgb i:romm-rgb))
+;;   (test-round-trip i:lab (i:rgb i:simple-srgb))
+;;   (test-round-trip i:lab (i:rgb i:smpte-c-rgb))
+;;   (test-round-trip i:lab (i:rgb i:smpte-c-rgb))
+;;   (test-round-trip i:lab (i:rgb i:srgb)))
 
 ;; (subtest "From LCHab (round trip)"
 ;;   (test-round-trip i:lch-ab i:xyz)
 ;;   (test-round-trip i:lch-ab i:xyy)
-;;   (test-round-trip i:lch-ab i:cielab)
+;;   (test-round-trip i:lch-ab i:lab)
 ;;   (test-round-trip i:lch-ab i:lch-uv)
 ;;   (test-round-trip i:lch-ab i:luv)
 ;;   (test-round-trip i:lch-ab (i:rgb i:adobe-rgb))
@@ -154,7 +154,7 @@
 ;; (subtest "From LCHuv (round trip)"
 ;;   (test-round-trip i:lch-uv i:xyz)
 ;;   (test-round-trip i:lch-uv i:xyy)
-;;   (test-round-trip i:lch-uv i:cielab)
+;;   (test-round-trip i:lch-uv i:lab)
 ;;   (test-round-trip i:lch-uv i:lch-ab)
 ;;   (test-round-trip i:lch-uv i:luv)
 ;;   (test-round-trip i:lch-uv (i:rgb i:adobe-rgb))
@@ -183,7 +183,7 @@
 ;; (subtest "From Luv (round trip)"
 ;;   (test-round-trip i:luv i:xyz)
 ;;   (test-round-trip i:luv i:xyy)
-;;   (test-round-trip i:luv i:cielab)
+;;   (test-round-trip i:luv i:lab)
 ;;   (test-round-trip i:luv i:lch-ab)
 ;;   (test-round-trip i:luv i:lch-uv)
 ;;   (test-round-trip i:luv (i:rgb i:adobe-rgb))
