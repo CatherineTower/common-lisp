@@ -9,15 +9,6 @@
    (#:v3 #:mfiano.math.origin.dvec3)
    (#:v4 #:mfiano.math.origin.dvec4))
   (:use #:cl)
-  ;; Chromatic adaptation methods
-  (:export
-   #:bradford
-   #:ciecam02
-   #:cat16
-   #:fairchild
-   #:sharp
-   #:von-kries
-   #:xyz-scaling)
   ;; Constructors
   (:export
    #:cielab
