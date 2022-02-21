@@ -20,6 +20,12 @@
   (copy-illuminant-name color color t)
   (values))
 
+(declaim (notinline copy-pool-color))
+(defun copy-pool-color (from to)
+  (copy-channels from to)
+  (copy-illuminant-name from to)
+  (values))
+
 (defun get-pool-color (model space &key copy)
   (declare (optimize speed))
   (let ((space (u:make-keyword space))
@@ -29,7 +35,7 @@
       (map-into pool (lambda () (make-color model :space space))))
     (let ((color (vector-pop pool)))
       (if copy
-          (copy-channels copy color)
+          (copy-pool-color copy color)
           (reset-pool-color color))
       color)))
 
@@ -48,7 +54,7 @@
              (put-pool-color ,binding)))
          (let ((,binding (make-color ,model :space ,space)))
            ,@(when copy
-               `((copy-channels ,copy ,binding)))
+               `((copy-pool-color ,copy ,binding)))
            ,@body))))
 
 (defmacro with-pool-colors ((model &rest rest) &body body)
