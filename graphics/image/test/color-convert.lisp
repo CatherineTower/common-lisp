@@ -2,39 +2,128 @@
 
 (plan nil)
 
-(subtest "From XYZ (one way)"
+(diag "From XYZ (one way)")
 
-  ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
+(define-test/one-way (xyz 0.1 0.5 0.9)
+  (xyy
+   (e (0.06667 0.33333 0.5)))
+  (lab
+   (a (76.069 -171.926 -113.753))
+   (b (76.069 -164.065 -44.857))
+   (c (76.069 -163.261 -23.873))
+   (d50 (76.069 -161.935 -47.128))
+   (d55 (76.069 -161.331 -39.693))
+   (d65 (76.069 -160.808 -28.957))
+   (d75 (76.069 -160.745 -21.66))
+   (e (76.069 -164.771 -34.358)))
+  (lch-ab
+   (a (76.069 206.151 213.49))
+   (b (76.069 170.086 195.292))
+   (c (76.069 164.998 188.319))
+   (d50 (76.069 168.653 196.227))
+   (d55 (76.069 166.142 193.822))
+   (d65 (76.069 163.394 190.208))
+   (d75 (76.069 162.198 187.674))
+   (e (76.069 168.315 191.778)))
+  (lch-uv
+   (a (76.069 231.466 201.925))
+   (b (76.069 179.367 195.435))
+   (c (76.069 162.005 188.421))
+   (d50 (76.069 175.874 196.725))
+   (d55 (76.069 169.404 194.829))
+   (d65 (76.069 160.285 191.186))
+   (d75 (76.069 154.469 187.954))
+   (e (76.069 173.64 192.095)))
+  (luv
+   (a (76.069 -214.725 -86.427))
+   (b (76.069 -172.898 -47.738))
+   (c (76.069 -160.258 -23.724))
+   (d50 (76.069 -168.435 -50.612))
+   (d55 (76.069 -163.762 -43.356))
+   (d65 (76.069 -157.24 -31.094))
+   (d75 (76.069 -152.983 -21.375))
+   (e (76.069 -169.786 -36.383))))
 
-  ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:lab (76.0693 -164.7708 -34.3578))
+(define-test/one-way (xyy 0.26549 0.53097 0.6)
+  (xyz
+   (e (0.3 0.6 0.23)))
+  (lab
+   (a (81.838 -97.317 -4.236))
+   ;; (b (81.838 -85.981 39.485))
+   ;; (c (81.838 -84.823 52.801))
+   ;; (d50 (81.838 -82.91 38.044))
+   (d55 (81.838 -82.037 42.762))
+   (d65 (81.838 -81.282 49.575))
+   (d75 (81.838 -81.192 54.206))
+   (e (81.838 -86.998 46.148)))
+  (lch-ab
+   (a (81.838 97.409 182.492))
+   ;; (b (81.838 94.614 155.334))
+   ;; (c (81.838 99.915 148.098))
+   ;; (d50 (81.838 91.222 155.351))
+   (d55 (81.838 92.513 152.469))
+   (d65 (81.838 95.207 148.620))
+   (d75 (81.838 97.624 146.272))
+   (e (81.838 98.48 152.056)))
+  (lch-uv
+   (a (81.838 145.559 173.179))
+   ;; (b (81.838 115.659 149.379))
+   ;; (c (81.838 120.692 135.398))
+   ;; (d50 (81.838 109.952 149.491))
+   (d55 (81.838 109.974 144.651))
+   (d65 (81.838 112.86 137.106))
+   (d75 (81.838 117.121 131.827))
+   (e (81.838 119.624 143.516)))
+  (luv
+   (a (81.838 -144.528 17.288))
+   ;; (b (81.838 -99.531 58.912))
+   ;; (c (81.838 -85.933 84.747))
+   ;; (d50 (81.838 -94.729 55.82))
+   (d55 (81.838 -89.7 63.625))
+   (d65 (81.838 -82.683 76.817))
+   (d75 (81.838 -78.104 87.273))
+   (e (81.838 -96.181 71.128))))
 
-  ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 168.3148 191.7785))
+;; Select illuminant E on Lindbloom, because XYZ is defined to use illuminant E.
+#++(subtest "From XYZ (one way)"
+     (test-one-way (i:xyz 0.1 0.5 0.9) i:xyy (0.066667 0.333333 0.5))
+     (test-one-way (i:xyz 0.1 0.5 0.9) i:lab (76.0693 -164.7708 -34.3578))
+     (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-ab (76.0693 168.3148 191.7785))
+     (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 173.64 192.0948))
+     (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -169.7857 -36.3826)))
 
-  ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:lch-uv (76.0693 173.64 192.0948))
+;; Select illuminant E on Lindbloom, because xyY is defined to use illuminant E.
+#++(subtest "From xyY (one way)"
+     (test-one-way (i:xyy 0.1 0.5 0.9) i:xyz (0.18 0.9 0.72))
+     (test-one-way (i:xyy 0.1 0.5 0.9) i:lab (95.9968 -200.4339 13.8417))
+     (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-ab (95.9968 200.9113 176.0495))
+     (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-uv (95.9968 211.3012 167.1419))
+     (test-one-way (i:xyy 0.1 0.5 0.9) i:luv (95.9968 -206.0026 47.0223)))
 
-  ;; Select illuminant E on Lindbloom, because the source XYZ is defined for illuminant E.
-  (test-one-way (i:xyz 0.1 0.5 0.9) i:luv (76.0693 -169.7857 -36.3826)))
+#++(subtest "From Lab (one way)"
+     (test-one-way (i:lab 95.9968 -200.4339 13.8417) i:xyz (0.18 0.9 0.72))
+     (test-one-way (i:lab 95.9968 -200.4339 13.8417) i:xyy (0.1 0.5 0.9))
+     (test-one-way (i:lab 95.9968 -200.4339 13.8417) i:lch-ab (95.9968 200.9113 176.0495))
+     (test-one-way (i:lab 95.9968 -200.4339 13.8417) i:lch-uv (95.9968 211.3012 167.1419))
+     (test-one-way (i:lab 95.9968 -200.4339 13.8417) i:luv (95.9968 -206.0027 47.0224)))
 
-(subtest "From xyY (one way)"
+;; Select illuminant D65 on Lindbloom, because LCHab is defined to use illuminant D65.
+#++(subtest "From LCHab (one way)"
+     (test-one-way (i:lch-ab 95.9970 200.4784 176.0409) i:xyz (0.171876 0.9 0.78396))
+     (test-one-way (i:lch-ab 95.9970 200.4784 176.0409) i:xyy (0.092614 0.484958 0.9))
+     (test-one-way (i:lch-ab 95.9970 200.4784 176.0409) i:lab (95.9970 -200 13.8419))
+     ;; broken
+     (test-one-way (i:lch-ab 95.9970 200.4784 176.0409) i:lch-uv (95.9970 198.8369 166.5115))
+     ;; broken
+     (test-one-way (i:lch-ab 95.9970 200.4784 176.0409) i:luv (95.9970 -193.3524 46.3788)))
 
-  ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
-  (test-one-way (i:xyy 0.1 0.5 0.9) i:xyz (0.18 0.9 0.72))
-
-  ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
-  (test-one-way (i:xyy 0.1 0.5 0.9) i:lab (95.9968 -200.4339 13.8417))
-
-  ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
-  (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-ab (95.9968 200.9113 176.0495))
-
-  ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
-  (test-one-way (i:xyy 0.1 0.5 0.9) i:lch-uv (95.9968 211.3012 167.1419))
-
-  ;; Select illuminant E on Lindbloom, because the source XYY is defined for illuminant E.
-  (test-one-way (i:xyy 0.1 0.5 0.9) i:luv (95.9968 -206.0026 47.0223)))
+;; Select illuminant E on Lindbloom, because LCHuv is defined to use illuminant E.
+#++(subtest "From LCHuv (one way)"
+     (test-one-way (i:lch-uv 95.9970 198.8369 166.5115) i:xyz (0.220367 0.9 0.711881))
+     (test-one-way (i:lch-uv 95.9970 198.8369 166.5115) i:xyy (0.120271 0.491202 0.9))
+     (test-one-way (i:lch-uv 95.9970 198.8369 166.5115) i:lab (95.9970 -180.7375 14.5185))
+     (test-one-way (i:lch-uv 95.9970 198.8369 166.5115) i:lch-ab (95.9970 181.3197 175.4073))
+     (test-one-way (i:lch-uv 95.9970 198.8369 166.5115) i:luv (95.9970 -193.3523 46.3787)))
 
 ;; (subtest "From XYZ (round trip)"
 ;;   (test-round-trip i:xyz i:xyy)

@@ -1,7 +1,9 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (lch-uv :illuminant :e))
+  (:lch-uv
+   :models (lch-uv)
+   :illuminant :e))
 
 (defclass lch-uv (model) ()
   (:default-initargs
@@ -9,9 +11,6 @@
 
 (defun lch-uv (l c h &key illuminant)
   (make-instance 'lch-uv :illuminant illuminant :channel0 l :channel1 c :channel2 h))
-
-(defmethod default-color ((model (eql 'lch-uv)) &rest args)
-  (apply #'lch-uv 0 0 0 :allow-other-keys t args))
 
 (declaim (inline lch-uv->luv))
 (defun lch-uv->luv (lch-uv luv)

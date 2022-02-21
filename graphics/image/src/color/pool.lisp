@@ -10,7 +10,7 @@
     (or (u:href pools key)
         (let ((array (make-array 2 :adjustable t :fill-pointer 0)))
           (dotimes (i (length array))
-            (setf (aref array i) (make-model model space)))
+            (setf (aref array i) (make-color model :space space)))
           (setf (u:href pools (copy-list key)) array)
           array))))
 
@@ -22,10 +22,11 @@
 
 (defun get-pool-color (model space &key copy)
   (declare (optimize speed))
-  (let ((pool (ensure-color-pool model space)))
+  (let ((space (u:make-keyword space))
+        (pool (ensure-color-pool model space)))
     (declare ((vector t) pool))
     (when (zerop (fill-pointer pool))
-      (map-into pool (lambda () (make-model model space))))
+      (map-into pool (lambda () (make-color model :space space))))
     (let ((color (vector-pop pool)))
       (if copy
           (copy-channels copy color)
@@ -45,7 +46,7 @@
          (let ((,binding (get-pool-color ,model ,space :copy ,copy)))
            (unwind-protect (progn ,@body)
              (put-pool-color ,binding)))
-         (let ((,binding (default-color ,model :space ,space)))
+         (let ((,binding (make-color ,model :space ,space)))
            ,@(when copy
                `((copy-channels ,copy ,binding)))
            ,@body))))

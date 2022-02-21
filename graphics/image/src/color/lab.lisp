@@ -1,7 +1,9 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (lab :illuminant :d65))
+  (:lab
+   :models (lab)
+   :illuminant :d65))
 
 (defclass lab (model) ()
   (:default-initargs
@@ -9,9 +11,6 @@
 
 (defun lab (l a b &key illuminant)
   (make-instance 'lab :illuminant illuminant :channel0 l :channel1 a :channel2 b))
-
-(defmethod default-color ((model (eql 'lab)) &rest args)
-  (apply #'lab 0 0 0 :allow-other-keys t args))
 
 (declaim (notinline lab->xyz))
 (defun lab->xyz (lab xyz)
@@ -39,7 +38,6 @@
              (rz (if (> fz^3 +cie-e+)
                      fz^3
                      (* (- (* fz 116) 16) #.(/ +cie-k+)))))
-        (copy-illuminant-name lab xyz)
         (setf xyz-x (* rx wx)
               xyz-y (* ry wy)
               xyz-z (* rz wz))
@@ -65,6 +63,7 @@
     (declare (v3:vec lab-channels)
              (dynamic-extent r))
     (v3:with-components ((lab- lab-channels))
+      (copy-illuminant-name xyz lab)
       (setf lab-x (- (* fy 116) 16)
             lab-y (* (- fx fy) 500)
             lab-z (* (- fy fz) 200))

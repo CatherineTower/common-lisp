@@ -2,7 +2,9 @@
 
 ;; Reference: https://en.wikipedia.org/wiki/CIE_1931_color_space
 (define-color-spaces ()
-  (xyy :illuminant :e))
+  (:xyy
+   :models (xyy)
+   :illuminant :e))
 
 (defclass xyy (model) ()
   (:default-initargs
@@ -10,9 +12,6 @@
 
 (defun xyy (|x| |y| Y &key illuminant)
   (make-instance 'xyy :illuminant illuminant :channel0 |x| :channel1 |y| :channel2 Y))
-
-(defmethod default-color ((model (eql 'xyy)) &rest args)
-  (apply #'xyy 0 0 0 :allow-other-keys t args))
 
 (declaim (inline xyy->xyz))
 (defun xyy->xyz (xyy xyz)

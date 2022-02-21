@@ -1,7 +1,9 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (lch-ab :illuminant :d65))
+  (:lch-ab
+   :models (lch-ab)
+   :illuminant :d65))
 
 (defclass lch-ab (model) ()
   (:default-initargs
@@ -9,9 +11,6 @@
 
 (defun lch-ab (l c h &key illuminant)
   (make-instance 'lch-ab :illuminant illuminant :channel0 l :channel1 c :channel2 h))
-
-(defmethod default-color ((model (eql 'lch-ab)) &rest args)
-  (apply #'lch-ab 0 0 0 :allow-other-keys t args))
 
 (declaim (inline lch-ab->lab))
 (defun lch-ab->lab (lch-ab lab)

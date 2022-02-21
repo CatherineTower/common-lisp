@@ -1,7 +1,9 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (luv :illuminant :e))
+  (:luv
+   :models (luv)
+   :illuminant :e))
 
 (defclass luv (model) ()
   (:default-initargs
@@ -9,9 +11,6 @@
 
 (defun luv (l u v &key illuminant)
   (make-instance 'luv :illuminant illuminant :channel0 l :channel1 u :channel2 v))
-
-(defmethod default-color ((model (eql 'luv)) &rest args)
-  (apply #'luv 0 0 0 :allow-other-keys t args))
 
 (declaim (notinline luv->xyz))
 (defun luv->xyz (luv xyz)

@@ -2,7 +2,7 @@
 
 (defclass model (storage)
   ((%space-name
-    :type (and symbol (not null))
+    :type symbol
     :reader space-name
     :initarg :space)
    (%default-illuminant-name
@@ -25,21 +25,24 @@
                (channels model))))
 
 (defmethod initialize-instance :after ((instance model) &key space illuminant)
-  (let ((model (type-of instance)))
-    (u:if-found (spec (get-color-space-spec (or space model)))
-      (destructuring-bind (space-model &rest args &key ((:illuminant default-illuminant)) &allow-other-keys) spec
+  (let* ((model (type-of instance))
+         (space (or space (u:make-keyword model))))
+    (u:if-found (spec (get-color-space-spec space))
+      (destructuring-bind (space &rest args &key models ((:illuminant default-illuminant)) &allow-other-keys) spec
         (setf (%default-illuminant-name instance) default-illuminant)
         (let ((args (if illuminant (list* :illuminant illuminant args) args)))
-          (if (subtypep model space-model)
-              (apply #'reinitialize-instance instance args)
-              (error "Color space ~s is not valid for color model ~s." space model))))
+          (if (member model models)
+              (apply #'reinitialize-instance instance :allow-other-keys t args)
+              (error "Color space ~s is not valid for color model ~a." space model))))
       (error "Color space ~s is not defined." space))))
 
 (defgeneric default-color (model &rest args))
 
-(declaim (inline make-model))
-(defun make-model (model-name space-name)
-  (make-instance model-name :space space-name :allow-other-keys t))
+(defun make-color (model &rest args &key space &allow-other-keys)
+  (if (subtypep model 'model)
+      (let ((space (u:make-keyword (or space model))))
+        (apply #'make-instance model :space space args))
+      (error "Color model ~s is not defined." model)))
 
 (declaim (inline copy-illuminant-name))
 (defun copy-illuminant-name (from to &optional default)
