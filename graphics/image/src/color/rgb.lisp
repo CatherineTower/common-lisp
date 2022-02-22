@@ -284,9 +284,10 @@
 (declaim (notinline xyz->rgb))
 (defun xyz->rgb (xyz rgb)
   (declare (optimize speed))
-  (with-pool-color (temp-rgb (type-of rgb) :space (space-name rgb) :copy rgb)
-    (%xyz->rgb xyz temp-rgb)
-    (delinearize-rgb temp-rgb)))
+  (with-pool-color (temp-xyz 'xyz :copy xyz)
+    (adapt-chromaticity temp-xyz (illuminant-name rgb))
+    (%xyz->rgb temp-xyz rgb)
+    (delinearize-rgb rgb)))
 
 (declaim (notinline rgb->*))
 (defun rgb->* (rgb to)
