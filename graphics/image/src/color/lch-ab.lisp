@@ -7,7 +7,8 @@
 
 (defclass lch-ab (model) ()
   (:default-initargs
-   :channel-names '(#\L #\C #\H)))
+   :channel-names '(#\L #\C #\H)
+   :default-space :lch-ab))
 
 (defun lch-ab (l c h &key illuminant)
   (make-instance 'lch-ab :illuminant illuminant :channel0 l :channel1 c :channel2 h))

@@ -5,15 +5,19 @@
     :type symbol
     :reader space-name
     :initarg :space)
-   (%default-illuminant-name
-    :initarg :default-illuminant
-    :reader default-illuminant-name
-    :accessor %default-illuminant-name)
+   (%default-space-name
+    :type (and symbol (not null))
+    :reader default-space-name
+    :initarg :default-space)
    (%illuminant-name
     :type symbol
     :reader illuminant-name
     :accessor %illuminant-name
-    :initarg :illuminant)))
+    :initarg :illuminant)
+   (%default-illuminant-name
+    :initarg :default-illuminant
+    :reader default-illuminant-name
+    :accessor %default-illuminant-name)))
 
 (u:define-printer (model stream :type nil)
   (format stream "COLOR (model: ~a, space: ~a, illuminant: ~a)~%  ~{~{~a~^: ~}~^~%  ~}"
@@ -26,7 +30,7 @@
 
 (defmethod initialize-instance :after ((instance model) &key space illuminant)
   (let* ((model (type-of instance))
-         (space (or space (u:make-keyword model))))
+         (space (or space (default-space-name instance))))
     (u:if-found (spec (get-color-space-spec space))
       (destructuring-bind (space &rest args &key models ((:illuminant default-illuminant)) &allow-other-keys) spec
         (setf (%default-illuminant-name instance) default-illuminant)
@@ -38,10 +42,9 @@
 
 (defgeneric default-color (model &rest args))
 
-(defun make-color (model &rest args &key space &allow-other-keys)
+(defun make-color (model &rest args)
   (if (subtypep model 'model)
-      (let ((space (u:make-keyword (or space model))))
-        (apply #'make-instance model :space space args))
+      (apply #'make-instance model args)
       (error "Color model ~s is not defined." model)))
 
 (declaim (notinline copy-illuminant-name))

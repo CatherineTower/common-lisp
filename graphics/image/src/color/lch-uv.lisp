@@ -7,7 +7,8 @@
 
 (defclass lch-uv (model) ()
   (:default-initargs
-   :channel-names '(#\L #\C #\H)))
+   :channel-names '(#\L #\C #\H)
+   :default-space :lch-uv))
 
 (defun lch-uv (l c h &key illuminant)
   (make-instance 'lch-uv :illuminant illuminant :channel0 l :channel1 c :channel2 h))

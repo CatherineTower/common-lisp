@@ -137,7 +137,8 @@
     :reader gamma
     :initarg :gamma))
   (:default-initargs
-   :channel-names '(#\R #\G #\B)))
+   :channel-names '(#\R #\G #\B)
+   :default-space :srgb))
 
 (defun rgb (r g b &key (space :srgb) illuminant)
   (make-instance 'rgb :space space :illuminant illuminant :channel0 r :channel1 g :channel2 b))

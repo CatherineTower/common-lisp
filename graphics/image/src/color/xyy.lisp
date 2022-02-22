@@ -8,7 +8,8 @@
 
 (defclass xyy (model) ()
   (:default-initargs
-   :channel-names '(#\x #\y #\Y)))
+   :channel-names '(#\x #\y #\Y)
+   :default-space :xyy))
 
 (defun xyy (|x| |y| Y &key illuminant)
   (make-instance 'xyy :illuminant illuminant :channel0 |x| :channel1 |y| :channel2 Y))

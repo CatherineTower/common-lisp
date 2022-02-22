@@ -7,7 +7,8 @@
 
 (defclass lab (model) ()
   (:default-initargs
-   :channel-names '("L*" "a*" "b*")))
+   :channel-names '("L*" "a*" "b*")
+   :default-space :lab))
 
 (defun lab (l a b &key illuminant)
   (make-instance 'lab :illuminant illuminant :channel0 l :channel1 a :channel2 b))
