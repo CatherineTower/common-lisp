@@ -104,7 +104,7 @@
    :coords ((0.695d0 0.305d0) (0.26d0 0.7d0) (0.11d0 0.005d0))
    :gamma 2.2d0)
   ;; Reference: https://www.color.org/ROMMRGB.pdf
-  (:romm-rgb
+  (:prophoto-rgb
    :models (rgb rgba)
    :illuminant :d50
    :coords ((0.7347d0 0.2653d0) (0.1596d0 0.8404d0) (0.0366d0 0.0001d0))
