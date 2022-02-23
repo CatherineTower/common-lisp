@@ -248,9 +248,3 @@
     (adapt-chromaticity temp-xyz (illuminant-name rgb))
     (%xyz->rgb temp-xyz rgb)
     (delinearize-rgb rgb)))
-
-(declaim (notinline rgb->*))
-(defun rgb->* (rgb to)
-  (with-pool-color (xyz 'xyz)
-    (rgb->xyz rgb xyz)
-    (base:convert xyz to)))

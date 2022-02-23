@@ -53,24 +53,3 @@
   (let ((illuminant-name (if default (default-illuminant-name from) (illuminant-name from))))
     (setf (%illuminant-name to) illuminant-name)
     (values)))
-
-(defmacro define-rgb-value-converters ((model))
-  (u:with-gensyms (color)
-    (let* ((model-spaces (u:hash-values (base:color-spaces base:*context*)))
-           (rgb-spaces (mapcar
-                        (lambda (x) (u:plist-get (cdr x) :space))
-                        (remove-if-not
-                         (lambda (x) (eq x 'rgb))
-                         model-spaces :key #'car))))
-      `(progn
-         ,@(unless (eq model 'rgb)
-             `((defmethod base:convert ((from rgb) (to (eql ',model)))
-                 (with-pool-color (,color ',model :space to)
-                   (decompose-channels (base:convert from ,color))))))
-         ,@(mapcar
-            (lambda (x)
-              (destructuring-bind (from to) x
-                `(defmethod base:convert ((from ,from) (to (eql ',to)))
-                   (with-pool-color (,color (get-space-model to) :space to)
-                     (decompose-channels (base:convert from ,color))))))
-            (u:map-product #'list `(,model) rgb-spaces))))))

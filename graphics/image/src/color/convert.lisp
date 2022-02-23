@@ -190,12 +190,6 @@
     (rgb xyz luv)))
 
 (defmethod base:convert ((from rgb) (to rgb))
-  (rgb->* from to))
-
-(define-rgb-value-converters (xyz))
-(define-rgb-value-converters (xyy))
-(define-rgb-value-converters (lab))
-(define-rgb-value-converters (lch-ab))
-(define-rgb-value-converters (lch-uv))
-(define-rgb-value-converters (luv))
-(define-rgb-value-converters (rgb))
+  (with-pool-color (xyz 'xyz)
+    (rgb->xyz from xyz)
+    (xyz->rgb xyz to)))
