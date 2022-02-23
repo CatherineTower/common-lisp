@@ -28,8 +28,7 @@
 
 (defun get-pool-color (model space &key copy)
   (declare (optimize speed))
-  (let ((space (u:make-keyword space))
-        (pool (ensure-color-pool model space)))
+  (let ((pool (ensure-color-pool model space)))
     (declare ((vector t) pool))
     (when (zerop (fill-pointer pool))
       (map-into pool (lambda () (make-color model :space space))))
