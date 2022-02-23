@@ -1,8 +1,11 @@
 (in-package #:mfiano.graphics.image.test)
 
-(defun compare-func (x y)
-  (lambda (&key (rel 1d-10) (abs rel))
-    (< (abs (- x y)) (max abs (* rel (max (abs x) (abs y)))))))
+(defun compare-func (&key (rel 1d-10) (abs rel))
+  (lambda (x y)
+    (every
+     (lambda (x y)
+       (< (abs (- x y)) (max abs (* rel (max (abs x) (abs y))))))
+     x y)))
 
 (defun collect-result (result sequence)
   (let ((expected (make-array (length result) :element-type 'u:f64 :initial-element 0d0)))
@@ -15,7 +18,7 @@
          (out (i:make-color (type-of from-color) :space from-space)))
     (c::channels (i:convert to-color out))))
 
-(defmacro test-round-trip (from to &key (count 1000) (min 0d0) (max 1d0))
+(defmacro test-round-trip (from to &key (count 100000) (min 0d0) (max 1d0))
   (u:once-only (min max)
     (u:with-gensyms (from-color from-channels to-color results result fail check)
       (destructuring-bind (from-model &optional from-space) (u:ensure-list from)
@@ -39,7 +42,7 @@
              (let* ((,fail)
                     (,check (every
                              (lambda (x)
-                               (let ((pass (every #'compare-func (car x) (cdr x))))
+                               (let ((pass (funcall (compare-func :rel 1d-4) (car x) (cdr x))))
                                  (unless pass
                                    (setf ,fail x))
                                  pass))
@@ -67,7 +70,7 @@
            (map-into ,expected-channels (lambda (x) (float x 1d0)) ',expected)
            (is (c::channels (i:convert ,from ,to-binding))
                ,expected-channels
-               :test #'compare-func
+               :test (compare-func)
                ,(format nil "~{~a~^/~} -> ~{~a~^/~}"
                         (adjoin (u:make-keyword from-model) `(,@(cdr (member :space from-args))))
                         (adjoin (u:make-keyword to-model) `(,@(u:ensure-list to-space))))))))))

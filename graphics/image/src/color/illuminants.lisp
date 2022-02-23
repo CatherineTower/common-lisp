@@ -73,7 +73,3 @@
   (:led-rgb1 0.4557 0.4211)
   (:led-v1 0.456 0.4548)
   (:led-v2 0.3781 0.3775))
-
-;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
-(define-illuminants ()
-  (:dci 0.314 0.351))

@@ -37,30 +37,12 @@
    :illuminant :d65
    :coords ((0.64d0 0.33d0) (0.28d0 0.65d0) (0.15d0 0.06d0))
    :gamma 2.2d0)
-  ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-S!!PDF-E.pdf
-  (:bt2020
-   :models (rgb rgba)
-   :illuminant :d65
-   :coords ((0.708d0 0.292d0) (0.17d0 0.797d0) (0.131d0 0.046d0))
-   :gamma rec.709)
   ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
   (:bt470-ntsc
    :models (rgb rgba)
    :illuminant :c
    :coords ((0.67d0 0.33d0) (0.21d0 0.71d0) (0.14d0 0.08d0))
    :gamma 2.2d0)
-  ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
-  (:bt470-pal/secam
-   :models (rgb rgba)
-   :illuminant :d65
-   :coords ((0.64d0 0.33d0) (0.29d0 0.6d0) (0.15d0 0.06d0))
-   :gamma 2.8d0)
-  ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-S!!PDF-E.pdf
-  (:bt709
-   :models (rgb rgba)
-   :illuminant :d65
-   :coords ((0.64d0 0.33d0) (0.3d0 0.6d0) (0.15d0 0.06d0))
-   :gamma rec.709)
   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
   (:cie-rgb
    :models (rgb rgba)
@@ -73,18 +55,6 @@
    :illuminant :d50
    :coords ((0.63d0 0.34d0) (0.295d0 0.605d0) (0.15d0 0.075d0))
    :gamma 1.8d0)
-  ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
-  (:dci-p3
-   :models (rgb rgba)
-   :illuminant :dci
-   :coords ((0.68d0 0.32d0) (0.265d0 0.69d0) (0.15d0 0.06d0))
-   :gamma 2.6d0)
-  ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#DCI-P3+_and_Cinema_Gamut
-  (:dci-p3+
-   :models (rgb rgba)
-   :illuminant :dci
-   :coords ((0.74d0 0.27d0) (0.22d0 0.78d0) (0.09d0 -0.09d0))
-   :gamma 2.6d0)
   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
   (:don-rgb-4
    :models (rgb rgba)
@@ -206,16 +176,6 @@
   (if (<= value 0.0031308)
       (* value 12.92d0)
       (- (* (expt value (/ 2.4d0)) 1.055d0) 0.055d0)))
-
-(defmethod linearize-rgb-channel (value (gamma (eql 'rec.709)))
-  (if (< value 0.081)
-      (/ value 4.5d0)
-      (expt (/ (+ value 0.099d0) 1.099d0) (/ 0.45d0))))
-
-(defmethod delinearize-rgb-channel (value (gamma (eql 'rec.709)))
-  (if (< value 0.018)
-      (* value 4.5d0)
-      (- (* (expt value 0.45d0) 1.099d0) 0.099d0)))
 
 ;;; RGB to/from XYZ transformation.
 
