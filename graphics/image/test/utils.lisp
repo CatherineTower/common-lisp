@@ -35,7 +35,7 @@
                  (map-into ,from-channels
                            (lambda (x)
                              (declare (ignore x))
-                             (float (+ ,min (random (1+ (- ,max ,min)))) 1d0))
+                             (float (+ ,min (random (- ,max ,min))) 1d0))
                            ,from-channels)
                  (let ((,result (round-trip ,from-color ,to-color)))
                    (push (collect-result ,result ,from-channels) ,results))))
