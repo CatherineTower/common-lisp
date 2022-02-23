@@ -13,7 +13,7 @@
 (defun lab (l a b &key illuminant)
   (make-instance 'lab :illuminant illuminant :channel0 l :channel1 a :channel2 b))
 
-(declaim (notinline lab->xyz))
+(declaim (inline lab->xyz))
 (defun lab->xyz (lab xyz)
   (declare (optimize speed))
   (let ((lab-channels (channels lab))
@@ -45,7 +45,7 @@
               xyz-z (* rz wz))
         xyz))))
 
-(declaim (notinline xyz->lab))
+(declaim (inline xyz->lab))
 (defun xyz->lab (xyz lab)
   (declare (optimize speed))
   (let* ((lab-channels (channels lab))

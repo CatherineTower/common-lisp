@@ -21,7 +21,7 @@
 (u:define-printer (illuminant stream)
   (format stream "~s" (name illuminant)))
 
-(declaim (notinline get-white-point))
+(declaim (inline get-white-point))
 (defun get-white-point (illuminant-name)
   (declare (optimize speed))
   (white-point (u:href (base:illuminants base:*context*) illuminant-name)))

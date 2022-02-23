@@ -13,7 +13,7 @@
 (defun luv (l u v &key illuminant)
   (make-instance 'luv :illuminant illuminant :channel0 l :channel1 u :channel2 v))
 
-(declaim (notinline luv->xyz))
+(declaim (inline luv->xyz))
 (defun luv->xyz (luv xyz)
   (declare (optimize speed))
   (let ((luv-channels (channels luv))
@@ -39,7 +39,7 @@
               xyz-z (+ (* xyz-x a) -5y))
         xyz))))
 
-(declaim (notinline xyz->luv))
+(declaim (inline xyz->luv))
 (defun xyz->luv (xyz luv)
   (declare (optimize speed))
   (let ((xyz-channels (channels xyz))

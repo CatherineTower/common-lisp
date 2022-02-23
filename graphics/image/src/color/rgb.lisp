@@ -245,12 +245,12 @@
                (etypecase from
                  (rgb (calculate-rgb-transform from))
                  (xyz (m3:invert (calculate-rgb-transform to))))))
-      (declare (notinline make-vector calculate-transform))
+      (declare (inline make-vector calculate-transform))
       (u:if-found (transform (u:href transforms key))
         transform
         (setf (u:href transforms (copy-list key)) (calculate-transform))))))
 
-(declaim (notinline %rgb-xyz))
+(declaim (inline %rgb-xyz))
 (defun %rgb-xyz (rgb xyz)
   (declare (optimize speed))
   (let* ((illuminant-name (illuminant-name rgb))
@@ -262,14 +262,14 @@
     (setf (%illuminant-name xyz) illuminant-name)
     xyz))
 
-(declaim (notinline rgb->xyz))
+(declaim (inline rgb->xyz))
 (defun rgb->xyz (rgb xyz)
   (declare (optimize speed))
   (with-pool-color (temp-rgb (type-of rgb) :space (space-name rgb) :copy rgb)
     (linearize-rgb temp-rgb)
     (%rgb-xyz temp-rgb xyz)))
 
-(declaim (notinline %xyz->rgb))
+(declaim (inline %xyz->rgb))
 (defun %xyz->rgb (xyz rgb)
   (declare (optimize speed))
   (let* ((illuminant-name (illuminant-name rgb))
@@ -281,7 +281,7 @@
     (setf (%illuminant-name rgb) illuminant-name)
     rgb))
 
-(declaim (notinline xyz->rgb))
+(declaim (inline xyz->rgb))
 (defun xyz->rgb (xyz rgb)
   (declare (optimize speed))
   (with-pool-color (temp-xyz 'xyz :copy xyz)
