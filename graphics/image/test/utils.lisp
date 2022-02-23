@@ -18,7 +18,7 @@
          (out (i:make-color (type-of from-color) :space from-space)))
     (c::channels (i:convert to-color out))))
 
-(defmacro test-round-trip (from to &key (count 100000) (min 0d0) (max 1d0))
+(defmacro test-round-trip (from to &key (count 1000) (min 0d0) (max 1d0))
   (u:once-only (min max)
     (u:with-gensyms (from-color from-channels to-color results result fail check)
       (destructuring-bind (from-model &optional from-space) (u:ensure-list from)
