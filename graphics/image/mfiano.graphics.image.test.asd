@@ -14,5 +14,4 @@
   :components
   ((:file "package")
    (:file "utils")
-   (:test-file "color-space-convert-one-way-from-xyz")
-   (:test-file "color-convert")))
+   (:test-file "color-space-convert")))

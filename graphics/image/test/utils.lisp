@@ -1,5 +1,9 @@
 (in-package #:mfiano.graphics.image.test)
 
+(defun compare-func (x y)
+  (lambda (&key (rel 1d-10) (abs rel))
+    (< (abs (- x y)) (max abs (* rel (max (abs x) (abs y)))))))
+
 (defun collect-result (result sequence)
   (let ((expected (make-array (length result) :element-type 'u:f64 :initial-element 0d0)))
     (map-into expected (lambda (x) (float x 1d0)) sequence)
@@ -11,7 +15,7 @@
          (out (i:make-color (type-of from-color) :space from-space)))
     (c::channels (i:convert to-color out))))
 
-(defmacro test-round-trip (from to &key (count 1000) (min 0d0) (max 0d0))
+(defmacro test-round-trip (from to &key (count 1000) (min 0d0) (max 1d0))
   (u:once-only (min max)
     (u:with-gensyms (from-color from-channels to-color results result fail check)
       (destructuring-bind (from-model &optional from-space) (u:ensure-list from)
@@ -35,7 +39,7 @@
              (let* ((,fail)
                     (,check (every
                              (lambda (x)
-                               (let ((pass (v3:= (car x) (cdr x) :rel 1d-5)))
+                               (let ((pass (every #'compare-func (car x) (cdr x))))
                                  (unless pass
                                    (setf ,fail x))
                                  pass))
@@ -52,41 +56,41 @@
                (when ,fail
                  (format t "~a is expected to be ~a" (car ,fail) (cdr ,fail))))))))))
 
-(defun one-way (from-color to-color)
-  (let ((out (i:convert from-color to-color)))
-    (c::channels out)))
+(defmacro test-one-way (from to expected)
+  (u:with-gensyms (to-binding expected-channels)
+    (destructuring-bind (from-model &rest from-args) from
+      (destructuring-bind (to-model &optional to-space) (u:ensure-list to)
+        `(let* ((,to-binding (i:make-color ',to-model ,@(when to-space `(:space ',to-space))))
+                (,expected-channels (make-array (length (c::channels ,from))
+                                                :element-type 'u:f64
+                                                :initial-element 0d0)))
+           (map-into ,expected-channels (lambda (x) (float x 1d0)) ',expected)
+           (is (c::channels (i:convert ,from ,to-binding))
+               ,expected-channels
+               :test #'compare-func
+               ,(format nil "~{~a~^/~} -> ~{~a~^/~}"
+                        (adjoin (u:make-keyword from-model) `(,@(cdr (member :space from-args))))
+                        (adjoin (u:make-keyword to-model) `(,@(u:ensure-list to-space))))))))))
 
-(defmacro test-one-way (from to illuminant expected)
-  (u:with-gensyms (from-binding to-binding expected-channels)
-    (destructuring-bind (to-model &optional to-space) (u:ensure-list to)
-      `(let* ((,from-binding ,(append from `(:illuminant ',illuminant)))
-              (,to-binding (i:make-color ',to-model ,@(when to-space `(:space ',to-space))))
-              (,expected-channels (make-array (length (c::channels ,from-binding))
-                                              :element-type 'u:f64
-                                              :initial-element 0d0)))
-         (map-into ,expected-channels (lambda (x) (float x 1d0)) ',expected)
-         (is (one-way ,from-binding ,to-binding)
-             ,expected-channels
-             :test (lambda (x y) (v3:= x y :rel 1d-14))
-             (format nil "~{~a~^/~} -> ~{~a~^/~} (illuminant: ~a)"
-                     (adjoin (u:make-keyword (type-of ,from-binding))
-                             (list (c::space-name ,from-binding)))
-                     (adjoin ',(u:make-keyword to-model)
-                             (list (c::space-name ,to-binding)))
-                     ',illuminant))))))
-
-(defmacro define-test/one-way ((from-model &rest args) &body body)
+(defmacro define-tests/one-way ((from-model &rest args) &body body)
   (let ((from `(,(u:format-symbol :c "~a" from-model) ,@args)))
     `(progn
        ,@(u:mappend
           (lambda (x)
-            (destructuring-bind (to-model . expected-specs) x
+            (destructuring-bind (to-model expected) x
               (destructuring-bind (to-model &optional to-space) (u:ensure-list to-model)
                 (let* ((to-model (u:format-symbol :c "~a" to-model))
                        (to `(,to-model ,@(when to-space `((,@to-space))))))
-                  (u:mappend
-                   (lambda (y)
-                     (destructuring-bind (illuminant expected) y
-                       `((test-one-way ,from ,to ,illuminant ,expected))))
-                   expected-specs)))))
+                  `((test-one-way ,from ,to ,expected))))))
+          body))))
+
+(defmacro define-tests/round-trip ((from-model &rest args) &body body)
+  (let ((from `(,(u:format-symbol :c "~a" from-model) ,@args)))
+    `(progn
+       ,@(mapcar
+          (lambda (x)
+            (destructuring-bind (to-model &optional to-space) (u:ensure-list x)
+              (let* ((to-model (u:format-symbol :c "~a" to-model))
+                     (to `(,to-model ,@(when to-space `((,@to-space))))))
+                `(test-round-trip ,from ,to))))
           body))))
