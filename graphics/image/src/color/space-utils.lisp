@@ -15,6 +15,21 @@
              :when (and y (eq y last))
                :collect `(,op ,x ,to))))
 
+(defmethod base:convert :around ((from alpha) to)
+  (with-pool-color (alpha (type-of from) :space (space-name from) :copy from)
+    (when (pre-multiplied-alpha-p from)
+      (un-pre-multiply-alpha alpha))
+    (call-next-method alpha to)))
+
+(defmethod base:convert :after (from (to alpha))
+  (let ((to-channels (channels to))
+        (to-index (alpha-index to)))
+    (if (typep from 'alpha)
+        (setf (aref to-channels to-index) (aref (channels from) (alpha-index from)))
+        (setf (aref to-channels to-index) 1d0))
+    (when (pre-multiply-alpha to)
+      (pre-multiply-alpha to))))
+
 (declaim (inline lab->lchab))
 (defun lab->lchab (lab lchab)
   (declare (optimize speed))

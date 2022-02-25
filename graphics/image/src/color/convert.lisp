@@ -147,12 +147,6 @@
 
 ;;; From RGB/RGBA
 
-(defmethod base:convert ((from rgba) to)
-  (with-pool-color (rgba 'rgba :space (space-name from) :copy from)
-    (when (pre-multiplied-alpha-p from)
-      (un-pre-multiply-alpha rgba))
-    (call-next-method rgba to)))
-
 (defmethod base:convert ((from rgb) (to xyz))
   (rgb->xyz from to))
 
