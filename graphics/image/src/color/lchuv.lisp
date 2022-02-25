@@ -1,14 +1,14 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (:lchuv
+  (lchuv
    :models (lchuv)
    :illuminant :e))
 
 (defclass lchuv (model) ()
   (:default-initargs
    :channel-names '(#\L #\C #\H)
-   :default-space :lchuv))
+   :default-space 'lchuv))
 
 (defun lchuv (l c h &key illuminant)
   (make-instance 'lchuv :illuminant illuminant :channel0 l :channel1 c :channel2 h))

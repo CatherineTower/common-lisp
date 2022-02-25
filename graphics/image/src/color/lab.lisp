@@ -1,14 +1,14 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (:lab
+  (lab
    :models (lab)
    :illuminant :d65))
 
 (defclass lab (model) ()
   (:default-initargs
    :channel-names '("L*" "a*" "b*")
-   :default-space :lab))
+   :default-space 'lab))
 
 (defun lab (l a b &key illuminant)
   (make-instance 'lab :illuminant illuminant :channel0 l :channel1 a :channel2 b))

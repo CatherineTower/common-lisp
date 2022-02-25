@@ -33,8 +33,8 @@
      (:file "xyy")
      (:file "lab")
      (:file "lchab")
-     (:file "lchuv")
      (:file "luv")
+     (:file "lchuv")
      (:file "rgb")
      (:file "convert")))
    (:module "image"

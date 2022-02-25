@@ -1,14 +1,14 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (:lchab
+  (lchab
    :models (lchab)
    :illuminant :d65))
 
 (defclass lchab (model) ()
   (:default-initargs
    :channel-names '(#\L #\C #\H)
-   :default-space :lchab))
+   :default-space 'lchab))
 
 (defun lchab (l c h &key illuminant)
   (make-instance 'lchab :illuminant illuminant :channel0 l :channel1 c :channel2 h))

@@ -19,6 +19,24 @@
    #:rgba
    #:xyy
    #:xyz)
+  ;; RGB Spaces
+  (:export
+   #:adobe-rgb
+   #:adobe-wide-gamut-rgb
+   #:apple-rgb
+   #:best-rgb
+   #:beta-rgb
+   #:bruce-rgb
+   #:bt470-ntsc
+   #:cie-rgb
+   #:colormatch-rgb
+   #:don-rgb-4
+   #:eci-rgb-v2
+   #:ekta-space-ps5
+   #:prophoto-rgb
+   #:simple-srgb
+   #:smpte-c-rgb
+   #:srgb)
   ;; Operations
   (:export
    #:adapt-chromaticity

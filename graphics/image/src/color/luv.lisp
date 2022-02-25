@@ -1,14 +1,14 @@
 (in-package #:%mfiano.graphics.image.color)
 
 (define-color-spaces ()
-  (:luv
+  (luv
    :models (luv)
    :illuminant :e))
 
 (defclass luv (model) ()
   (:default-initargs
    :channel-names '(#\L #\u #\v)
-   :default-space :luv))
+   :default-space 'luv))
 
 (defun luv (l u v &key illuminant)
   (make-instance 'luv :illuminant illuminant :channel0 l :channel1 u :channel2 v))

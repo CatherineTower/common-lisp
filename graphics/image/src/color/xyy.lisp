@@ -2,14 +2,14 @@
 
 ;; Reference: https://en.wikipedia.org/wiki/CIE_1931_color_space
 (define-color-spaces ()
-  (:xyy
+  (xyy
    :models (xyy)
    :illuminant :e))
 
 (defclass xyy (model) ()
   (:default-initargs
    :channel-names '(#\x #\y #\Y)
-   :default-space :xyy))
+   :default-space 'xyy))
 
 (defun xyy (|x| |y| Y &key illuminant)
   (make-instance 'xyy :illuminant illuminant :channel0 |x| :channel1 |y| :channel2 Y))
