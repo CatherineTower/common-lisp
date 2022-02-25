@@ -53,6 +53,11 @@
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
                    (i:make-color 'i:rgb :space 'i:bruce-rgb)))
   (p:is color=
+        (i:rgb -1.1475414691717838d0 0.8868534279755660d0 0.9502659163977112d0
+               :space 'i:bt2020)
+        (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
+                   (i:make-color 'i:rgb :space 'i:bt2020)))
+  (p:is color=
         (i:rgb -0.6208445026098688d0 0.9444625789104951d0 0.9532914722811549d0
                :space 'i:bt470-ntsc)
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)

@@ -27,6 +27,7 @@
    #:best-rgb
    #:beta-rgb
    #:bruce-rgb
+   #:bt2020
    #:bt470-ntsc
    #:cie-rgb
    #:colormatch-rgb

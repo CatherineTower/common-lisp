@@ -55,6 +55,12 @@
    :illuminant :d65
    :coords ((0.64d0 0.33d0) (0.28d0 0.65d0) (0.15d0 0.06d0))
    :gamma 2.2d0)
+  ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-S!!PDF-E.pdf
+  (bt2020
+   :models (rgb rgba)
+   :illuminant :d65
+   :coords ((0.708d0 0.292d0) (0.17d0 0.797d0) (0.131d0 0.046d0))
+   :gamma rec.709)
   ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
   (bt470-ntsc
    :models (rgb rgba)

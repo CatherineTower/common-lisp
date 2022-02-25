@@ -29,6 +29,7 @@
        (:file "rgb-best-rgb")
        (:file "rgb-beta-rgb")
        (:file "rgb-bruce-rgb")
+       (:file "rgb-bt2020")
        (:file "rgb-bt470-ntsc")
        (:file "rgb-cie-rgb")
        (:file "rgb-colormatch-rgb")
