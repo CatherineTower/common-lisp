@@ -1,18 +1,5 @@
 (in-package #:%mfiano.graphics.image.color)
 
-;;; Macro helper
-
-(defmacro with-convert ((from to) &body body)
-  `(with-pool-colors (,@(butlast (rest (car body))))
-     ,@(loop :with last := (first (last (car body)))
-             :for (x y) :on (car body) :by #'cdr
-             :for first := from :then nil
-             :for op := (u:symbolicate x '#:-> y)
-             :unless (or (eq x last) (eq y last))
-               :collect `(,op ,(if first from x) ,y)
-             :when (and y (eq y last))
-               :collect `(,op ,x ,to))))
-
 ;;; From XYZ
 
 (defmethod base:convert ((from xyz) (to xyy))

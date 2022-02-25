@@ -21,21 +21,16 @@
    (:module "color"
     :components
     ((:file "package")
-     (:file "constants")
      (:file "storage")
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
      (:file "spaces")
-     (:file "model")
+     (:file "color")
      (:file "pool")
-     (:file "xyz")
-     (:file "xyy")
-     (:file "lab")
-     (:file "lchab")
-     (:file "luv")
-     (:file "lchuv")
-     (:file "rgb")
+     (:file "models")
+     (:file "space-utils")
+     (:file "rgb-utils")
      (:file "convert")))
    (:module "image"
     :components
