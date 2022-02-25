@@ -11,17 +11,17 @@
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
                    (i:make-color 'i:lab)))
   (p:is color=
-        (i:lch-ab 76.06926101415557d0 168.3148241644105d0 191.7784589134084d0)
+        (i:lchab 76.06926101415557d0 168.3148241644105d0 191.7784589134084d0)
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
-                   (i:make-color 'i:lch-ab)))
+                   (i:make-color 'i:lchab)))
   (p:is color=
         (i:luv 76.06926101415557d0 -169.78565769536613d0 -36.382640934721316d0)
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
                    (i:make-color 'i:luv)))
   (p:is color=
-        (i:lch-uv 76.06926101415557d0 173.64004757092442d0 192.09475707701208d0)
+        (i:lchuv 76.06926101415557d0 173.64004757092442d0 192.09475707701208d0)
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
-                   (i:make-color 'i:lch-uv)))
+                   (i:make-color 'i:lchuv)))
   (p:is color=
         (i:rgb -0.6736754584571568d0 0.9599892636483003d0 0.9694763728683282d0
                :space :adobe-rgb)

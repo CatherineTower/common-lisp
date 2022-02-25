@@ -18,20 +18,20 @@
                           :space :ekta-space-ps5)
                    (i:make-color 'i:lab)))
   (p:is color=
-        (i:lch-ab 80.00331755111789d0 84.17171227933633d0 186.9488334723535d0)
+        (i:lchab 80.00331755111789d0 84.17171227933633d0 186.9488334723535d0)
         (i:convert (i:rgb 0.09574184262171914d0 0.8854733764856817d0 0.8354879062437013d0
                           :space :ekta-space-ps5)
-                   (i:make-color 'i:lch-ab)))
+                   (i:make-color 'i:lchab)))
   (p:is color=
         (i:luv 80.00331755111789d0 -107.02334170545666d0 -0.3170151632470488d0)
         (i:convert (i:rgb 0.09574184262171914d0 0.8854733764856817d0 0.8354879062437013d0
                           :space :ekta-space-ps5)
                    (i:make-color 'i:luv)))
   (p:is color=
-        (i:lch-uv 80.00331755111789d0 107.0238112216934d0 180.1697160402891d0)
+        (i:lchuv 80.00331755111789d0 107.0238112216934d0 180.1697160402891d0)
         (i:convert (i:rgb 0.09574184262171914d0 0.8854733764856817d0 0.8354879062437013d0
                           :space :ekta-space-ps5)
-                   (i:make-color 'i:lch-uv)))
+                   (i:make-color 'i:lchuv)))
   (p:is color=
         (i:rgb 0.1121298428636412d0 0.9202557371234645d0 0.8407894292118718d0
                :space :adobe-rgb)

@@ -12,8 +12,8 @@
   ;; Models
   (:export
    #:lab
-   #:lch-ab
-   #:lch-uv
+   #:lchab
+   #:lchuv
    #:luv
    #:rgb
    #:rgba

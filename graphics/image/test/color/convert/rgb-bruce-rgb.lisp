@@ -18,20 +18,20 @@
                           :space :bruce-rgb)
                    (i:make-color 'i:lab)))
   (p:is color=
-        (i:lch-ab 61.69526442104498d0 48.63084949625509d0 267.83262472411974d0)
+        (i:lchab 61.69526442104498d0 48.63084949625509d0 267.83262472411974d0)
         (i:convert (i:rgb 0.2979828292665525d0 0.6006607749291795d0 0.9075950974778275d0
                           :space :bruce-rgb)
-                   (i:make-color 'i:lch-ab)))
+                   (i:make-color 'i:lchab)))
   (p:is color=
         (i:luv 61.69526442104498d0 -34.747141059184756d0 -77.37194388690675d0)
         (i:convert (i:rgb 0.2979828292665525d0 0.6006607749291795d0 0.9075950974778275d0
                           :space :bruce-rgb)
                    (i:make-color 'i:luv)))
   (p:is color=
-        (i:lch-uv 61.69526442104498d0 84.81616303880723d0 245.81552070689162d0)
+        (i:lchuv 61.69526442104498d0 84.81616303880723d0 245.81552070689162d0)
         (i:convert (i:rgb 0.2979828292665525d0 0.6006607749291795d0 0.9075950974778275d0
                           :space :bruce-rgb)
-                   (i:make-color 'i:lch-uv)))
+                   (i:make-color 'i:lchuv)))
   (p:is color=
         (i:rgb 0.3787913275579068d0 0.6005520203792374d0 0.9081098640031473d0
                :space :adobe-rgb)
