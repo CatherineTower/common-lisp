@@ -87,6 +87,18 @@
                           :space 'i:prophoto-rgb)
                    (i:make-color 'i:rgb :space 'i:colormatch-rgb)))
   (p:is color=
+        (i:rgb 1.1354007657800518d0 0.6479266952621838d0 0.5259788307611305d0
+               :space 'i:dci-p3)
+        (i:convert (i:rgb 0.9661050361445147d0 0.6029093842410664d0 0.40219699921506d0
+                          :space 'i:prophoto-rgb)
+                   (i:make-color 'i:rgb :space 'i:dci-p3)))
+  (p:is color=
+        (i:rgb 1.0484923516317326d0 0.6807135526449497d0 0.5407301639063891d0
+               :space 'i:dci-p3+)
+        (i:convert (i:rgb 0.9661050361445147d0 0.6029093842410664d0 0.40219699921506d0
+                          :space 'i:prophoto-rgb)
+                   (i:make-color 'i:rgb :space 'i:dci-p3+)))
+  (p:is color=
         (i:rgb 1.0501326308045487d0 0.6205282758240805d0 0.4659376053329365d0
                :space 'i:don-rgb-4)
         (i:convert (i:rgb 0.9661050361445147d0 0.6029093842410664d0 0.40219699921506d0

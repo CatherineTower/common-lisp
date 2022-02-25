@@ -81,6 +81,18 @@
                           :space 'i:bt470-ntsc)
                    (i:make-color 'i:rgb :space 'i:colormatch-rgb)))
   (p:is color=
+        (i:rgb 0.1888582569680197d0 0.4558860246303746d0 0.8070780823380012d0
+               :space 'i:dci-p3)
+        (i:convert (i:rgb 0.2663412823714957d0 0.3467776431121068d0 0.7818752452897231d0
+                          :space 'i:bt470-ntsc)
+                   (i:make-color 'i:rgb :space 'i:dci-p3)))
+  (p:is color=
+        (i:rgb 0.3831902993089686d0 0.5263426066791261d0 0.7930509239234604d0
+               :space 'i:dci-p3+)
+        (i:convert (i:rgb 0.2663412823714957d0 0.3467776431121068d0 0.7818752452897231d0
+                          :space 'i:bt470-ntsc)
+                   (i:make-color 'i:rgb :space 'i:dci-p3+)))
+  (p:is color=
         (i:rgb 0.2815678194202645d0 0.4069130495863348d0 0.7692962528853401d0
                :space 'i:don-rgb-4)
         (i:convert (i:rgb 0.2663412823714957d0 0.3467776431121068d0 0.7818752452897231d0

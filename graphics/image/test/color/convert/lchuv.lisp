@@ -68,6 +68,16 @@
         (i:convert (i:lchuv 97.98024274406411d0 42.98937536590833d0 344.65011946118125d0)
                    (i:make-color 'i:rgb :space 'i:colormatch-rgb)))
   (p:is color=
+        (i:rgb 1.1259163253799451d0 0.9212255114993801d0 1.0067500106235470d0
+               :space 'i:dci-p3)
+        (i:convert (i:lchuv 97.98024274406411d0 42.98937536590833d0 344.65011946118125d0)
+                   (i:make-color 'i:rgb :space 'i:dci-p3)))
+  (p:is color=
+        (i:rgb 1.0906785208636276d0 0.9488647591576411d0 1.0035412012198437d0
+               :space 'i:dci-p3+)
+        (i:convert (i:lchuv 97.98024274406411d0 42.98937536590833d0 344.65011946118125d0)
+                   (i:make-color 'i:rgb :space 'i:dci-p3+)))
+  (p:is color=
         (i:rgb 1.098323804310209d0 0.9183383809126603d0 1.0041979039120954d0
                :space 'i:don-rgb-4)
         (i:convert (i:lchuv 97.98024274406411d0 42.98937536590833d0 344.65011946118125d0)

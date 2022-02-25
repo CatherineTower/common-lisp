@@ -30,6 +30,8 @@
    #:bt470-ntsc
    #:cie-rgb
    #:colormatch-rgb
+   #:dci-p3
+   #:dci-p3+
    #:don-rgb-4
    #:eci-rgb-v2
    #:ekta-space-ps5

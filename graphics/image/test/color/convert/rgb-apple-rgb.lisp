@@ -81,6 +81,18 @@
                           :space 'i:apple-rgb)
                    (i:make-color 'i:rgb :space 'i:colormatch-rgb)))
   (p:is color=
+        (i:rgb 0.1821573598245372d0 0.3312285003831767d0 0.7010003581979936d0
+               :space 'i:dci-p3)
+        (i:convert (i:rgb 0.04330031119736d0 0.1934597870725685d0 0.636296334766828d0
+                          :space 'i:apple-rgb)
+                   (i:make-color 'i:rgb :space 'i:dci-p3)))
+  (p:is color=
+        (i:rgb 0.3275200727062474d0 0.4193891646636760d0 0.6876615815390275d0
+               :space 'i:dci-p3+)
+        (i:convert (i:rgb 0.04330031119736d0 0.1934597870725685d0 0.636296334766828d0
+                          :space 'i:apple-rgb)
+                   (i:make-color 'i:rgb :space 'i:dci-p3+)))
+  (p:is color=
         (i:rgb 0.2253235546014556d0 0.2874960478808469d0 0.6504666331794392d0
                :space 'i:don-rgb-4)
         (i:convert (i:rgb 0.04330031119736d0 0.1934597870725685d0 0.636296334766828d0

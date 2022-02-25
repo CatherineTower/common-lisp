@@ -32,6 +32,8 @@
        (:file "rgb-bt470-ntsc")
        (:file "rgb-cie-rgb")
        (:file "rgb-colormatch-rgb")
+       (:file "rgb-dci-p3")
+       (:file "rgb-dci-p3+")
        (:file "rgb-don-rgb-4")
        (:file "rgb-eci-rgb-v2")
        (:file "rgb-ekta-space-ps5")

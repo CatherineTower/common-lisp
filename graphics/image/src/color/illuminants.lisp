@@ -42,6 +42,7 @@
         body)))
 
 ;; Reference: https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
+;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
 (define-illuminants ()
   (:a 0.44757 0.40745)
   (:b 0.34842 0.35161)
@@ -51,6 +52,7 @@
   (:d65 0.31271 0.32902)
   (:d75 0.29902 0.31485)
   (:d93 0.28315 0.29711)
+  (:dci 0.314 0.351)
   (:e 1/3 1/3)
   (:f1 0.3131 0.33727)
   (:f2 0.37208 0.37529)

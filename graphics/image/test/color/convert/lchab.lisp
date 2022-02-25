@@ -68,6 +68,16 @@
         (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)
                    (i:make-color 'i:rgb :space 'i:colormatch-rgb)))
   (p:is color=
+        (i:rgb -0.3613050612934319d0 0.2540951319610347d0 0.5344969855487135d0
+               :space 'i:dci-p3)
+        (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)
+                   (i:make-color 'i:rgb :space 'i:dci-p3)))
+  (p:is color=
+        (i:rgb -0.2654961511792777d0 0.3092979626798522d0 0.5238494831810956d0
+               :space 'i:dci-p3+)
+        (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)
+                   (i:make-color 'i:rgb :space 'i:dci-p3+)))
+  (p:is color=
         (i:rgb -0.2275512508087427d0 0.203393437800504d0 0.4725561383512143d0
                :space 'i:don-rgb-4)
         (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)

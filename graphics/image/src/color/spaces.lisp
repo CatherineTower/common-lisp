@@ -73,6 +73,17 @@
    :illuminant :d50
    :coords ((0.63d0 0.34d0) (0.295d0 0.605d0) (0.15d0 0.075d0))
    :gamma 1.8d0)
+  (dci-p3
+   :models (rgb rgba)
+   :illuminant :dci
+   :coords ((0.68d0 0.32d0) (0.265d0 0.69d0) (0.15d0 0.06d0))
+   :gamma 2.6d0)
+  ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#DCI-P3+_and_Cinema_Gamut
+  (dci-p3+
+   :models (rgb rgba)
+   :illuminant :dci
+   :coords ((0.74d0 0.27d0) (0.22d0 0.78d0) (0.09d0 -0.09d0))
+   :gamma 2.6d0)
   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
   (don-rgb-4
    :models (rgb rgba)
