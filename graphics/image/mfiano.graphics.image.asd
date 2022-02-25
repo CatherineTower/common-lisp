@@ -31,7 +31,8 @@
      (:file "models")
      (:file "space-utils")
      (:file "rgb-utils")
-     (:file "convert")))
+     (:file "convert")
+     (:file "gamut")))
    (:module "image"
     :components
     ((:file "package")
