@@ -45,7 +45,7 @@
    :channel-names '(#\R #\G #\B)
    :default-space 'srgb))
 
-(defun rgb (r g b &key (space :srgb) illuminant)
+(defun rgb (r g b &key (space 'srgb) illuminant)
   (make-instance 'rgb :space space :illuminant illuminant :channel0 r :channel1 g :channel2 b))
 
 (defclass rgba (rgb alpha) ()
@@ -54,7 +54,7 @@
    :channel-names '(#\R #\G #\B #\A)
    :alpha-index 3))
 
-(defun rgba (r g b a &key (space :srgb) illuminant pre-multiply-alpha)
+(defun rgba (r g b a &key (space 'srgb) illuminant pre-multiply-alpha)
   (make-instance 'rgba
                  :space space
                  :illuminant illuminant
