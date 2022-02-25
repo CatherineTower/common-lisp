@@ -73,6 +73,7 @@
    :illuminant :d50
    :coords ((0.63d0 0.34d0) (0.295d0 0.605d0) (0.15d0 0.075d0))
    :gamma 1.8d0)
+  ;; Reference: https://en.wikipedia.org/wiki/DCI-P3#System_colorimetry
   (dci-p3
    :models (rgb rgba)
    :illuminant :dci
@@ -102,15 +103,19 @@
    :illuminant :d50
    :coords ((0.695d0 0.305d0) (0.26d0 0.7d0) (0.11d0 0.005d0))
    :gamma 2.2d0)
+  ;; Reference: https://en.wikipedia.org/wiki/CIELAB_color_space
   (lab
    :models (lab)
    :illuminant :d65)
+  ;; Reference: https://en.wikipedia.org/wiki/CIELAB_color_space
   (lchab
    :models (lchab)
    :illuminant :d65)
+  ;; Reference: https://en.wikipedia.org/wiki/CIELUV
   (lchuv
    :models (lchuv)
    :illuminant :e)
+  ;; Reference: https://en.wikipedia.org/wiki/CIELUV
   (luv
    :models (luv)
    :illuminant :e)
@@ -120,6 +125,7 @@
    :illuminant :d50
    :coords ((0.7347d0 0.2653d0) (0.1596d0 0.8404d0) (0.0366d0 0.0001d0))
    :gamma 1.8d0)
+  ;; Reference: http://www.brucelindbloom.com/index.html?Eqn_RGB_to_XYZ.html
   (simple-srgb
    :models (rgb rgba)
    :illuminant :d65
