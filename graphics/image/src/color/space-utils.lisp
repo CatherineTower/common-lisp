@@ -84,15 +84,20 @@
       ((< hue 360d0)
        (values chroma 0d0 x)))))
 
+;; Allow converting to a model given a symbol, which denotes a model with default properties.
+
+(defmethod base:convert ((from color) (to symbol))
+  (base:convert from (make-color to)))
+
 ;;; Handle converting from/to color models with alpha channels.
 
-(defmethod base:convert :around ((from alpha) to)
+(defmethod base:convert :around ((from alpha) (to color))
   (with-pool-color (alpha (type-of from) :space (space-name from) :copy from)
     (when (pre-multiplied-alpha-p from)
       (un-pre-multiply-alpha alpha))
     (call-next-method alpha to)))
 
-(defmethod base:convert :after (from (to alpha))
+(defmethod base:convert :after ((from color) (to alpha))
   (let ((to-channels (channels to))
         (to-index (alpha-index to)))
     (if (typep from 'alpha)
