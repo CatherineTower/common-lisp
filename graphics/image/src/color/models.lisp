@@ -15,12 +15,12 @@
 
 (defclass lchab (color) ()
   (:default-initargs
-   :channel-names '(#\L #\C #\H)
+   :channel-names '("L*" #\C #\H)
    :default-space 'lchab))
 
 (defclass lchuv (color) ()
   (:default-initargs
-   :channel-names '(#\L #\C #\H)
+   :channel-names '("L*" #\C #\H)
    :default-space 'lchuv))
 
 (defclass luv (color) ()
