@@ -28,10 +28,11 @@
      (:file "chromatic-adaptation")
      (:file "gamma")
      (:file "color")
-     (:file "pool")
      (:file "models")
+     (:file "pool")
      (:file "spaces")
      (:file "space-utils")
+     (:file "constructors")
      (:file "convert")))
    (:module "image"
     :components
