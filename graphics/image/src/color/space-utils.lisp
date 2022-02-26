@@ -1,8 +1,6 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(u:define-constant +cie-e+ #.(float 216/24389 1d0))
-
-(u:define-constant +cie-k+ #.(float 24389/27 1d0))
+;;; Helpers.
 
 (defmacro with-convert ((from to) &body body)
   `(with-pool-colors (,@(butlast (rest (car body))))
@@ -14,6 +12,39 @@
                :collect `(,op ,(if first from x) ,y)
              :when (and y (eq y last))
                :collect `(,op ,x ,to))))
+
+(defun get-rgb-transform (from to illuminant-name)
+  (let* ((transforms (base:rgb-transforms base:*context*))
+         (from-space (space-name from))
+         (to-space (space-name to))
+         (key (list from-space to-space illuminant-name)))
+    (declare (dynamic-extent key))
+    (labels ((make-vector (x y)
+               (let ((x (/ x y))
+                     (z (/ (- 1 x y) y)))
+                 (declare (u:f64 x z))
+                 (v3:vec x 1 z)))
+             (calculate-rgb-transform (rgb-space)
+               (destructuring-bind ((rx ry) (gx gy) (bx by)) (coords rgb-space)
+                 (declare (u:f64 rx ry gx gy bx by))
+                 (let* ((r (make-vector rx ry))
+                        (g (make-vector gx gy))
+                        (b (make-vector bx by))
+                        (scale (m3:*v3 (m3:invert (m3:mat r g b))
+                                       (get-white-point illuminant-name))))
+                   (m3:mat (v3:scale r (v3:x scale))
+                           (v3:scale g (v3:y scale))
+                           (v3:scale b (v3:z scale))))))
+             (calculate-transform ()
+               (etypecase from
+                 (rgb (calculate-rgb-transform from))
+                 (xyz (m3:invert (calculate-rgb-transform to))))))
+      (declare (inline make-vector calculate-transform))
+      (u:if-found (transform (u:href transforms key))
+        transform
+        (setf (u:href transforms (copy-list key)) (calculate-transform))))))
+
+;;; Handle converting from/to color models with alpha channels.
 
 (defmethod base:convert :around ((from alpha) to)
   (with-pool-color (alpha (type-of from) :space (space-name from) :copy from)
@@ -29,6 +60,8 @@
         (setf (aref to-channels to-index) 1d0))
     (when (pre-multiply-alpha to)
       (pre-multiply-alpha to))))
+
+;;; Low level conversion routines.
 
 (declaim (inline hsl->rgb))
 (defun hsl->rgb (hsl rgb)

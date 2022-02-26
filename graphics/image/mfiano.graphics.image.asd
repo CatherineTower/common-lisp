@@ -21,16 +21,17 @@
    (:module "color"
     :components
     ((:file "package")
+     (:file "constants")
      (:file "storage")
      (:file "alpha")
      (:file "illuminants")
      (:file "chromatic-adaptation")
+     (:file "gamma")
      (:file "color")
      (:file "pool")
      (:file "models")
      (:file "spaces")
      (:file "space-utils")
-     (:file "rgb-utils")
      (:file "convert")))
    (:module "image"
     :components
