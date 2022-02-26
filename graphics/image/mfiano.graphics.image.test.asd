@@ -32,6 +32,7 @@
        (:file "rgb-bt2020")
        (:file "rgb-bt470-ntsc")
        (:file "rgb-bt470-pal-secam")
+       (:file "rgb-bt709")
        (:file "rgb-cie-rgb")
        (:file "rgb-colormatch-rgb")
        (:file "rgb-dci-p3")
