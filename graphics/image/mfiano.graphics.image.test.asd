@@ -18,6 +18,7 @@
      (:module "convert"
       :components
       ((:file "hsl")
+       (:file "hsv")
        (:file "lab")
        (:file "lchab")
        (:file "luv")

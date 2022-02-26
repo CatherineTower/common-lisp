@@ -15,6 +15,21 @@
     (base:convert from hsl)
     (hsl->rgb hsl to)))
 
+;;; From HSV
+
+(defmethod base:convert ((from hsv) (to hsv))
+  (with-pool-color (rgb1 'rgb :space (space-name from))
+    (with-pool-color (rgb2 'rgb :space (space-name to))
+      (hsv->rgb from rgb1)
+      (hsv->rgb to rgb2)
+      (base:convert rgb1 rgb2)
+      (rgb->hsv rgb2 to))))
+
+(defmethod base:convert ((from hsv) (to rgb))
+  (with-pool-color (hsv 'hsv :space (space-name to))
+    (base:convert from hsv)
+    (hsv->rgb hsv to)))
+
 ;;; From XYZ
 
 (defmethod base:convert ((from xyz) (to lab))
@@ -187,6 +202,11 @@
   (with-pool-color (rgb 'rgb :space (space-name to))
     (base:convert from rgb)
     (rgb->hsl rgb to)))
+
+(defmethod base:convert ((from rgb) (to hsv))
+  (with-pool-color (rgb 'rgb :space (space-name to))
+    (base:convert from rgb)
+    (rgb->hsv rgb to)))
 
 (defmethod base:convert ((from rgb) (to xyy))
   (with-convert (from to)

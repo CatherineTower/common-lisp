@@ -12,6 +12,7 @@
   ;; Models
   (:export
    #:hsl
+   #:hsv
    #:lab
    #:lchab
    #:lchuv
