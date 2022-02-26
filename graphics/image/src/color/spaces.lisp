@@ -1,9 +1,5 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(declaim (inline get-color-space-spec))
-(defun get-color-space-spec (space-name)
-  (u:href (base:color-spaces base:*context*) space-name))
-
 (defun register-color-space (space-name model-name &rest args)
   (let ((args (list* model-name :space space-name args)))
     (setf (u:href (base:color-spaces base:*context*) space-name) args)
