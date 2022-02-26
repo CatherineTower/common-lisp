@@ -67,6 +67,12 @@
    :illuminant :c
    :coords ((0.67d0 0.33d0) (0.21d0 0.71d0) (0.14d0 0.08d0))
    :gamma 2.2d0)
+  ;; Reference: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+  (bt470-pal/secam
+   :models (rgb rgba)
+   :illuminant :d65
+   :coords ((0.64d0 0.33d0) (0.29d0 0.6d0) (0.15d0 0.06d0))
+   :gamma 2.8d0)
   ;; Reference: http://www.brucelindbloom.com/WorkingSpaceInfo.html
   (cie-rgb
    :models (rgb rgba)

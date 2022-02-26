@@ -63,6 +63,11 @@
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
                    (i:make-color 'i:rgb :space 'i:bt470-ntsc)))
   (p:is color=
+        (i:rgb -0.9522948993452187d0 0.9684370280595173d0 0.9763590421822035d0
+               :space 'i:bt470-pal/secam)
+        (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)
+                   (i:make-color 'i:rgb :space 'i:bt470-pal/secam)))
+  (p:is color=
         (i:rgb -0.8125307085209895d0 0.8728897826791688d0 0.9540052732266994d0
                :space 'i:cie-rgb)
         (i:convert (i:xyz 0.1d0 0.5d0 0.9d0)

@@ -63,6 +63,11 @@
         (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)
                    (i:make-color 'i:rgb :space 'i:bt470-ntsc)))
   (p:is color=
+        (i:rgb -0.4091977721374944d0 0.2918957284282138d0 0.5788537129113679d0
+               :space 'i:bt470-pal/secam)
+        (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)
+                   (i:make-color 'i:rgb :space 'i:bt470-pal/secam)))
+  (p:is color=
         (i:rgb -0.3159101071602394d0 0.2226732403374511d0 0.4704758163732122d0
                :space 'i:cie-rgb)
         (i:convert (i:lchab 15.344287349659623d0 61.88893594294575d0 258.798618249731d0)
