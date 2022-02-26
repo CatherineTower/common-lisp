@@ -1,5 +1,20 @@
 (in-package #:%mfiano.graphics.image.color)
 
+;; From HSL
+
+(defmethod base:convert ((from hsl) (to hsl))
+  (with-pool-color (rgb1 'rgb :space (space-name from))
+    (with-pool-color (rgb2 'rgb :space (space-name to))
+      (hsl->rgb from rgb1)
+      (hsl->rgb to rgb2)
+      (base:convert rgb1 rgb2)
+      (rgb->hsl rgb2 to))))
+
+(defmethod base:convert ((from hsl) (to rgb))
+  (with-pool-color (hsl 'hsl :space (space-name to))
+    (base:convert from hsl)
+    (hsl->rgb hsl to)))
+
 ;;; From XYZ
 
 (defmethod base:convert ((from xyz) (to lab))
@@ -167,6 +182,11 @@
   (with-pool-color (xyz 'xyz)
     (rgb->xyz from xyz)
     (xyz->rgb xyz to)))
+
+(defmethod base:convert ((from rgb) (to hsl))
+  (with-pool-color (rgb 'rgb :space (space-name to))
+    (base:convert from rgb)
+    (rgb->hsl rgb to)))
 
 (defmethod base:convert ((from rgb) (to xyy))
   (with-convert (from to)

@@ -1,5 +1,13 @@
 (in-package #:%mfiano.graphics.image.color)
 
+(defclass hsl (color) ()
+  (:default-initargs
+   :channel-names '(#\H #\S #\L)
+   :default-space 'srgb))
+
+(defun hsl (h s l &key (space 'srgb) illuminant)
+  (make-instance 'hsl :space space :illuminant illuminant :channel0 h :channel1 s :channel2 l))
+
 (defclass lab (color) ()
   (:default-initargs
    :channel-names '("L*" "a*" "b*")

@@ -17,8 +17,7 @@
     ((:file "color")
      (:module "convert"
       :components
-      ((:file "xyz")
-       (:file "xyy")
+      ((:file "hsl")
        (:file "lab")
        (:file "lchab")
        (:file "luv")
@@ -43,4 +42,6 @@
        (:file "rgb-prophoto-rgb")
        (:file "rgb-simple-srgb")
        (:file "rgb-smpte-c-rgb")
-       (:file "rgb-srgb")))))))
+       (:file "rgb-srgb")
+       (:file "xyz")
+       (:file "xyy")))))))

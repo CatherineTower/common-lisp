@@ -11,6 +11,7 @@
   (:use #:cl)
   ;; Models
   (:export
+   #:hsl
    #:lab
    #:lchab
    #:lchuv
