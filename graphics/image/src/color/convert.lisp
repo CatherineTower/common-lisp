@@ -2,9 +2,6 @@
 
 ;;; From XYZ
 
-(defmethod base:convert ((from xyz) (to xyy))
-  (xyz->xyy from to))
-
 (defmethod base:convert ((from xyz) (to lab))
   (xyz->lab from to))
 
@@ -22,10 +19,10 @@
 (defmethod base:convert ((from xyz) (to rgb))
   (xyz->rgb from to))
 
-;;; From xyY
+(defmethod base:convert ((from xyz) (to xyy))
+  (xyz->xyy from to))
 
-(defmethod base:convert ((from xyy) (to xyz))
-  (xyy->xyz from to))
+;;; From xyY
 
 (defmethod base:convert ((from xyy) (to lab))
   (with-convert (from to)
@@ -47,14 +44,10 @@
   (with-convert (from to)
     (xyy xyz rgb)))
 
+(defmethod base:convert ((from xyy) (to xyz))
+  (xyy->xyz from to))
+
 ;;; From Lab
-
-(defmethod base:convert ((from lab) (to xyz))
-  (lab->xyz from to))
-
-(defmethod base:convert ((from lab) (to xyy))
-  (with-convert (from to)
-    (lab xyz xyy)))
 
 (defmethod base:convert ((from lab) (to lchab))
   (lab->lchab from to))
@@ -71,15 +64,14 @@
   (with-convert (from to)
     (lab xyz rgb)))
 
+(defmethod base:convert ((from lab) (to xyy))
+  (with-convert (from to)
+    (lab xyz xyy)))
+
+(defmethod base:convert ((from lab) (to xyz))
+  (lab->xyz from to))
+
 ;;; From LCHab
-
-(defmethod base:convert ((from lchab) (to xyz))
-  (with-convert (from to)
-    (lchab lab xyz)))
-
-(defmethod base:convert ((from lchab) (to xyy))
-  (with-convert (from to)
-    (lchab lab xyz xyy)))
 
 (defmethod base:convert ((from lchab) (to lab))
   (lchab->lab from to))
@@ -96,15 +88,15 @@
   (with-convert (from to)
     (lchab lab xyz rgb)))
 
+(defmethod base:convert ((from lchab) (to xyy))
+  (with-convert (from to)
+    (lchab lab xyz xyy)))
+
+(defmethod base:convert ((from lchab) (to xyz))
+  (with-convert (from to)
+    (lchab lab xyz)))
+
 ;;; From LCHuv
-
-(defmethod base:convert ((from lchuv) (to xyz))
-  (with-convert (from to)
-    (lchuv luv xyz)))
-
-(defmethod base:convert ((from lchuv) (to xyy))
-  (with-convert (from to)
-    (lchuv luv xyz xyy)))
 
 (defmethod base:convert ((from lchuv) (to lab))
   (with-convert (from to)
@@ -121,14 +113,15 @@
   (with-convert (from to)
     (lchuv luv xyz rgb)))
 
-;;; From Luv
-
-(defmethod base:convert ((from luv) (to xyz))
-  (luv->xyz from to))
-
-(defmethod base:convert ((from luv) (to xyy))
+(defmethod base:convert ((from lchuv) (to xyy))
   (with-convert (from to)
-    (luv xyz xyy)))
+    (lchuv luv xyz xyy)))
+
+(defmethod base:convert ((from lchuv) (to xyz))
+  (with-convert (from to)
+    (lchuv luv xyz)))
+
+;;; From Luv
 
 (defmethod base:convert ((from luv) (to lab))
   (with-convert (from to)
@@ -145,14 +138,14 @@
   (with-convert (from to)
     (luv xyz rgb)))
 
-;;; From RGB/RGBA
-
-(defmethod base:convert ((from rgb) (to xyz))
-  (rgb->xyz from to))
-
-(defmethod base:convert ((from rgb) (to xyy))
+(defmethod base:convert ((from luv) (to xyy))
   (with-convert (from to)
-    (rgb xyz xyy)))
+    (luv xyz xyy)))
+
+(defmethod base:convert ((from luv) (to xyz))
+  (luv->xyz from to))
+
+;;; From RGB/RGBA
 
 (defmethod base:convert ((from rgb) (to lab))
   (with-convert (from to)
@@ -174,3 +167,10 @@
   (with-pool-color (xyz 'xyz)
     (rgb->xyz from xyz)
     (xyz->rgb xyz to)))
+
+(defmethod base:convert ((from rgb) (to xyy))
+  (with-convert (from to)
+    (rgb xyz xyy)))
+
+(defmethod base:convert ((from rgb) (to xyz))
+  (rgb->xyz from to))
