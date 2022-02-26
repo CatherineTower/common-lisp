@@ -32,7 +32,7 @@
   (let* ((model (type-of instance))
          (space (or space (default-space-name instance))))
     (u:if-found (spec (get-color-space-spec space))
-      (destructuring-bind (space &rest args &key models ((:illuminant default-illuminant)) &allow-other-keys) spec
+      (destructuring-bind (models &rest args &key ((:illuminant default-illuminant)) &allow-other-keys) spec
         (setf (%default-illuminant-name instance) default-illuminant)
         (let ((args (if illuminant (list* :illuminant illuminant args) args)))
           (if (member model models)
