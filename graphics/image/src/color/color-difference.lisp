@@ -20,7 +20,8 @@
 (defun h-prime (b a-prime)
   (if (= 0 b a-prime)
       0
-      (u:radians->degrees (atan b a-prime))))
+      (mod (u:radians->degrees (atan b a-prime))
+           360)))
 
 (defun c-star (a b)
   (sqrt (+ (expt a 2)
