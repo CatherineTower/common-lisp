@@ -47,4 +47,7 @@
   ;; Operations
   (:export
    #:adapt-chromaticity
-   #:make-color))
+   #:make-color)
+  ;; Color difference
+  (:export
+   #:delta-e-2000))
