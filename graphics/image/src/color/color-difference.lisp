@@ -17,9 +17,9 @@
               2)))
     (* a (1+ g))))
 
-(defun h-prime (b-star a-prime)
+(defun h-prime (b a-prime)
   (u:radians->degrees (mod #.(u:degrees->radians 360)
-                           (atan b-star a-prime))))
+                           (atan b a-prime))))
 
 (defun c-star (a b)
   (sqrt (+ (expt a 2)
