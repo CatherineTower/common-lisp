@@ -12,9 +12,9 @@
       (base:convert color (lab 0 0 0))))
 
 (defun a-prime (a c-bar)
-  (let ((g (/ (- 1 (sqrt (/ (expt c-bar 7)
-                            (+ (expt c-bar 7) #.(expt 25 7)))))
-              2)))
+  (let ((g (* 0.5d0 (- 1 (sqrt (/ (expt c-bar 7)
+                                  (+ (expt c-bar 7)
+                                     #.(expt 25 7))))))))
     (* a (1+ g))))
 
 (defun h-prime (b a-prime)
