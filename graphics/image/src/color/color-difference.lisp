@@ -28,7 +28,7 @@
 (defun delta-h-prime (h-prime-one h-prime-two c-prime-one c-prime-two)
   (if (= c-prime-one c-prime-two 0)
       0
-      (let* ((difference (- h-prime-one h-prime-two))
+      (let* ((difference (- h-prime-two h-prime-one))
              (absolute-difference (abs difference)))
         (cond ((<= absolute-difference 180d0) difference)
               ((> difference 180d0) (- difference 360d0))
