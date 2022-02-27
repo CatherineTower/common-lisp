@@ -33,7 +33,8 @@
      (:file "spaces")
      (:file "space-utils")
      (:file "constructors")
-     (:file "convert")))
+     (:file "convert")
+     (:file "color-difference")))
    (:module "image"
     :components
     ((:file "package")
