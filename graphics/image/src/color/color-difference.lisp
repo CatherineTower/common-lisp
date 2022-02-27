@@ -80,10 +80,11 @@
                                (sin (u:degrees->radians (/ delta-h-prime 2)))
                                2))
          ;; Unfortunately, the symbol T is already taken. How inconsiderate
-         (t* (- (- 1 (+ (* 0.17d0 (cos (u:degrees->radians (- h-bar-prime  30d0))))
-                        (* 0.24d0 (cos (u:degrees->radians (* 2 h-bar-prime))))
-                        (* 0.32d0 (cos (u:degrees->radians (+ (* 3 h-bar-prime) 6d0))))))
-                (* 0.2d0 (cos (u:degrees->radians (- (* h-bar-prime 4) 63d0))))))
+         (t* (+ 1
+                (- (* 0.17d0 (cos (u:degrees->radians (- h-bar-prime  30d0)))))
+                (* 0.24d0 (cos (u:degrees->radians (* 2 h-bar-prime))))
+                (* 0.32d0 (cos (u:degrees->radians (+ (* 3 h-bar-prime) 6d0))))
+                (- (* 0.2d0 (cos (u:degrees->radians (- (* h-bar-prime 4) 63d0)))))))
          (delta-theta (* 30 (exp (- (expt (/ (- h-bar-prime 275d0)
                                              25d0)
                                           2)))))
