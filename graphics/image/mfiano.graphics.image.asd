@@ -34,7 +34,7 @@
      (:file "space-utils")
      (:file "constructors")
      (:file "convert")
-     (:file "color-difference")))
+     (:file "difference-delta-e-2000")))
    (:module "image"
     :components
     ((:file "package")
