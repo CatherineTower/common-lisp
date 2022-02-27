@@ -39,7 +39,7 @@
 (defun h-bar-prime (h-prime-one h-prime-two c-prime-one c-prime-two)
   (let ((absolute-difference (abs (- h-prime-one h-prime-two)))
         (sum (+ h-prime-one h-prime-two)))
-    (if (= (* c-prime-one c-prime-two 0))
+    (if (= 0 (* c-prime-one c-prime-two))
         sum
         (/ (cond ((<= absolute-difference 180) sum)
                  ((and (> absolute-difference 180) (< sum 360))
