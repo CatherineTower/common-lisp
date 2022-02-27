@@ -15,6 +15,7 @@
    (:module "color"
     :components
     ((:file "color")
+     (:file "difference")
      (:module "convert"
       :components
       ((:file "hsl")
