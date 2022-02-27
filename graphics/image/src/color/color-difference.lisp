@@ -57,7 +57,7 @@
          (a2 (v3:y channels2))
          (b1 (v3:z channels1))
          (b2 (v3:z channels2))
-         (delta-l-prime (- l1 l2))
+         (delta-l-prime (- l2 l1))
          (l-bar (/ (+ l1 l2)
                    2))
          (c-bar (/ (+ (c-star a1 b1)
