@@ -19,7 +19,4 @@
    #:with-threads)
   ;; Conditions
   (:export
-   #:color-error)
-  ;; Protocol
-  (:export
-   #:convert))
+   #:color-error))
