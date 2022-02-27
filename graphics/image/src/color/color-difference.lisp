@@ -3,8 +3,6 @@
 (u:define-constant +k-at-l+ 1d0)
 (u:define-constant +k-at-c+ 1d0)
 (u:define-constant +k-at-h+ 1d0)
-(u:define-constant +k-one+ 0.045d0)
-(u:define-constant +k-two+ 0.15d0)
 
 (defun ensure-cielab (color)
   (if (eq (class-name (class-of color)) 'lab)
