@@ -1,13 +1,13 @@
 (in-package #:mfiano.graphics.image.test)
 
-(let ((*float-tolerance* 4d-5))
-  (macrolet ((delta-e-2000-test ((l1 a1 b1) (l2 a2 b2) result)
-               `(p:is float=
-                      (c:delta-e-2000 (c:lab ,l1 ,a1 ,b1)
-                                      (c:lab ,l2 ,a2 ,b2))
-                      ,result)))
-    (p:define-test "Color > Difference"
-        :parent "Color"
+
+(macrolet ((delta-e-2000-test ((l1 a1 b1) (l2 a2 b2) result)
+             `(p:true (float= (c:delta-e-2000 (c:lab ,l1 ,a1 ,b1)
+                                              (c:lab ,l2 ,a2 ,b2))
+                              ,result
+                              :tolerance 5d-5))))
+  (p:define-test "Color > Difference"
+    :parent "Color"
     (delta-e-2000-test (50.0 2.6772 -79.7751) (50.0 0.0 -82.7485) 2.0424596801565702008929)
     (delta-e-2000-test (50.0 3.1571 -77.2803) (50.0 0.0 -82.7485) 2.8615101747474898097323)
     (delta-e-2000-test (50.0 2.8361 -74.02) (50.0 0.0 -82.7485) 3.4411905986907100896133)
@@ -41,4 +41,4 @@
     (delta-e-2000-test (90.8027 -2.0831 1.441) (91.1528 -1.6435 0.0447) 1.4441290780930200465804)
     (delta-e-2000-test (90.9257 -0.5406 -0.9208) (88.6381 -0.8985 -0.7239) 1.5381170054396799962149)
     (delta-e-2000-test (6.7747 -0.2908 -2.4247) (5.8714 -0.0985 -2.2286) 0.6377276718841150549011)
-    (delta-e-2000-test (2.0776 0.0795 -1.135) (0.9033 -0.0636 -0.5514) 0.9082328396025249883650))))
+    (delta-e-2000-test (2.0776 0.0795 -1.135) (0.9033 -0.0636 -0.5514) 0.9082328396025249883650)))
