@@ -11,6 +11,9 @@
   (chromatic-adaptation-transforms (u:dict #'equal) :type hash-table)
   (rgb-transforms (u:dict #'equal) :type hash-table))
 
+(u:define-printer (context stream :type nil :identity t)
+  (format stream "CONTEXT"))
+
 (defvar *context* (make-context))
 
 (defvar *parallel-p* nil)
