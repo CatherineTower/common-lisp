@@ -50,6 +50,7 @@
            (expt b 2))))
 
 (defun delta-e-2000 (color1 color2)
+  (declare (optimize speed))
   (let* ((channels1 (channels (ensure-cielab color1)))
          (channels2 (channels (ensure-cielab color2)))
          (l1 (v3:x channels1))
