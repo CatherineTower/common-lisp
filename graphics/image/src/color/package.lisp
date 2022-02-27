@@ -47,6 +47,7 @@
   ;; Operations
   (:export
    #:adapt-chromaticity
+   #:convert-color
    #:make-color)
   ;; Color difference
   (:export

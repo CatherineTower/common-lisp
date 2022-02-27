@@ -41,7 +41,7 @@
   (flet ((ensure-cielab (color)
            (if (eq (class-name (class-of color)) 'lab)
                color
-               (base:convert color (lab 0 0 0))))
+               (convert-color color (lab 0 0 0))))
          (a (a c)
            (* a (1+ (* 0.5d0 (- 1 (sqrt (/ (expt c 7) (+ (expt c 7) #.(expt 25 7)))))))))
          (h (a b)

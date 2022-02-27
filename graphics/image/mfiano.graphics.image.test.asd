@@ -45,5 +45,5 @@
        (:file "rgb-simple-srgb")
        (:file "rgb-smpte-c-rgb")
        (:file "rgb-srgb")
-       (:file "xyz")
-       (:file "xyy")))))))
+       (:file "xyy")
+       (:file "xyz")))))))

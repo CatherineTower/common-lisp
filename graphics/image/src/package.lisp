@@ -5,7 +5,6 @@
   (:inherit
    #:%mfiano.graphics.image.base
    #:color-error
-   #:convert
    #:with-threads)
   (:inherit-external
    #:%mfiano.graphics.image.color))

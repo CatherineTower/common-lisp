@@ -15,13 +15,13 @@
   ((:module "base"
     :components
     ((:file "package")
-     (:file "protocol")
      (:file "conditions")
      (:file "context")))
    (:module "color"
     :components
     ((:file "package")
      (:file "constants")
+     (:file "protocol")
      (:file "storage")
      (:file "alpha")
      (:file "illuminants")
