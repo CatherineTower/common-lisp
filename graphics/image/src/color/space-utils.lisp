@@ -83,20 +83,23 @@
       ((< hue 360d0)
        (values chroma 0d0 x)))))
 
-;; Allow converting to a model given a symbol, which denotes a model with default properties.
+;;; Default high-level conversion routines.
+
+(defmethod convert-color ((from color) (to color))
+  (%convert-color from to))
 
 (defmethod convert-color ((from color) (to symbol))
   (convert-color from (make-color to)))
 
-;;; Handle converting from/to color models with alpha channels.
+;;; Auxiliary high-level conversion routines to handle colors with alpha channels.
 
-(defmethod %convert-color :around ((from alpha) (to color))
+(defmethod convert-color :around ((from alpha) (to color))
   (with-pool-color (alpha (type-of from) :space (space-name from) :copy from)
     (when (pre-multiplied-alpha-p from)
       (un-pre-multiply-alpha alpha))
     (call-next-method alpha to)))
 
-(defmethod %convert-color :after ((from color) (to alpha))
+(defmethod convert-color :after ((from color) (to alpha))
   (let ((to-channels (channels to))
         (to-index (alpha-index to)))
     (if (typep from 'alpha)
@@ -104,9 +107,6 @@
         (setf (aref to-channels to-index) 1d0))
     (when (pre-multiply-alpha to)
       (pre-multiply-alpha to))))
-
-(defmethod convert-color ((from color) (to color))
-  (%convert-color from to))
 
 ;;; Low level conversion routines.
 
