@@ -12,9 +12,10 @@
       (base:convert color (lab 0 0 0))))
 
 (defun a-prime (a c-bar)
-  (+ a (/ (* a (- 1 (sqrt (/ (expt c-bar 7)
-                             (+ (expt c-bar 7) #.(expt 25 7))))))
-          2)))
+  (let ((g (/ (- 1 (sqrt (/ (expt c-bar 7)
+                            (+ (expt c-bar 7) #.(expt 25 7)))))
+              2)))
+    (* a (1+ g))))
 
 (defun h-prime (b-star a-prime)
   (u:radians->degrees (mod #.(u:degrees->radians 360)
