@@ -6,6 +6,7 @@
             (:copier nil))
   (illuminants (u:dict) :type hash-table)
   (color-spaces (u:dict) :type hash-table)
+  (color-space-graph (make-instance 'graph:graph))
   (color-pools (u:dict #'equal) :type hash-table)
   (cone-responses (u:dict) :type hash-table)
   (chromatic-adaptation-transforms (u:dict #'equal) :type hash-table)

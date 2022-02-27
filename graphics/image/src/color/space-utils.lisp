@@ -110,7 +110,16 @@
 
 ;;; Low level conversion routines.
 
-(defmethod %convert-color ((from hsl) (to rgb))
+(defmacro define-conversion ((from to) &body body)
+  (u:with-gensyms (graph edge)
+    `(let ((,graph (base:color-space-graph base:*context*))
+           (,edge '(,from ,to)))
+       (unless (graph:has-edge-p ,graph ,edge)
+         (graph:add-edge ,graph ,edge))
+       (defmethod %convert-color ((from ,from) (to ,to))
+         ,@body))))
+
+(define-conversion (hsl rgb)
   (let ((hsl-channels (channels from))
         (rgb-channels (channels to)))
     (v3:with-components ((hsl- hsl-channels)
@@ -124,7 +133,7 @@
               rgb-z (+ b m))
         to))))
 
-(defmethod %convert-color ((from hsv) (to rgb))
+(define-conversion (hsv rgb)
   (let ((hsv-channels (channels from))
         (rgb-channels (channels to)))
     (v3:with-components ((hsv- hsv-channels)
@@ -138,7 +147,7 @@
               rgb-z (+ b m))
         to))))
 
-(defmethod %convert-color ((from lab) (to lchab))
+(define-conversion (lab lchab)
   (declare (optimize speed))
   (let ((lab-channels (channels from))
         (lch-channels (channels to)))
@@ -154,7 +163,7 @@
                         (+ (u:radians->degrees arctan) 360)))
         to))))
 
-(defmethod %convert-color ((from lab) (to xyz))
+(define-conversion (lab xyz)
   (declare (optimize speed))
   (let ((lab-channels (channels from))
         (xyz-channels (channels to))
@@ -185,7 +194,7 @@
               xyz-z (* rz wz))
         to))))
 
-(defmethod %convert-color ((from lchab) (to lab))
+(define-conversion (lchab lab)
   (declare (optimize speed))
   (let ((lch-channels (channels from))
         (lab-channels (channels to)))
@@ -199,7 +208,7 @@
               lab-z (* lch-y (sin h)))
         to))))
 
-(defmethod %convert-color ((from lchuv) (to luv))
+(define-conversion (lchuv luv)
   (declare (optimize speed))
   (let ((lch-channels (channels from))
         (luv-channels (channels to)))
@@ -213,7 +222,7 @@
               luv-z (* lch-y (sin h)))
         to))))
 
-(defmethod %convert-color ((from luv) (to lchuv))
+(define-conversion (luv lchuv)
   (declare (optimize speed))
   (let ((luv-channels (channels from))
         (lch-channels (channels to)))
@@ -229,7 +238,7 @@
                         (+ (u:radians->degrees arctan) 360)))
         to))))
 
-(defmethod %convert-color ((from luv) (to xyz))
+(define-conversion (luv xyz)
   (declare (optimize speed))
   (let ((luv-channels (channels from))
         (xyz-channels (channels to))
@@ -254,7 +263,7 @@
               xyz-z (+ (* xyz-x a) -5y))
         to))))
 
-(defmethod %convert-color ((from rgb) (to hsl))
+(define-conversion (rgb hsl)
   (let ((hsl-channels (channels to)))
     (declare (v3:vec hsl-channels))
     (v3:with-components ((hsl- hsl-channels))
@@ -267,7 +276,7 @@
               hsl-z l)
         to))))
 
-(defmethod %convert-color ((from rgb) (to hsv))
+(define-conversion (rgb hsv)
   (let ((hsv-channels (channels to)))
     (declare (v3:vec hsv-channels))
     (v3:with-components ((hsv- hsv-channels))
@@ -278,7 +287,7 @@
               hsv-z max)
         to))))
 
-(defmethod %convert-color ((from rgb) (to xyz))
+(define-conversion (rgb xyz)
   (declare (optimize speed))
   (with-pool-color (rgb (type-of from) :space (space-name from) :copy from)
     (let* ((illuminant-name (illuminant-name rgb))
@@ -291,7 +300,7 @@
       (setf (%illuminant-name to) illuminant-name)
       to)))
 
-(defmethod %convert-color ((from xyy) (to xyz))
+(define-conversion (xyy xyz)
   (declare (optimize speed))
   (let ((xyy-channels (channels from))
         (xyz-channels (channels to)))
@@ -306,7 +315,7 @@
                 xyz-z (/ (* (- 1 xyy-x xyy-y) xyy-z) xyy-y)))
       to)))
 
-(defmethod %convert-color ((from xyz) (to lab))
+(define-conversion (xyz lab)
   (declare (optimize speed))
   (let* ((lab-channels (channels to))
          (r (v3:/ (channels from) (get-white-point (illuminant-name from))))
@@ -331,7 +340,7 @@
             lab-z (* (- fy fz) 200))
       to)))
 
-(defmethod %convert-color ((from xyz) (to luv))
+(define-conversion (xyz luv)
   (declare (optimize speed))
   (let ((xyz-channels (channels from))
         (luv-channels (channels to))
@@ -353,7 +362,7 @@
                   luv-z (* luv-x 13 (- (/ (* xyz-y 9) div-uv) (/ (* wy 9) div-w)))))
         to))))
 
-(defmethod %convert-color ((from xyz) (to rgb))
+(define-conversion (xyz rgb)
   (declare (optimize speed))
   (with-pool-color (xyz 'xyz :copy from)
     (let* ((illuminant-name (illuminant-name to))
@@ -367,7 +376,7 @@
       (setf (%illuminant-name to) illuminant-name)
       to)))
 
-(defmethod %convert-color ((from xyz) (to xyy))
+(define-conversion (xyz xyy)
   (declare (optimize speed))
   (let ((xyz-channels (channels from))
         (xyy-channels (channels to)))

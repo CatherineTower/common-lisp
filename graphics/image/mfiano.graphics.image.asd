@@ -5,7 +5,8 @@
   :license "MIT"
   :homepage "https://github.com/mfiano/common-lisp/tree/master/graphics/image"
   :encoding :utf-8
-  :depends-on (#:lparallel
+  :depends-on (#:graph
+               #:lparallel
                #:mfiano.math.origin
                #:mfiano.misc.utils)
   :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.graphics.image.test)))

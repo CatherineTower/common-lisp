@@ -12,6 +12,7 @@
    #:*worker-pools*
    #:chromatic-adaptation-transforms
    #:color-pools
+   #:color-space-graph
    #:color-spaces
    #:cone-responses
    #:illuminants
