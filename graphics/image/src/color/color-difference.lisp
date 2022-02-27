@@ -51,6 +51,7 @@
                        ((> difference 180d0) (- difference 360d0))
                        (t (+ difference 360d0)))))))
 
+    (declare (inline ensure-cielab c-star c-prime a-prime h-prime h-bar-prime delta-h-prime))
     (let* ((channels1 (channels (ensure-cielab color1)))
            (channels2 (channels (ensure-cielab color2)))
            (l1 (v3:x channels1))
