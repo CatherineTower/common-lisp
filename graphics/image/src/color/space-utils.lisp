@@ -12,6 +12,17 @@
              :when (and y (eq y last))
                :collect `(%convert-color ,x ,to))))
 
+(defun find-conversion-path (from to)
+  (let ((graph (base:color-space-graph base:*context*))
+        (shortest nil))
+    (map nil
+         (lambda (x)
+           (let ((path (graph:shortest-path graph x to)))
+             (when (or (null shortest) (< (length path) (1- (length shortest))))
+               (setf shortest (list* (list from x) path)))))
+         (graph:neighbors graph from))
+    shortest))
+
 (defun get-rgb-transform (from to illuminant-name)
   (let* ((transforms (base:rgb-transforms base:*context*))
          (from-space (space-name from))
