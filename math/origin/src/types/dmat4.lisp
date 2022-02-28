@@ -8,7 +8,6 @@
    (#:dv3 #:mfiano.math.origin.dvec3)
    (#:dv4 #:mfiano.math.origin.dvec4)
    (#:m4 #:mfiano.math.origin.mat4)
-   (#:ss #:specialization-store)
    (#:u #:mfiano.misc.utils))
   (:use #:cl)
   (:shadow
@@ -142,14 +141,14 @@
                      ~,6f, ~,6f, ~,6f, ~,6f]"
             m00 m01 m02 m03 m10 m11 m12 m13 m20 m21 m22 m23 m30 m31 m32 m33)))
 
-;;; Constructors
+;;; Constructor
 
-(u:fn-> %mat (u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64
-                    u:f64 u:f64)
+(u:fn-> mat (u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64 u:f64
+                   u:f64 u:f64)
         mat)
-(declaim (inline %mat))
+(declaim (inline mat))
 (u:eval-always
-  (defun %mat (m00 m10 m20 m30 m01 m11 m21 m31 m02 m12 m22 m32 m03 m13 m23 m33)
+  (defun mat (m00 m10 m20 m30 m01 m11 m21 m31 m02 m12 m22 m32 m03 m13 m23 m33)
     (declare (optimize speed))
     (let ((mat (u:make-f64-array 16)))
       (setf (aref mat 0) m00
@@ -170,77 +169,12 @@
             (aref mat 15) m33)
       mat)))
 
-(ss:defstore mat (&rest args))
-
-(ss:defspecialization (mat :inline t) () mat
-  (%mat 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0))
-
-(ss:defspecialization (mat :inline t) ((x real)) mat
-  (%mat (float x 1d0) 0d0 0d0 0d0
-        0d0 (float x 1d0) 0d0 0d0
-        0d0 0d0 (float x 1d0) 0d0
-        0d0 0d0 0d0 (float x 1d0)))
-
-(ss:defspecialization (mat :inline t) ((mat dm2:mat)) mat
-  (%mat (aref mat 0) (aref mat 1) 0d0 0d0
-        (aref mat 2) (aref mat 3) 0d0 0d0
-        0d0 0d0 1d0 0d0
-        0d0 0d0 0d0 1d0))
-
-(ss:defspecialization (mat :inline t) ((mat dm3:mat)) mat
-  (%mat (aref mat 0) (aref mat 1) (aref mat 2) 0d0
-        (aref mat 3) (aref mat 4) (aref mat 5) 0d0
-        (aref mat 6) (aref mat 7) (aref mat 8) 0d0
-        0d0 0d0 0d0 1d0))
-
-(ss:defspecialization (mat :inline t) ((mat mat)) mat
-  (%mat (aref mat 0) (aref mat 1) (aref mat 2) (aref mat 3)
-        (aref mat 4) (aref mat 5) (aref mat 6) (aref mat 7)
-        (aref mat 8) (aref mat 9) (aref mat 10) (aref mat 11)
-        (aref mat 12) (aref mat 13) (aref mat 14) (aref mat 15)))
-
-(ss:defspecialization (mat :inline t)
-    ((vec1 dv4:vec) (vec2 dv4:vec) (vec3 dv4:vec) (vec4 dv4:vec))
-    mat
-  (%mat (aref vec1 0) (aref vec1 1) (aref vec1 2) (aref vec1 3)
-        (aref vec2 0) (aref vec2 1) (aref vec2 2) (aref vec2 3)
-        (aref vec3 0) (aref vec3 1) (aref vec3 2) (aref vec3 3)
-        (aref vec4 0) (aref vec4 1) (aref vec4 2) (aref vec4 3)))
-
-(ss:defspecialization (mat :inline t) ((a real) (b real) (c real) (d real)
-                                       (e real) (f real) (g real) (h real)
-                                       (i real) (j real) (k real) (l real)
-                                       (m real) (n real) (o real) (p real))
-    mat
-  (%mat (float a 1d0) (float b 1d0) (float c 1d0) (float d 1d0)
-        (float e 1d0) (float f 1d0) (float g 1d0) (float h 1d0)
-        (float i 1d0) (float j 1d0) (float k 1d0) (float l 1d0)
-        (float m 1d0) (float n 1d0) (float o 1d0) (float p 1d0)))
-
-(ss:defspecialization (mat :inline t) ((mat m4:mat)) mat
-  (%mat (float (aref mat 0) 1d0)
-        (float (aref mat 1) 1d0)
-        (float (aref mat 2) 1d0)
-        (float (aref mat 3) 1d0)
-        (float (aref mat 4) 1d0)
-        (float (aref mat 5) 1d0)
-        (float (aref mat 6) 1d0)
-        (float (aref mat 7) 1d0)
-        (float (aref mat 8) 1d0)
-        (float (aref mat 9) 1d0)
-        (float (aref mat 10) 1d0)
-        (float (aref mat 11) 1d0)
-        (float (aref mat 12) 1d0)
-        (float (aref mat 13) 1d0)
-        (float (aref mat 14) 1d0)
-        (float (aref mat 15) 1d0)))
-
 ;;; Constants
 
 (u:define-constant +zero+
-    (%mat 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0)
+    (mat 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0)
   :test #'equalp)
 
 (u:define-constant +id+
-    (%mat 1d0 0d0 0d0 0d0 0d0 1d0 0d0 0d0 0d0 0d0 1d0 0d0 0d0 0d0 0d0 1d0)
+    (mat 1d0 0d0 0d0 0d0 0d0 1d0 0d0 0d0 0d0 0d0 1d0 0d0 0d0 0d0 0d0 1d0)
   :test #'equalp)

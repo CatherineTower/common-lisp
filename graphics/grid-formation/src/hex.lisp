@@ -20,7 +20,7 @@
   (v3:vec x y (- (- x) y)))
 
 (defmethod nudge ((grid hex-grid) hex)
-  (v3:+ hex (make-hex 1e-7 1e-7)))
+  (v3:+ hex (make-hex 1f-7 1f-7)))
 
 (defun hex-round (hex)
   (v3:with-components ((r (v3:round hex))
@@ -33,12 +33,12 @@
     r))
 
 (defmethod neighbor-offsets ((grid hex-grid))
-  (vector (make-hex 1 0)
-          (make-hex 1 -1)
-          (make-hex 0 -1)
-          (make-hex -1 0)
-          (make-hex -1 1)
-          (make-hex 0 1)))
+  (vector (make-hex 1f0 0f0)
+          (make-hex 1f0 -1f0)
+          (make-hex 0f0 -1f0)
+          (make-hex -1f0 0f0)
+          (make-hex -1f0 1f0)
+          (make-hex 0f0 1f0)))
 
 (defmethod neighbor-by-index ((grid hex-grid) cell index)
   (let ((hex (v3:+ (from-cell grid cell)
@@ -85,7 +85,7 @@
         :for min = (max (- range) (- (- x) range))
         :for max = (min range (+ (- x) range))
         :do (loop :for y :from min :to max
-                  :for hex = (v3:+ (from-cell grid cell) (v3:vec x y))
+                  :for hex = (v3:+ (from-cell grid cell) (v3:vec (float x 1f0) (float y 1f0) 0f0))
                   :for selected = (to-cell grid hex)
                   :when (cell-p grid selected)
                     :do (push selected cells))

@@ -114,7 +114,7 @@
 (define-test m3/translate
   (let ((m (m3:rotate m3:+id+ const:pi/3))
         (v (v2:vec 5f0 10f0))
-        (ov (v2:vec (v2:vec -6.1602545 9.330127))))
+        (ov (v2:vec -6.1602545f0 9.330127f0)))
     (is v2:= (m3:get-translation (m3:translate m3:+id+ v)) v)
     (is v2:= (m3:get-translation (m3:translate m v)) ov)))
 

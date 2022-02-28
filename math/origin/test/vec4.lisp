@@ -52,7 +52,7 @@
 
 (define-test v4/equality
   (let ((v1 (v4:vec 0.8598654f0 -0.4803753f0 -0.3822465f0 0.2647184f0))
-        (v2 (v4:vec 1e-8 1e-8 1e-8 1e-8)))
+        (v2 (v4:vec 1f-8 1f-8 1f-8 1f-8)))
     (true (v4:= v1 v1))
     (true (v4:= (v4:+ v1 v2) v1))
     (true (v4:= v2 v4:+zero+))))

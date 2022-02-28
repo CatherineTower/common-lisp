@@ -51,7 +51,7 @@
 
 (define-test v2/equality
   (let ((v1 (v2:vec 0.8598654f0 -0.4803753f0))
-        (v2 (v2:vec 1e-8 1e-8)))
+        (v2 (v2:vec 1f-8 1f-8)))
     (true (v2:= v1 v1))
     (true (v2:= (v2:+ v1 v2) v1))
     (true (v2:= v2 v2:+zero+))))
@@ -157,9 +157,9 @@
 
 (define-test v2/angle
   (let ((angle (v2:angle (v2:vec 0f0 1f0) (v2:vec 1f0 0f0))))
-    (true (<= (abs (- angle const:pi/2)) 1e-7)))
+    (true (<= (abs (- angle const:pi/2)) 1f-7)))
   (let ((angle (v2:angle (v2:vec 1f0 0f0) (v2:vec 1f0 1f0))))
-    (true (<= (abs (- angle const:pi/4)) 1e-7))))
+    (true (<= (abs (- angle const:pi/4)) 1f-7))))
 
 (define-test v2/zero-predicate
   (true (v2:zero-p v2:+zero+))

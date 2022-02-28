@@ -21,7 +21,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun zero ()
   "Construct a fresh vector with each component set to zero."
   (declare (optimize speed))
-  (%vec 0d0 0d0))
+  (vec 0d0 0d0))
 
 (u:fn-> zero-p (vec) boolean)
 (declaim (inline zero-p))
@@ -43,7 +43,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun ones ()
   "Construct a fresh vector with each component set to one."
   (declare (optimize speed))
-  (%vec 1d0 1d0))
+  (vec 1d0 1d0))
 
 (u:fn-> uniform! (vec u:f64) vec)
 (declaim (inline uniform!))
@@ -58,7 +58,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun uniform (value)
   "Construct a fresh vector with each component set to VALUE."
   (declare (optimize speed))
-  (%vec value value))
+  (vec value value))
 
 (u:fn-> random! (vec u:f64 u:f64) vec)
 (declaim (inline random!))

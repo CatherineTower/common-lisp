@@ -4,7 +4,6 @@
   (:local-nicknames
    (#:com #:mfiano.math.origin.common)
    (#:m2 #:mfiano.math.origin.mat2)
-   (#:ss #:specialization-store)
    (#:u #:mfiano.misc.utils)
    (#:v2 #:mfiano.math.origin.vec2)
    (#:v3 #:mfiano.math.origin.vec3))
@@ -120,12 +119,12 @@
     (format stream "[~,6f, ~,6f, ~,6f~% ~,6f, ~,6f, ~,6f~% ~,6f, ~,6f, ~,6f]"
             m00 m01 m02 m10 m11 m12 m20 m21 m22)))
 
-;;; Constructors
+;;; Constructor
 
-(u:fn-> %mat (u:f32 u:f32 u:f32 u:f32 u:f32 u:f32 u:f32 u:f32 u:f32) mat)
-(declaim (inline %mat))
+(u:fn-> mat (u:f32 u:f32 u:f32 u:f32 u:f32 u:f32 u:f32 u:f32 u:f32) mat)
+(declaim (inline mat))
 (u:eval-always
-  (defun %mat (m00 m10 m20 m01 m11 m21 m02 m12 m22)
+  (defun mat (m00 m10 m20 m01 m11 m21 m02 m12 m22)
     (declare (optimize speed))
     (let ((mat (u:make-f32-array 9)))
       (setf (aref mat 0) m00
@@ -139,48 +138,8 @@
             (aref mat 8) m22)
       mat)))
 
-(ss:defstore mat (&rest args))
-
-(ss:defspecialization (mat :inline t) () mat
-  (%mat 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0))
-
-(ss:defspecialization (mat :inline t) ((x real)) mat
-  (%mat (float x 1f0) 0f0 0f0 0f0 (float x 1f0) 0f0 0f0 0f0 (float x 1f0)))
-
-(ss:defspecialization (mat :inline t) ((mat m2:mat)) mat
-  (%mat (aref mat 0) (aref mat 1) 0f0 (aref mat 2) (aref mat 3) 0f0 0f0 0f0 1f0))
-
-(ss:defspecialization (mat :inline t) ((mat mat)) mat
-  (%mat (aref mat 0) (aref mat 1) (aref mat 2)
-        (aref mat 3) (aref mat 4) (aref mat 5)
-        (aref mat 6) (aref mat 7) (aref mat 8)))
-
-(ss:defspecialization (mat :inline t) ((mat (u:f32a 16))) mat
-  (%mat (aref mat 0) (aref mat 4) (aref mat 8)
-        (aref mat 1) (aref mat 5) (aref mat 9)
-        (aref mat 2) (aref mat 6) (aref mat 10)))
-
-(ss:defspecialization (mat :inline t) ((vec1 v3:vec) (vec2 v3:vec) (vec3 v3:vec))
-    mat
-  (%mat (aref vec1 0) (aref vec1 1) (aref vec1 2)
-        (aref vec2 0) (aref vec2 1) (aref vec2 2)
-        (aref vec3 0) (aref vec3 1) (aref vec3 2)))
-
-(ss:defspecialization (mat :inline t) ((a real) (b real) (c real)
-                                       (d real) (e real) (f real)
-                                       (g real) (h real) (i real))
-    mat
-  (%mat (float a 1f0) (float b 1f0) (float c 1f0)
-        (float d 1f0) (float e 1f0) (float f 1f0)
-        (float g 1f0) (float h 1f0) (float i 1f0)))
-
-(ss:defspecialization (mat :inline t) ((mat (u:f64a 9))) mat
-  (%mat (float (aref mat 0) 1f0) (float (aref mat 1) 1f0) (float (aref mat 2) 1f0)
-        (float (aref mat 3) 1f0) (float (aref mat 4) 1f0) (float (aref mat 5) 1f0)
-        (float (aref mat 6) 1f0) (float (aref mat 7) 1f0) (float (aref mat 8) 1f0)))
-
 ;;; Constants
 
-(u:define-constant +zero+ (%mat 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0) :test #'equalp)
+(u:define-constant +zero+ (mat 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0) :test #'equalp)
 
-(u:define-constant +id+ (%mat 1f0 0f0 0f0 0f0 1f0 0f0 0f0 0f0 1f0) :test #'equalp)
+(u:define-constant +id+ (mat 1f0 0f0 0f0 0f0 1f0 0f0 0f0 0f0 1f0) :test #'equalp)

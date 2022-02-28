@@ -4,8 +4,8 @@
 
 (defmethod initialize-instance :after ((instance hex-grid/rows) &key)
   (with-slots (%forward %inverse %edge-directions %corner-directions) instance
-    (setf %forward (v4:vec (sqrt 3) (/ (sqrt 3) 2) 0 (/ 3 2))
-          %inverse (v4:vec (/ (sqrt 3) 3) (/ -1 3) 0 (/ 2 3))
+    (setf %forward (v4:vec #.(sqrt 3f0) #.(/ (sqrt 3f0) 2f0) 0f0 #.(/ 3f0 2f0))
+          %inverse (v4:vec #.(/ (sqrt 3f0) 3f0) #.(/ -1f0 3f0) 0f0 #.(/ 2f0 3f0))
           %edge-directions '(:ne :nw :w :sw :se :e)
           %corner-directions '(:ne :n :nw :sw :s :se))))
 

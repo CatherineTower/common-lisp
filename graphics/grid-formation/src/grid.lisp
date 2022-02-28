@@ -16,8 +16,8 @@
   (unless size
     (error "Grid must have a size."))
   (with-slots (%cell-size %cell-origin) instance
-    (setf %cell-size (or %cell-size (v2:vec 1))
-          %cell-origin (or %cell-origin (v2:vec)))))
+    (setf %cell-size (or %cell-size (v2:ones))
+          %cell-origin (or %cell-origin (v2:zero)))))
 
 (defun make-grid (type &rest args)
   (apply #'make-instance type args))
