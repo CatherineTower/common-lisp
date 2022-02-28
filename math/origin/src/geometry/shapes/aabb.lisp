@@ -39,11 +39,11 @@
 
 (u:fn-> aabb-from-min/max (&key (:min point3d:point) (:max point3d:point)) aabb)
 (declaim (inline aabb-from-min/max))
-(defun aabb-from-min/max (&key (min (point3d:point -0.5)) (max (point3d:point 0.5)))
+(defun aabb-from-min/max (&key (min (point3d:point -0.5f0)) (max (point3d:point 0.5f0)))
   "Construct an AABB from a MINIMUM and MAXIMUM points. "
   (declare (optimize speed))
-  (let ((origin (v3:scale (v3:+ min max) 0.5))
-        (size (v3:scale (v3:- max min) 0.5)))
+  (let ((origin (v3:scale (v3:+ min max) 0.5f0))
+        (size (v3:scale (v3:- max min) 0.5f0)))
     (%aabb :origin origin :size size)))
 
 (u:fn-> min (aabb) point3d:point)

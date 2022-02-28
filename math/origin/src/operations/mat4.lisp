@@ -2,21 +2,21 @@
 
 (u:fn-> = (mat mat &key (:rel u:f32) (:abs u:f32)) boolean)
 (declaim (inline =))
-(defun = (mat1 mat2 &key (rel 1e-7) (abs rel))
+(defun = (mat1 mat2 &key (rel 1f-7) (abs rel))
   (com:cwcmp 16 (mat1 mat2) (com:= mat1 mat2 rel abs)))
 
 (u:fn-> zero! (mat) mat)
 (declaim (inline zero!))
 (defun zero! (mat)
   (declare (optimize speed))
-  (com:cwset 16 mat nil 0.0)
+  (com:cwset 16 mat nil 0f0)
   mat)
 
 (u:fn-> zero () mat)
 (declaim (inline zero))
 (defun zero ()
   (declare (optimize speed))
-  (%mat 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0))
+  (%mat 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0))
 
 (u:fn-> zero-p (mat) boolean)
 (declaim (inline zero-p))
@@ -29,10 +29,10 @@
 (defun id! (mat)
   (declare (optimize speed))
   (with-components ((m mat))
-    (psetf m00 1.0 m01 0.0 m02 0.0 m03 0.0
-           m10 0.0 m11 1.0 m12 0.0 m13 0.0
-           m20 0.0 m21 0.0 m22 1.0 m23 0.0
-           m30 0.0 m31 0.0 m32 0.0 m33 1.0))
+    (psetf m00 1f0 m01 0f0 m02 0f0 m03 0f0
+           m10 0f0 m11 1f0 m12 0f0 m13 0f0
+           m20 0f0 m21 0f0 m22 1f0 m23 0f0
+           m30 0f0 m31 0f0 m32 0f0 m33 1f0))
   mat)
 
 (u:fn-> id () mat)
@@ -218,22 +218,22 @@
   (let ((s (sin angle))
         (c (cos angle)))
     (with-components ((o out))
-      (psetf o00 1.0
-             o10 0.0
-             o20 0.0
-             o30 0.0
-             o01 0.0
+      (psetf o00 1f0
+             o10 0f0
+             o20 0f0
+             o30 0f0
+             o01 0f0
              o11 c
              o21 s
-             o31 0.0
-             o02 0.0
+             o31 0f0
+             o02 0f0
              o12 (cl:- s)
              o22 c
-             o32 0.0
-             o03 0.0
-             o13 0.0
-             o23 0.0
-             o33 1.0))
+             o32 0f0
+             o03 0f0
+             o13 0f0
+             o23 0f0
+             o33 1f0))
     out))
 
 (u:fn-> rotation-x-from-angle (u:f32) mat)
@@ -250,21 +250,21 @@
         (c (cos angle)))
     (with-components ((o out))
       (psetf o00 c
-             o10 0.0
+             o10 0f0
              o20 (cl:- s)
-             o30 0.0
-             o01 0.0
-             o11 1.0
-             o21 0.0
-             o31 0.0
+             o30 0f0
+             o01 0f0
+             o11 1f0
+             o21 0f0
+             o31 0f0
              o02 s
-             o12 0.0
+             o12 0f0
              o22 c
-             o32 0.0
-             o03 0.0
-             o13 0.0
-             o23 0.0
-             o33 1.0))
+             o32 0f0
+             o03 0f0
+             o13 0f0
+             o23 0f0
+             o33 1f0))
     out))
 
 (u:fn-> rotation-y-from-angle (u:f32) mat)
@@ -282,20 +282,20 @@
     (with-components ((o out))
       (psetf o00 c
              o10 s
-             o20 0.0
-             o30 0.0
+             o20 0f0
+             o30 0f0
              o01 (cl:- s)
              o11 c
-             o21 0.0
-             o31 0.0
-             o02 0.0
-             o12 0.0
-             o22 1.0
-             o32 0.0
-             o03 0.0
-             o13 0.0
-             o23 0.0
-             o33 1.0))
+             o21 0f0
+             o31 0f0
+             o02 0f0
+             o12 0f0
+             o22 1f0
+             o32 0f0
+             o03 0f0
+             o13 0f0
+             o23 0f0
+             o33 1f0))
     out))
 
 (u:fn-> rotation-z-from-angle (u:f32) mat)
@@ -591,7 +591,7 @@ multiplication of MAT * T."
 (defun diagonal-p (mat)
   (declare (optimize speed))
   (with-components ((m mat))
-    (cl:= 0.0 m10 m20 m30 m01 m21 m31 m02 m12 m32 m03 m13 m23)))
+    (cl:= 0f0 m10 m20 m30 m01 m21 m31 m02 m12 m32 m03 m13 m23)))
 
 (u:fn-> main-diagonal! (v4:vec mat) v4:vec)
 (declaim (inline main-diagonal!))
@@ -682,7 +682,7 @@ multiplication of MAT * T."
                          (cl:* ,d1 ,d2 ,d3) (cl:* ,e1 ,e2 ,e3) (cl:* ,f1 ,f2 ,f3))
                    det)))
     (let ((det (determinant mat)))
-      (when (com:= det 0.0 1e-15 1e-15)
+      (when (com:= det 0f0 1f-15 1f-15)
         (warn "Skipped inverting matrix because it has a determinant of zero:~%~s" mat)
         (return-from %invert/generic! (values (copy! out mat) nil)))
       (with-components ((o out) (m mat))
@@ -723,7 +723,7 @@ multiplication of MAT * T."
         (unless (and (com:= m30 0f0) (com:= m31 0f0) (com:= m32 0f0) (com:= m33 1f0))
           (return-from invert! (%invert/generic! out mat)))
         (let ((det (sub-determinant mat)))
-          (if (and (com:= det 0f0 1e-15 1e-15)
+          (if (and (com:= det 0f0 1f-15 1f-15)
                    (or (not (com:= m00 0f0)) (not (com:= m01 0f0)) (not (com:= m02 0f0))
                        (not (com:= m10 0f0)) (not (com:= m11 0f0)) (not (com:= m12 0f0))
                        (not (com:= m20 0f0)) (not (com:= m21 0f0)) (not (com:= m22 0f0))))
@@ -773,10 +773,10 @@ multiplication of MAT * T."
               o21 (cl:- zy)
               o22 (cl:- zz)
               o23 (v3:dot z eye)
-              o30 0.0
-              o31 0.0
-              o32 0.0
-              o33 1.0))))
+              o30 0f0
+              o31 0f0
+              o32 0f0
+              o33 1f0))))
   out)
 
 (u:fn-> look-at (v3:vec v3:vec v3:vec) mat)
@@ -792,11 +792,11 @@ multiplication of MAT * T."
         (top-bottom (cl:- top bottom))
         (far-near (cl:- far near)))
     (with-components ((m (id! out)))
-      (psetf m00 (/ 2.0 right-left)
+      (psetf m00 (/ 2f0 right-left)
              m03 (cl:- (/ (cl:+ right left) right-left))
-             m11 (/ 2.0 top-bottom)
+             m11 (/ 2f0 top-bottom)
              m13 (cl:- (/ (cl:+ top bottom) top-bottom))
-             m22 (/ -2.0 far-near)
+             m22 (/ -2f0 far-near)
              m23 (cl:- (/ (cl:+ far near) far-near))))
     out))
 
@@ -809,14 +809,14 @@ multiplication of MAT * T."
 (u:fn-> perspective! (mat u:f32 u:f32 u:f32 u:f32) mat)
 (defun perspective! (out fov aspect near far)
   (declare (optimize speed))
-  (let ((f (/ (tan (/ fov 2.0))))
+  (let ((f (/ (tan (/ fov 2f0))))
         (z (cl:- near far)))
     (with-components ((m (zero! out)))
       (psetf m00 (cl:* f (cl:/ aspect))
              m11 f
              m22 (/ (cl:+ near far) z)
              m23 (/ (cl:* 2 near far) z)
-             m32 -1.0)))
+             m32 -1f0)))
   out)
 
 (u:fn-> perspective (u:f32 u:f32 u:f32 u:f32) mat)

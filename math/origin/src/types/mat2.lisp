@@ -109,10 +109,10 @@
 (ss:defstore mat (&rest args))
 
 (ss:defspecialization (mat :inline t) () mat
-  (%mat 0.0 0.0 0.0 0.0))
+  (%mat 0f0 0f0 0f0 0f0))
 
 (ss:defspecialization (mat :inline t) ((x real)) mat
-  (%mat (float x 1.0) 0.0 0.0 (float x 1.0)))
+  (%mat (float x 1f0) 0f0 0f0 (float x 1f0)))
 
 (ss:defspecialization (mat :inline t) ((mat mat)) mat
   (%mat (aref mat 0) (aref mat 1) (aref mat 2) (aref mat 3)))
@@ -127,14 +127,14 @@
   (%mat (aref vec1 0) (aref vec1 1) (aref vec2 0) (aref vec2 1)))
 
 (ss:defspecialization (mat :inline t) ((a real) (b real) (c real) (d real)) mat
-  (%mat (float a 1.0) (float b 1.0) (float c 1.0) (float d 1.0)))
+  (%mat (float a 1f0) (float b 1f0) (float c 1f0) (float d 1f0)))
 
 (ss:defspecialization (mat :inline t) ((mat (u:f64a 4))) mat
-  (%mat (float (aref mat 0) 1.0) (float (aref mat 1) 1.0)
-        (float (aref mat 2) 1.0) (float (aref mat 3) 1.0)))
+  (%mat (float (aref mat 0) 1f0) (float (aref mat 1) 1f0)
+        (float (aref mat 2) 1f0) (float (aref mat 3) 1f0)))
 
 ;;; Constants
 
-(u:define-constant +zero+ (%mat 0.0 0.0 0.0 0.0) :test #'equalp)
+(u:define-constant +zero+ (%mat 0f0 0f0 0f0 0f0) :test #'equalp)
 
-(u:define-constant +id+ (%mat 1.0 0.0 0.0 1.0) :test #'equalp)
+(u:define-constant +id+ (%mat 1f0 0f0 0f0 1f0) :test #'equalp)
