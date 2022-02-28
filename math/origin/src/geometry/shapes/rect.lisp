@@ -42,7 +42,7 @@
 
 (u:fn-> rect-from-min/max (&key (:min point2d:point) (:max point2d:point)) rect)
 (declaim (inline rect-from-min/max))
-(defun rect-from-min/max (&key (min (point2d:point -0.5)) (max (point2d:point 0.5)))
+(defun rect-from-min/max (&key (min (point2d:point -0.5f0)) (max (point2d:point 0.5f0)))
   "Construct a rect from a MINIMUM and MAXIMUM points. These correspond to the bottom-left corner
 and upper-right corner of the resulting rectangle, respectively."
   (declare (optimize speed))
@@ -50,9 +50,9 @@ and upper-right corner of the resulting rectangle, respectively."
 
 (u:fn-> rect-from-half-extents (&key  (:half-extents v2:vec)) rect)
 (declaim (inline rect-from-half-extents))
-(defun rect-from-half-extents (&key (half-extents (v2:vec 0.5)))
+(defun rect-from-half-extents (&key (half-extents (v2:vec 0.5f0)))
   (declare (optimize speed))
-  (%rect :origin (v2:negate half-extents) :size (v2:scale half-extents 2.0)))
+  (%rect :origin (v2:negate half-extents) :size (v2:scale half-extents 2f0)))
 
 (u:fn-> min (rect) point2d:point)
 (declaim (inline min))

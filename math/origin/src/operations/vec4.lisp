@@ -13,7 +13,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun zero! (vec)
   "Modify the vector VEC by setting each of its components to zero."
   (declare (optimize speed))
-  (com:cwset 4 vec nil 0.0)
+  (com:cwset 4 vec nil 0f0)
   vec)
 
 (u:fn-> zero () vec)
@@ -21,7 +21,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun zero ()
   "Construct a fresh vector with each component set to zero."
   (declare (optimize speed))
-  (%vec 0.0 0.0 0.0 0.0))
+  (%vec 0f0 0f0 0f0 0f0))
 
 (u:fn-> zero-p (vec) boolean)
 (declaim (inline zero-p))
@@ -35,7 +35,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun ones! (vec)
   "Modify the vector VEC by setting each of its components to one."
   (declare (optimize speed))
-  (com:cwset 4 vec nil 1.0)
+  (com:cwset 4 vec nil 1f0)
   vec)
 
 (u:fn-> ones () vec)
@@ -43,7 +43,7 @@ to compare by, and should be tuned specially for the application domain."
 (defun ones ()
   "Construct a fresh vector with each component set to one."
   (declare (optimize speed))
-  (%vec 1.0 1.0 1.0 1.0))
+  (%vec 1f0 1f0 1f0 1f0))
 
 (u:fn-> uniform! (vec u:f32) vec)
 (declaim (inline uniform!))
@@ -209,7 +209,7 @@ and MAX."
 (defun /! (out vec1 vec2)
   "Modify vector OUT by performing component-wise division of vectors VEC1 and VEC2."
   (declare (optimize speed))
-  (com:cwset 4 out (vec1 vec2) (if (zerop vec2) 0.0 (cl:/ vec1 vec2)))
+  (com:cwset 4 out (vec1 vec2) (if (zerop vec2) 0f0 (cl:/ vec1 vec2)))
   out)
 
 (u:fn-> / (vec vec) vec)
@@ -239,7 +239,7 @@ and MAX."
 (defun invert! (out vec)
   "Modify vector OUT to have each component be the inverted component of vector VEC."
   (declare (optimize speed))
-  (com:cwset 4 out vec (if (zerop vec) 0.0 (cl:/ vec)))
+  (com:cwset 4 out vec (if (zerop vec) 0f0 (cl:/ vec)))
   out)
 
 (u:fn-> invert (vec) vec)
@@ -326,7 +326,7 @@ nearest whole number."
 (defun negate! (out vec)
   "Modify vector OUT to have the components of vector VEC with their signs negated."
   (declare (optimize speed))
-  (scale! out vec -1.0))
+  (scale! out vec -1f0))
 
 (u:fn-> negate (vec) vec)
 (declaim (inline negate))
@@ -343,19 +343,19 @@ nearest whole number."
   (let ((dot (dot vec1 vec2))
         (m*m (cl:* (length vec1) (length vec2))))
     (if (zerop m*m)
-        0.0
-        (cl:acos (the (u:f32 -1.0 1.0) (cl:/ dot m*m))))))
+        0f0
+        (cl:acos (the (u:f32 -1f0 1f0) (cl:/ dot m*m))))))
 
 (u:fn-> direction= (vec vec &key (:rel u:f32) (:abs u:f32)) boolean)
 (declaim (inline direction=))
-(defun direction= (vec1 vec2 &key (rel 1e-7) (abs rel))
+(defun direction= (vec1 vec2 &key (rel 1f-7) (abs rel))
   "Check whether or not vectors VEC1 and VEC2 are facing in the same direction."
   (declare (optimize speed))
   (com:= (dot (normalize vec1) (normalize vec2)) 1f0 rel abs))
 
 (u:fn-> parallel-p (vec vec &key (:rel u:f32) (:abs u:f32)) boolean)
 (declaim (inline parallel-p))
-(defun parallel-p (vec1 vec2 &key (rel 1e-7) (abs rel))
+(defun parallel-p (vec1 vec2 &key (rel 1f-7) (abs rel))
   "Check whether or not vectors VEC1 and VEC2 are parallel to each other."
   (declare (optimize speed))
   (com:= (cl:abs (dot (normalize vec1) (normalize vec2))) 1f0 rel abs))
@@ -499,7 +499,7 @@ units, converted to degree units."
 (defun sqrt! (out vec)
   "Modify vector OUT to have the square root of the components in VEC."
   (declare (optimize speed))
-  (com:cwset 4 out vec (cl:sqrt (the (u:f32 0.0) vec)))
+  (com:cwset 4 out vec (cl:sqrt (the (u:f32 0f0) vec)))
   out)
 
 (u:fn-> sqrt (vec) vec)
@@ -511,7 +511,7 @@ units, converted to degree units."
 
 (u:fn-> floor! (vec vec &optional u:f32) vec)
 (declaim (inline floor!))
-(defun floor! (out vec &optional (divisor 1.0))
+(defun floor! (out vec &optional (divisor 1f0))
   "Modify vector OUT to have the nearest integer less than or equal to each component of vector
 VEC."
   (declare (optimize speed))
@@ -520,7 +520,7 @@ VEC."
 
 (u:fn-> floor (vec &optional u:f32) vec)
 (declaim (inline floor))
-(defun floor (vec &optional (divisor 1.0))
+(defun floor (vec &optional (divisor 1f0))
   "Construct a fresh vector that has the nearest integer less than or equal to each component of
 vector VEC."
   (declare (optimize speed))
@@ -528,7 +528,7 @@ vector VEC."
 
 (u:fn-> ceiling! (vec vec &optional u:f32) vec)
 (declaim (inline ceiling!))
-(defun ceiling! (out vec &optional (divisor 1.0))
+(defun ceiling! (out vec &optional (divisor 1f0))
   "Modify vector OUT to have the nearest integer greater than or equal to each component of vector
 VEC."
   (declare (optimize speed))
@@ -537,7 +537,7 @@ VEC."
 
 (u:fn-> ceiling (vec &optional u:f32) vec)
 (declaim (inline ceiling))
-(defun ceiling (vec &optional (divisor 1.0))
+(defun ceiling (vec &optional (divisor 1f0))
   "Construct a fresh vector that has the nearest integer greater than or equal to each component of
 vector VEC."
   (declare (optimize speed))
@@ -615,7 +615,7 @@ of vector VEC."
   "Modify vector OUT to have the trigonometric arcsine function applied to each component of vector
 VEC."
   (declare (optimize speed))
-  (com:cwset 4 out vec (cl:asin (the (u:f32 -1.0 1.0) vec)))
+  (com:cwset 4 out vec (cl:asin (the (u:f32 -1f0 1f0) vec)))
   out)
 
 (u:fn-> asin (vec) vec)
@@ -632,7 +632,7 @@ of vector VEC."
   "Modify vector OUT to have the trigonometric arccosine function applied to each component of
 vector VEC."
   (declare (optimize speed))
-  (com:cwset 4 out vec (cl:acos (the (u:f32 -1.0 1.0) vec)))
+  (com:cwset 4 out vec (cl:acos (the (u:f32 -1f0 1f0) vec)))
   out)
 
 (u:fn-> acos (vec) vec)

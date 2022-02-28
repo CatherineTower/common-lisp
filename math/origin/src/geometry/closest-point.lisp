@@ -59,5 +59,5 @@
          (direction (ray:direction ray))
          (vector (v3:- point origin)))
     (declare (dynamic-extent vector))
-    (v3:scale! vector direction (max (v3:dot vector direction) 0.0))
+    (v3:scale! vector direction (max (v3:dot vector direction) 0f0))
     (v3:+ origin vector)))

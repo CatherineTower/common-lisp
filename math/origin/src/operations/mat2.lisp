@@ -2,21 +2,21 @@
 
 (u:fn-> = (mat mat &key (:rel u:f32) (:abs u:f32)) boolean)
 (declaim (inline =))
-(defun = (mat1 mat2 &key (rel 1e-7) (abs rel))
+(defun = (mat1 mat2 &key (rel 1f-7) (abs rel))
   (com:cwcmp 4 (mat1 mat2) (com:= mat1 mat2 rel abs)))
 
 (u:fn-> zero! (mat) mat)
 (declaim (inline zero!))
 (defun zero! (mat)
   (declare (optimize speed))
-  (com:cwset 4 mat nil 0.0)
+  (com:cwset 4 mat nil 0f0)
   mat)
 
 (u:fn-> zero () mat)
 (declaim (inline zero))
 (defun zero ()
   (declare (optimize speed))
-  (%mat 0.0 0.0 0.0 0.0))
+  (%mat 0f0 0f0 0f0 0f0))
 
 (u:fn-> zero-p (mat) boolean)
 (declaim (inline zero-p))
@@ -29,7 +29,7 @@
 (defun id! (mat)
   (declare (optimize speed))
   (with-components ((m mat))
-    (psetf m00 1.0 m01 0.0 m10 0.0 m11 1.0))
+    (psetf m00 1f0 m01 0f0 m10 0f0 m11 1f0))
   mat)
 
 (u:fn-> id () mat)
@@ -340,7 +340,7 @@ MAT, bounded by the components of matrices MIN and MAX."
 (defun diagonal-p (mat)
   (declare (optimize speed))
   (with-components ((m mat))
-    (cl:= 0.0 m10 m01)))
+    (cl:= 0f0 m10 m01)))
 
 (u:fn-> main-diagonal! (v2:vec mat) v2:vec)
 (declaim (inline main-diagonal!))

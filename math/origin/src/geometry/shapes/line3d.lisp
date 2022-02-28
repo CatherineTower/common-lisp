@@ -54,7 +54,7 @@
 (declaim (inline midpoint))
 (defun midpoint (line)
   (declare (optimize speed))
-  (v3:lerp (start line) (end line) 0.5))
+  (v3:lerp (start line) (end line) 0.5f0))
 
 (u:fn-> direction (line) v3:vec)
 (declaim (inline direction))

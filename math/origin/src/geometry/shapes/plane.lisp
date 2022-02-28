@@ -20,10 +20,10 @@
             (:constructor %plane)
             (:conc-name nil))
   (normal (v3:vec 0 1 0) :type v3:vec)
-  (distance 0.0 :type u:f32))
+  (distance 0f0 :type u:f32))
 
 (u:fn-> plane (&key (:normal v3:vec) (:distance u:f32)) plane)
 (declaim (inline plane))
-(defun plane (&key (normal (v3:vec 0 1 0)) (distance 0.0))
+(defun plane (&key (normal (v3:vec 0 1 0)) (distance 0f0))
   (declare (optimize speed))
   (%plane :normal (v3:normalize normal) :distance distance))

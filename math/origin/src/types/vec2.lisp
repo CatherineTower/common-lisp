@@ -163,19 +163,19 @@
 (ss:defstore vec (&rest args))
 
 (ss:defspecialization (vec :inline t) () vec
-  (%vec 0.0 0.0))
+  (%vec 0f0 0f0))
 
 (ss:defspecialization (vec :inline t) ((x real)) vec
-  (%vec (float x 1.0) (float x 1.0)))
+  (%vec (float x 1f0) (float x 1f0)))
 
 (ss:defspecialization (vec :inline t) ((x real) (y real)) vec
-  (%vec (float x 1.0) (float y 1.0)))
+  (%vec (float x 1f0) (float y 1f0)))
 
 (ss:defspecialization (vec :inline t) ((vec (or (u:f32a 2) (u:f32a 3) (u:f32a 4)))) vec
   (%vec (aref vec 0) (aref vec 1)))
 
 (ss:defspecialization (vec :inline t) ((vec (or (u:f64a 2) (u:f64a 3) (u:f64a 4)))) vec
-  (%vec (float (aref vec 0) 1.0) (float (aref vec 1) 1.0)))
+  (%vec (float (aref vec 0) 1f0) (float (aref vec 1) 1f0)))
 
 ;;; Accessors
 
@@ -209,26 +209,26 @@
 
 ;;; Constants
 
-(u:define-constant +zero+ (%vec 0.0 0.0)
+(u:define-constant +zero+ (%vec 0f0 0f0)
   :test #'equalp
   :documentation "Constant representing a 2D zero vector.")
 
-(u:define-constant +ones+ (%vec 1.0 1.0)
+(u:define-constant +ones+ (%vec 1f0 1f0)
   :test #'equalp
   :documentation "Constant representing a 2D vector with each component being 1.")
 
-(u:define-constant +up+ (%vec 0.0 1.0)
+(u:define-constant +up+ (%vec 0f0 1f0)
   :test #'equalp
   :documentation "Constant representing a 2D unit vector facing up.")
 
-(u:define-constant +down+ (%vec 0.0 -1.0)
+(u:define-constant +down+ (%vec 0f0 -1f0)
   :test #'equalp
   :documentation "Constant representing a 2D unit vector facing down.")
 
-(u:define-constant +left+ (%vec -1.0 0.0)
+(u:define-constant +left+ (%vec -1f0 0f0)
   :test #'equalp
   :documentation "Constant representing a 2D unit vector facing left.")
 
-(u:define-constant +right+ (%vec 1.0 0.0)
+(u:define-constant +right+ (%vec 1f0 0f0)
   :test #'equalp
   :documentation "Constant representing a 2D unit vector facing right.")

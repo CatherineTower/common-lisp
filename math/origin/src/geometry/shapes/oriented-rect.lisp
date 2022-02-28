@@ -27,11 +27,11 @@
             (:conc-name nil))
   (origin (point2d:point) :type point2d:point)
   (half-extents (v2:vec 1) :type v2:vec)
-  (angle 0.0 :type u:f32))
+  (angle 0f0 :type u:f32))
 
 (u:fn-> rect (&key (:origin point2d:point) (:half-extents v2:vec) (:angle u:f32)) rect)
 (declaim (inline rect))
-(defun rect (&key (origin (point2d:point)) (half-extents (v2:vec 1)) (angle 0.0))
+(defun rect (&key (origin (point2d:point)) (half-extents (v2:vec 1)) (angle 0f0))
   "Construct a rect whose center point is origined at ORIGIN, which extends along both axes by half
 of HALF-EXTENTS, with an ANGLE of rotation in radians."
   (declare (optimize speed))
@@ -45,7 +45,7 @@ in a separating axis theorem test. AXIS is expected to be normalized."
   (let* ((origin (origin rect))
          (half-extents (half-extents rect))
          (aligned-rect (rect:rect :origin (v2:- (origin rect) half-extents)
-                                  :size (v2:scale half-extents 2.0)))
+                                  :size (v2:scale half-extents 2f0)))
          (rotation (m2:rotation-from-angle (angle rect)))
          (vertices (rect::vertices aligned-rect)))
     (map nil

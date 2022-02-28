@@ -145,7 +145,7 @@ rect is axis-aligned."
          (direction (v2:- circle-origin line-start))
          (t-param (/ (v2:dot direction ab) (v2:length-squared ab))))
     (declare (dynamic-extent ab direction))
-    (when (<= 0.0 t-param 1.0)
+    (when (<= 0f0 t-param 1f0)
       (< (line2d:length-squared
           (line2d:line :start circle-origin :end (v2:+ line-start (v2:scale ab t-param))))
          (expt (circle:radius circle) 2)))))
@@ -284,7 +284,7 @@ rect is axis-aligned."
     (m2:*v2! vector rotation vector)
     (v2:+! vector vector half-extents)
     (circle/rect (circle:circle :origin vector :radius (circle:radius circle))
-                 (rect:rect :size (v2:scale half-extents 2.0)))))
+                 (rect:rect :size (v2:scale half-extents 2f0)))))
 
 (u:fn-> circle/oriented-rect (circle:circle orect:rect) boolean)
 (defun circle/oriented-rect (circle rect)
@@ -346,7 +346,7 @@ rect is axis-aligned."
   (let* ((angle1 (orect:angle rect1))
          (half-extents1 (orect:half-extents rect1))
          (origin2 (v2:copy (orect:origin rect2)))
-         (local1 (rect:rect :size (v2:scale half-extents1 2.0)))
+         (local1 (rect:rect :size (v2:scale half-extents1 2f0)))
          (local2 (orect:rect :origin origin2
                              :half-extents (orect:half-extents rect2)
                              :angle (- (orect:angle rect2) angle1)))
@@ -583,7 +583,7 @@ of a very small N."
   "Helper function that does the work for POINT3D/PLANE and PLANE/POINT3D."
   (declare (optimize speed))
   (let ((dot (v3:dot point (plane:normal plane))))
-    (com:= (- dot (plane:distance plane)) 0.0)))
+    (com:= (- dot (plane:distance plane)) 0f0)))
 
 (u:fn-> point3d/plane (point3d:point plane:plane) boolean)
 (defun point3d/plane (point plane)
@@ -605,7 +605,7 @@ of a very small N."
   (let* ((closest-point (closest-point-line3d line point))
          (vector (v3:- closest-point point)))
     (declare (dynamic-extent vector))
-    (com:= (v3:length-squared vector) 0.0)))
+    (com:= (v3:length-squared vector) 0f0)))
 
 (u:fn-> point3d/line3d (point3d:point line3d:line) boolean)
 (defun point3d/line3d (point line)
@@ -630,7 +630,7 @@ of a very small N."
     (let ((normal (v3:- point origin)))
       (declare (dynamic-extent normal))
       (v3:normalize! normal normal)
-      (com:= (v3:dot normal (ray:direction ray)) 1.0))))
+      (com:= (v3:dot normal (ray:direction ray)) 1f0))))
 
 (u:fn-> point3d/ray (point3d:point ray:ray) boolean)
 (defun point3d/ray (point ray)
@@ -862,4 +862,4 @@ of a very small N."
   (declare (optimize speed))
   (let ((direction (v3:cross (plane:normal plane1) (plane:normal plane2))))
     (declare (dynamic-extent direction))
-    (not (com:= (v3:length-squared direction) 0.0))))
+    (not (com:= (v3:length-squared direction) 0f0))))

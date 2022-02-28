@@ -2,21 +2,21 @@
 
 (u:fn-> = (mat mat &key (:rel u:f32) (:abs u:f32)) boolean)
 (declaim (inline =))
-(defun = (mat1 mat2 &key (rel 1e-7) (abs rel))
+(defun = (mat1 mat2 &key (rel 1f-7) (abs rel))
   (com:cwcmp 9 (mat1 mat2) (com:= mat1 mat2 rel abs)))
 
 (u:fn-> zero! (mat) mat)
 (declaim (inline zero!))
 (defun zero! (mat)
   (declare (optimize speed))
-  (com:cwset 9 mat nil 0.0)
+  (com:cwset 9 mat nil 0f0)
   mat)
 
 (u:fn-> zero () mat)
 (declaim (inline zero))
 (defun zero ()
   (declare (optimize speed))
-  (%mat 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0))
+  (%mat 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0 0f0))
 
 (u:fn-> zero-p (mat) boolean)
 (declaim (inline zero-p))
@@ -29,9 +29,9 @@
 (defun id! (mat)
   (declare (optimize speed))
   (with-components ((m mat))
-    (psetf m00 1.0 m01 0.0 m02 0.0
-           m10 0.0 m11 1.0 m12 0.0
-           m20 0.0 m21 0.0 m22 1.0))
+    (psetf m00 1f0 m01 0f0 m02 0f0
+           m10 0f0 m11 1f0 m12 0f0
+           m20 0f0 m21 0f0 m22 1f0))
   mat)
 
 (u:fn-> id () mat)
@@ -223,13 +223,13 @@ MAT, bounded by the components of matrices MIN and MAX."
   (let ((s (sin angle))
         (c (cos angle)))
     (with-components ((o out))
-      (psetf o00 1.0
-             o10 0.0
-             o20 0.0
-             o01 0.0
+      (psetf o00 1f0
+             o10 0f0
+             o20 0f0
+             o01 0f0
              o11 c
              o21 s
-             o02 0.0
+             o02 0f0
              o12 (cl:- s)
              o22 c))
     out))
@@ -248,13 +248,13 @@ MAT, bounded by the components of matrices MIN and MAX."
         (c (cos angle)))
     (with-components ((o out))
       (psetf o00 c
-             o10 0.0
+             o10 0f0
              o20 (cl:- s)
-             o01 0.0
-             o11 1.0
-             o21 0.0
+             o01 0f0
+             o11 1f0
+             o21 0f0
              o02 s
-             o12 0.0
+             o12 0f0
              o22 c))
     out))
 
@@ -273,13 +273,13 @@ MAT, bounded by the components of matrices MIN and MAX."
     (with-components ((o out))
       (psetf o00 c
              o10 s
-             o20 0.0
+             o20 0f0
              o01 (cl:- s)
              o11 c
-             o21 0.0
-             o02 0.0
-             o12 0.0
-             o22 1.0))
+             o21 0f0
+             o02 0f0
+             o12 0f0
+             o22 1f0))
     out))
 
 (u:fn-> rotation-z-from-angle (u:f32) mat)
@@ -523,7 +523,7 @@ multiplication of MAT * T."
 (defun diagonal-p (mat)
   (declare (optimize speed))
   (with-components ((m mat))
-    (cl:= 0.0 m10 m20 m01 m21 m02 m12)))
+    (cl:= 0f0 m10 m20 m01 m21 m02 m12)))
 
 (u:fn-> main-diagonal! (v3:vec mat) v3:vec)
 (declaim (inline main-diagonal!))
@@ -590,7 +590,7 @@ multiplication of MAT * T."
       (when (id-p mat)
         (return-from invert! (id! out)))
       (let ((det (determinant mat)))
-        (when (com:= det 0f0 1e-15 1e-15)
+        (when (com:= det 0f0 1f-15 1f-15)
           (warn "Skipped inverting matrix because it has a determinant of zero:~%~s" mat)
           (return-from invert! (values (copy! mat out) nil)))
         (setf o00 (% m11 m22 m12 m21)
