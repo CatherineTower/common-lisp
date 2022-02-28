@@ -28,8 +28,12 @@
 
 (defun register-illuminant (name x y)
   (assert (and (<= 0 x 1) (<= 0 y 1)))
-  (let* ((white-point (v3:vec (/ x y) 1 (/ (- 1 x y) y)))
-         (illuminant (make-instance 'illuminant :name name :x x :y y :white-point white-point)))
+  (let* ((white-point (v3:vec (float (/ x y) 1d0) 1d0 (float (/ (- 1 x y) y) 1d0)))
+         (illuminant (make-instance 'illuminant
+                                    :name name
+                                    :x (float x 1d0)
+                                    :y (float y 1d0)
+                                    :white-point white-point)))
     (setf (u:href (base:illuminants base:*context*) name) illuminant)
     (values)))
 
