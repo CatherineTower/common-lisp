@@ -5,8 +5,8 @@
             (:conc-name nil)
             (:predicate nil)
             (:copier nil))
-  (center (v2:vec) :type v2:vec)
-  (extents (v2:vec) :type v2:vec))
+  (center (v2:zero) :type v2:vec)
+  (extents (v2:zero) :type v2:vec))
 
 (defstruct (tree
             (:constructor %%make-tree)
@@ -79,7 +79,7 @@
                        (max-capacity tree))))
     (let ((boundary (boundary tree)))
       (v2:with-components ((c (center boundary))
-                           (e (v2:scale (extents boundary) 0.5)))
+                           (e (v2:scale (extents boundary) 0.5f0)))
         (let ((x1 (- cx ex))
               (x2 (+ cx ex))
               (y1 (+ cy ey))
