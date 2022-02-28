@@ -111,13 +111,14 @@
 ;;; Low level conversion routines.
 
 (defmacro define-conversion ((from to) &body body)
-  (u:with-gensyms (graph edge)
-    `(let ((,graph (base:color-space-graph base:*context*))
-           (,edge '(,from ,to)))
-       (unless (graph:has-edge-p ,graph ,edge)
-         (graph:add-edge ,graph ,edge))
-       (defmethod %convert-color ((from ,from) (to ,to))
-         ,@body))))
+  (let ((edge `'(,from ,to))
+        (weight (if (eq to 'xyz) 0 100)))
+    (u:with-gensyms (graph)
+      `(let ((,graph (base:color-space-graph base:*context*)))
+         (unless (graph:has-edge-p ,graph ,edge)
+           (graph:add-edge ,graph ,edge ,weight))
+         (defmethod %convert-color ((from ,from) (to ,to))
+           ,@body)))))
 
 (define-conversion (hsl rgb)
   (let ((hsl-channels (channels from))
