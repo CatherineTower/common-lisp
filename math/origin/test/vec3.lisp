@@ -51,7 +51,7 @@
 
 (define-test v3/equality
   (let ((v1 (v3:vec 0.8598654f0 -0.4803753f0 -0.3822465f0))
-        (v2 (v3:vec 1e-8 1e-8 1e-8)))
+        (v2 (v3:vec 1f-8 1f-8 1f-8)))
     (true (v3:= v1 v1))
     (true (v3:= (v3:+ v1 v2) v1))
     (true (v3:= v2 v3:+zero+))))
@@ -185,11 +185,11 @@
 
 (define-test v3/angle
   (let ((angle (v3:angle (v3:vec 0f0 1f0 0f0) (v3:vec 1f0 0f0 1f0))))
-    (true (<= (abs (- angle const:pi/2)) 1e-5)))
+    (true (<= (abs (- angle const:pi/2)) 1f-5)))
   (let ((angle (v3:angle (v3:vec 1f0 1f0 0f0) (v3:vec 1f0 0f0 1f0))))
-    (true (<= (abs (- angle const:pi/3)) 1e-5)))
+    (true (<= (abs (- angle const:pi/3)) 1f-5)))
   (let ((angle (v3:angle (v3:vec 1f0 0f0 0f0) (v3:vec 1f0 1f0 0f0))))
-    (true (<= (abs (- angle const:pi/4)) 1e-5))))
+    (true (<= (abs (- angle const:pi/4)) 1f-5))))
 
 (define-test v3/zero-predicate
   (true (v3:zero-p v3:+zero+))

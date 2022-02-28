@@ -5,8 +5,7 @@
   :homepage "https://github.com/mfiano/common-lisp/tree/master/math/origin"
   :version "0.1.0"
   :encoding :utf-8
-  :depends-on (#:mfiano.misc.utils
-               #:specialization-store)
+  :depends-on (#:mfiano.misc.utils)
   :in-order-to ((asdf:test-op (asdf:test-op #:mfiano.math.origin.test)))
   :pathname "src"
   :serial t

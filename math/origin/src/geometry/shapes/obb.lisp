@@ -25,12 +25,12 @@
             (:constructor %obb)
             (:conc-name nil))
   (origin (point3d:point) :type point3d:point)
-  (size (v3:vec 1) :type v3:vec)
-  (rotation (m3:mat 1) :type m3:mat))
+  (size (v3:uniform 1f0) :type v3:vec)
+  (rotation (m3:id) :type m3:mat))
 
 (u:fn-> obb (&key (:origin point3d:point) (:size v3:vec) (:rotation m3:mat)) obb)
 (declaim (inline obb))
-(defun obb (&key (origin (point3d:point)) (size (v3:vec 1)) (rotation (m3:mat 1)))
+(defun obb (&key (origin (point3d:point)) (size (v3:uniform 1f0)) (rotation (m3:id)))
   (declare (optimize speed))
   (%obb :origin origin :size size :rotation rotation))
 
@@ -77,7 +77,7 @@
 in a separating axis theorem test. AXIS is expected to be normalized."
   (declare (optimize speed))
   (let ((vertices (vertices obb)))
-    (v2:with-components ((r (v2:vec (v3:dot axis (aref vertices 0)))))
+    (v2:with-components ((r (v2:uniform (v3:dot axis (aref vertices 0)))))
       (dotimes (i 8)
         (let ((projection (v3:dot axis (aref vertices i))))
           (setf rx (u:clamp rx rx projection)

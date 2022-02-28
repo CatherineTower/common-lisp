@@ -311,10 +311,10 @@ rect is axis-aligned."
   "Helper function that does the work for RECT/ORIENTED-RECT and ORIENTED-RECT/RECT."
   (declare (optimize speed))
   (v2:with-components ((h (orect:half-extents rect2)))
-    (let ((axes (vector v2:+right+ v2:+up+ (v2:vec) (v2:vec)))
+    (let ((axes (vector v2:+right+ v2:+up+ (v2:zero) (v2:zero)))
           (rotation (m2:rotation-from-angle (orect:angle rect2)))
-          (axis3 (v2:normalize (v2:vec hx 0)))
-          (axis4 (v2:normalize (v2:vec 0 hy))))
+          (axis3 (v2:normalize (v2:vec hx 0f0)))
+          (axis4 (v2:normalize (v2:vec 0f0 hy))))
       (declare (dynamic-extent axes rotation axis3 axis4))
       (m2:*v2! (aref axes 2) rotation axis3)
       (m2:*v2! (aref axes 3) rotation axis4)

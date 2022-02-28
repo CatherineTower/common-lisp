@@ -5,7 +5,6 @@
    (#:com #:mfiano.math.origin.common)
    (#:const #:mfiano.math.origin.constants)
    (#:dv2 #:mfiano.math.origin.dvec2)
-   (#:ss #:specialization-store)
    (#:u #:mfiano.misc.utils)
    (#:v3 #:mfiano.math.origin.vec3))
   (:use #:cl)
@@ -152,53 +151,18 @@
             `(with-components ,rest ,@body)
             `(progn ,@body)))))
 
-;;; Constructors
+;;; Constructor
 
-;; Low-level function for creating a vector. This is not exported, as it is requires passing a total
-;; set of scalars, which is not as convenient as the specializations that follow this definition.
-(u:fn-> %vec (u:f64 u:f64 u:f64) vec)
-(declaim (inline %vec))
+(u:fn-> vec (u:f64 u:f64 u:f64) vec)
+(declaim (inline vec))
 (u:eval-always
-  (defun %vec (x y z)
+  (defun vec (x y z)
     (declare (optimize speed))
     (let ((vec (u:make-f64-array 3)))
       (setf (aref vec 0) x
             (aref vec 1) y
             (aref vec 2) z)
       vec)))
-
-;;; Define a set of specializations for creating vectors from a variety of different inputs.
-
-(ss:defstore vec (&rest args))
-
-(ss:defspecialization (vec :inline t) () vec
-  (%vec 0d0 0d0 0d0))
-
-(ss:defspecialization (vec :inline t) ((x real)) vec
-  (%vec (float x 1d0) (float x 1d0) (float x 1d0)))
-
-(ss:defspecialization (vec :inline t) ((x real) (y real)) vec
-  (%vec (float x 1d0) (float y 1d0) 0d0))
-
-(ss:defspecialization (vec :inline t) ((x real) (y real) (z real)) vec
-  (%vec (float x 1d0) (float y 1d0) (float z 1d0)))
-
-(ss:defspecialization (vec :inline t) ((vec dv2:vec)) vec
-  (%vec (aref vec 0) (aref vec 1) 0d0))
-
-(ss:defspecialization (vec :inline t) ((vec (or (u:f64a 3) (u:f64a 4)))) vec
-  (%vec (aref vec 0) (aref vec 1) (aref vec 2)))
-
-(ss:defspecialization (vec :inline t) ((vec dv2:vec) (z real)) vec
-  (%vec (aref vec 0) (aref vec 1) (float z 1d0)))
-
-(ss:defspecialization (vec :inline t) ((x real) (vec dv2:vec)) vec
-  (%vec (float x 1d0) (aref vec 0) (aref vec 1)))
-
-(ss:defspecialization (vec :inline t) ((vec (or (u:f32a 3) (u:f32a 4)))) vec
-  (%vec (float (aref vec 0) 1d0)
-        (float (aref vec 1) 1d0)
-        (float (aref vec 2) 1d0)))
 
 ;;; Accessors
 
@@ -240,34 +204,34 @@
 
 ;;; Constants
 
-(u:define-constant +zero+ (%vec 0d0 0d0 0d0)
+(u:define-constant +zero+ (vec 0d0 0d0 0d0)
   :test #'equalp
   :documentation "Constant representing a 3D zero vector.")
 
-(u:define-constant +ones+ (%vec 1d0 1d0 1d0)
+(u:define-constant +ones+ (vec 1d0 1d0 1d0)
   :test #'equalp
   :documentation "Constant representing a 3D vector with each component being 1.")
 
-(u:define-constant +up+ (%vec 0d0 1d0 0d0)
+(u:define-constant +up+ (vec 0d0 1d0 0d0)
   :test #'equalp
   :documentation "Constant representing a 3D unit vector facing up.")
 
-(u:define-constant +down+ (%vec 0d0 -1d0 0d0)
+(u:define-constant +down+ (vec 0d0 -1d0 0d0)
   :test #'equalp
   :documentation "Constant representing a 3D unit vector facing down.")
 
-(u:define-constant +left+ (%vec -1d0 0d0 0d0)
+(u:define-constant +left+ (vec -1d0 0d0 0d0)
   :test #'equalp
   :documentation "Constant representing a 3D unit vector facing left.")
 
-(u:define-constant +right+ (%vec 1d0 0d0 0d0)
+(u:define-constant +right+ (vec 1d0 0d0 0d0)
   :test #'equalp
   :documentation "Constant representing a 3D unit vector facing right.")
 
-(u:define-constant +forward+ (%vec 0d0 0d0 1d0)
+(u:define-constant +forward+ (vec 0d0 0d0 1d0)
   :test #'equalp
   :documentation "Constant representing a 3D unit vector facing forward.")
 
-(u:define-constant +back+ (%vec 0d0 0d0 -1d0)
+(u:define-constant +back+ (vec 0d0 0d0 -1d0)
   :test #'equalp
   :documentation "Constant representing a 3D unit vector facing back.")

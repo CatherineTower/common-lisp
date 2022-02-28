@@ -16,7 +16,7 @@
 (declaim (inline zero))
 (defun zero ()
   (declare (optimize speed))
-  (%mat 0f0 0f0 0f0 0f0))
+  (mat 0f0 0f0 0f0 0f0))
 
 (u:fn-> zero-p (mat) boolean)
 (declaim (inline zero-p))
@@ -230,7 +230,7 @@ MAT, bounded by the components of matrices MIN and MAX."
 (declaim (inline rotation-from-angle))
 (defun rotation-from-angle (angle)
   (declare (optimize speed))
-  (rotation-from-angle! (mat) angle))
+  (rotation-from-angle! (zero) angle))
 
 (u:fn-> rotate! (mat mat u:f32 &key (:space keyword)) mat)
 (declaim (inline rotate!))

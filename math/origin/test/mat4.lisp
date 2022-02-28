@@ -131,10 +131,10 @@
 (define-test m4/translate
   (let ((m (m4:rotate m4:+id+ (v3:vec const:pi/3 0f0 0f0)))
         (o (m4:id))
-        (r (m4:mat 1.0 0.0 0.0 0.0 0.0 0.49999997 0.86602545 0.0 0.0 -0.86602545 0.49999997 0.0
-                   5.0 -7.9903817 16.160254 1.0))
+        (r (m4:mat 1f0 0f0 0f0 0f0 0f0 0.49999997f0 0.86602545f0 0f0 0f0 -0.86602545f0 0.49999997f0
+                   0f0 5f0 -7.9903817f0 16.160254f0 1f0))
         (v (v3:vec 5f0 10f0 15f0))
-        (ov (v3:vec 5.0 -7.9903817 16.160254)))
+        (ov (v3:vec 5f0 -7.9903817f0 16.160254f0)))
     (true (m4:= (m4:translate! o m v) r))
     (true (m4:= o r))
     (is v3:= (m4:get-translation (m4:translate m4:+id+ v)) v)
@@ -352,27 +352,27 @@
         (r2 (m4:mat 0.9622504f0 0.05143445f0 0.26726124f0 0f0
                     -0.19245008f0 0.8229512f0 0.5345225f0 0f0
                     -0.19245008f0 -0.5657789f0 0.80178374f0 0f0
-                    -2.3841858e-7 -9.536743e-7 -18.708286f0 1f0)))
+                    -2.3841858f-7 -9.536743f-7 -18.708286f0 1f0)))
     (true (m4:= (m4:look-at! o
                              (v3:vec 1f0 0f0 0f0)
                              (v3:vec 0f0 0f0 1f0)
                              (v3:vec 0f0 1f0 0f0))
-                r))
+              r))
     (true (m4:= o r))
     (true (m4:= (m4:look-at (v3:vec 1f0 0f0 0f0)
                             (v3:vec 0f0 0f0 1f0)
                             (v3:vec 0f0 1f0 0f0))
-                r))
+              r))
     (true (m4:= (m4:look-at! o2
                              (v3:vec 5f0 10f0 15f0)
                              (v3:vec 0f0 0f0 0f0)
                              (v3:vec 0f0 1f0 -1f0))
-                r2))
+              r2))
     (true (m4:= o2 r2))
     (true (m4:= (m4:look-at (v3:vec 5f0 10f0 15f0)
                             (v3:vec 0f0 0f0 0f0)
                             (v3:vec 0f0 1f0 -1f0))
-                r2))))
+              r2))))
 
 (define-test m4/ortho
   (let ((r (m4:mat 0.05f0 0f0 0f0 0f0

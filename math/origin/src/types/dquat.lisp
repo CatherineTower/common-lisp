@@ -8,7 +8,6 @@
    (#:dv3 #:mfiano.math.origin.dvec3)
    (#:dv4 #:mfiano.math.origin.dvec4)
    (#:q #:mfiano.math.origin.quat)
-   (#:ss #:specialization-store)
    (#:u #:mfiano.misc.utils))
   (:use #:cl)
   (:shadow
@@ -95,12 +94,12 @@
             `(with-components ,rest ,@body)
             `(progn ,@body)))))
 
-;;; Constructors
+;;; Constructor
 
-(u:fn-> %quat (u:f64 u:f64 u:f64 u:f64) quat)
-(declaim (inline %quat))
+(u:fn-> quat (u:f64 u:f64 u:f64 u:f64) quat)
+(declaim (inline quat))
 (u:eval-always
-  (defun %quat (w x y z)
+  (defun quat (w x y z)
     (declare (optimize speed))
     (let ((quat (u:make-f64-array 4)))
       (setf (aref quat 0) w
@@ -108,23 +107,6 @@
             (aref quat 2) y
             (aref quat 3) z)
       quat)))
-
-(ss:defstore quat (&rest args))
-
-(ss:defspecialization (quat :inline t) () quat
-  (%quat 1d0 0d0 0d0 0d0))
-
-(ss:defspecialization (quat :inline t) ((w real)) quat
-  (%quat (float w 1d0) 0d0 0d0 0d0))
-
-(ss:defspecialization (quat :inline t) ((w real) (x real) (y real) (z real)) quat
-  (%quat (float w 1d0) (float x 1d0) (float y 1d0) (float z 1d0)))
-
-(ss:defspecialization (quat :inline t) ((quat q:quat)) quat
-  (%quat (float (aref quat 0) 1d0)
-         (float (aref quat 1) 1d0)
-         (float (aref quat 2) 1d0)
-         (float (aref quat 3) 1d0)))
 
 ;;; Accessors
 
@@ -170,4 +152,4 @@
 
 ;;; Constants
 
-(u:define-constant +id+ (%quat 1d0 0d0 0d0 0d0) :test #'equalp)
+(u:define-constant +id+ (quat 1d0 0d0 0d0 0d0) :test #'equalp)

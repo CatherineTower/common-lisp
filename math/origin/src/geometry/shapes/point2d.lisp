@@ -28,7 +28,7 @@
 (declaim (inline point))
 (defun point (&optional (x 0f0) (y 0f0))
   (declare (optimize speed))
-  (v2::%vec x y))
+  (v2:vec x y))
 
 (u:fn-> translate (point v2:vec u:f32) point)
 (declaim (inline translate))
@@ -53,8 +53,8 @@
   "Find the minimum and maximum points (extents) of a 2D point cloud vector."
   (declare (optimize speed)
            (simple-vector points))
-  (let ((min (v2:vec most-positive-single-float))
-        (max (v2:vec most-negative-single-float)))
+  (let ((min (v2:uniform most-positive-single-float))
+        (max (v2:uniform most-negative-single-float)))
     (dotimes (i (length points))
       (let ((x (svref points i)))
         (v2:min! min min x)

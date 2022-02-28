@@ -18,7 +18,7 @@
 (declaim (inline id))
 (defun id ()
   (declare (optimize speed))
-  (%quat 1d0 0d0 0d0 0d0))
+  (quat 1d0 0d0 0d0 0d0))
 
 (u:fn-> id-p (quat) boolean)
 (declaim (inline id-p))
@@ -486,7 +486,7 @@
 (declaim (inline from-velocity!))
 (defun from-velocity! (out velocity delta)
   (declare (optimize speed))
-  (let ((nav (dv3:vec)))
+  (let ((nav (dv3:zero)))
     (declare (dynamic-extent nav))
     (dv3:normalize! nav velocity)
     (from-axis-angle! out nav (cl:* (dv3:length velocity) delta))

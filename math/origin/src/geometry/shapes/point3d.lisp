@@ -33,7 +33,7 @@
 (declaim (inline point))
 (defun point (&optional (x 0f0) (y 0f0) (z 0f0))
   (declare (optimize speed))
-  (v3::%vec x y z))
+  (v3:vec x y z))
 
 (u:fn-> translate (point v3:vec u:f32) point)
 (declaim (inline translate))
@@ -65,7 +65,7 @@
       (v3:with-components ((p point)
                            (out out))
         (v4:with-components ((v viewport)
-                             (o (v4:vec))
+                             (o (v4:zero))
                              (i (v4:vec (1- (/ (* (- px vx) 2) vz))
                                         (1- (/ (* (- py vy) 2) vw))
                                         (1- (* pz 2))
@@ -73,7 +73,7 @@
           (m4:*v4! o m i)
           (when (zerop ow)
             (return-from unproject out))
-          (v3:scale! out (v3:vec o) (/ ow)))))
+          (v3:scale! out (v3:vec (v4:x o) (v4:y o) (v4:z o)) (/ ow)))))
     (values out t)))
 
 (u:fn-> find-min-max (simple-vector) (values point point))
@@ -81,8 +81,8 @@
   "Find the minimum and maximum points (extents) of a 3D point cloud vector."
   (declare (optimize speed)
            (simple-vector points))
-  (let ((min (v3:vec most-positive-single-float))
-        (max (v3:vec most-negative-single-float)))
+  (let ((min (v3:uniform most-positive-single-float))
+        (max (v3:uniform most-negative-single-float)))
     (dotimes (i (length points))
       (let ((x (svref points i)))
         (v3:min! min min x)

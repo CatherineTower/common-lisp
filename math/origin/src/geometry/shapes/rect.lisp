@@ -31,11 +31,11 @@
             (:constructor %rect)
             (:conc-name nil))
   (origin (point2d:point) :type point2d:point)
-  (size (v2:vec 1) :type v2:vec))
+  (size (v2:uniform 1f0) :type v2:vec))
 
 (u:fn-> rect (&key (:origin point2d:point) (:size v2:vec)) rect)
 (declaim (inline rect))
-(defun rect (&key (origin (point2d:point)) (size (v2:vec 1)))
+(defun rect (&key (origin (point2d:point)) (size (v2:uniform 1f0)))
   "Construct a rect whose bottom-left corner is origined at ORIGIN, extending to SIZE units."
   (declare (optimize speed))
   (%rect :origin origin :size size))
@@ -50,7 +50,7 @@ and upper-right corner of the resulting rectangle, respectively."
 
 (u:fn-> rect-from-half-extents (&key  (:half-extents v2:vec)) rect)
 (declaim (inline rect-from-half-extents))
-(defun rect-from-half-extents (&key (half-extents (v2:vec 0.5f0)))
+(defun rect-from-half-extents (&key (half-extents (v2:uniform 0.5f0)))
   (declare (optimize speed))
   (%rect :origin (v2:negate half-extents) :size (v2:scale half-extents 2f0)))
 
@@ -89,7 +89,7 @@ in a separating axis theorem test. AXIS is expected to be normalized."
   (declare (optimize speed))
   (let ((vertices (vertices rect)))
     (declare (dynamic-extent vertices))
-    (v2:with-components ((r (v2:vec (v2:dot axis (aref vertices 0)))))
+    (v2:with-components ((r (v2:uniform (v2:dot axis (aref vertices 0)))))
       (dotimes (i 4)
         (let ((projection (v2:dot axis (aref vertices i))))
           (setf rx (u:clamp rx rx projection)

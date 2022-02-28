@@ -29,11 +29,11 @@
             (:constructor %aabb)
             (:conc-name nil))
   (origin (point3d:point) :type point3d:point)
-  (size (v3:vec 1) :type v3:vec))
+  (size (v3:uniform 1f0) :type v3:vec))
 
 (u:fn-> aabb (&key (:origin point3d:point) (:size v3:vec)) aabb)
 (declaim (inline aabb))
-(defun aabb (&key (origin (point3d:point)) (size (v3:vec 1)))
+(defun aabb (&key (origin (point3d:point)) (size (v3:uniform 1f0)))
   (declare (optimize speed))
   (%aabb :origin origin :size size))
 
@@ -94,7 +94,7 @@
 in a separating axis theorem test. AXIS is expected to be normalized."
   (declare (optimize speed))
   (let ((vertices (vertices aabb)))
-    (v2:with-components ((r (v2:vec (v3:dot axis (aref vertices 0)))))
+    (v2:with-components ((r (v2:uniform (v3:dot axis (aref vertices 0)))))
       (dotimes (i 8)
         (let ((projection (v3:dot axis (aref vertices i))))
           (setf rx (u:clamp rx rx projection)
