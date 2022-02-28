@@ -8,7 +8,7 @@
           %corner-directions '(:ne :nw :sw :se))))
 
 (defmethod nudge ((grid quad-grid) cell)
-  (v2:+ cell (v2:vec 1e-7)))
+  (v2:+ cell (v2:uniform 1f-7)))
 
 (defmethod neighbor-by-index ((grid quad-grid) cell index)
   (v2:+ cell (aref (neighbor-offsets grid) index)))
