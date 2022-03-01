@@ -25,6 +25,7 @@
      (:file "protocol")
      (:file "mixin-storage")
      (:file "mixin-alpha")
+     (:file "mixin-rgb")
      (:file "illuminants")
      (:file "chromatic-adaptation")
      (:file "gamma")

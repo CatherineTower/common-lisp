@@ -59,5 +59,10 @@
     (setf (u:href (base:color-space-data base:*context*) space-name) args)
     (values)))
 
+(defmacro define-model (name superclasses &body body)
+  `(defclass ,name ,(or superclasses '(color)) ()
+     (:default-initargs
+      ,@(car body))))
+
 (defmacro define-color-space (name () &key (model name) (illuminant :d65) (gamma 2.2d0) coords)
   `(register-color-space ',name ',model :illuminant ',illuminant :gamma ',gamma :coords ',coords))
