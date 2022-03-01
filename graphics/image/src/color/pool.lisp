@@ -1,7 +1,5 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(defvar *pooling-enabled* t)
-
 (defun ensure-color-pool (pool-index)
   (declare (optimize speed))
   (let ((pools (or base:*worker-pools* (base:color-pools base:*context*))))
@@ -42,29 +40,14 @@
 
 (defmacro with-pool-color ((binding model &key space copy) &body body)
   (u:with-gensyms (pool-index model-id space-id)
-    `(if *pooling-enabled*
-         (let* ((,model-id (get ,model :model-id))
-                (,space-id (if ,space (get ,space :space-id) 0))
-                (,pool-index (logior ,model-id (ash ,space-id 8)))
-                (,binding (get-pool-color ,pool-index ,model ,space :copy ,copy)))
-           (declare (u:ub8 ,model-id ,space-id))
-           (unwind-protect (progn ,@body)
-             ,pool-index
-             (put-pool-color ,pool-index ,binding)))
-         (let ((,binding (make-color ,model :space ,space)))
-           ,@(when copy
-               `((copy-pool-color ,copy ,binding)))
-           ,@body))))
-
-;; (defmacro with-pool-color ((binding model &key space copy) &body body)
-;;   `(if *pooling-enabled*
-;;        (let ((,binding (get-pool-color ,model ,space :copy ,copy)))
-;;          (unwind-protect (progn ,@body)
-;;            (put-pool-color ,binding ,model ,space)))
-;;        (let ((,binding (make-color ,model :space ,space)))
-;;          ,@(when copy
-;;              `((copy-pool-color ,copy ,binding)))
-;;          ,@body)))
+    `(let* ((,model-id (get ,model :model-id))
+            (,space-id (if ,space (get ,space :space-id) 0))
+            (,pool-index (logior ,model-id (ash ,space-id 8)))
+            (,binding (get-pool-color ,pool-index ,model ,space :copy ,copy)))
+       (declare (u:ub8 ,model-id ,space-id))
+       (unwind-protect (progn ,@body)
+         ,pool-index
+         (put-pool-color ,pool-index ,binding)))))
 
 (defmacro with-pool-colors ((model &rest rest) &body body)
   `(with-pool-color (,model ',model)
