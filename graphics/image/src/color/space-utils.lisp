@@ -108,7 +108,7 @@
 
 (defmethod convert-color :around ((from alpha) (to color))
   (declare (optimize speed))
-  (with-pool-color (alpha (type-of from) :space (space-name from) :copy from)
+  (with-pool-color (alpha (model-name from) :space (space-name from) :copy from)
     (when (pre-multiplied-alpha-p from)
       (un-pre-multiply-alpha alpha))
     (call-next-method alpha to)))
@@ -306,7 +306,7 @@
 
 (define-conversion (rgb xyz)
   (declare (optimize speed))
-  (with-pool-color (rgb (type-of from) :space (space-name from) :copy from)
+  (with-pool-color (rgb (model-name from) :space (space-name from) :copy from)
     (let* ((illuminant-name (illuminant-name rgb))
            (transform (get-rgb-transform rgb to illuminant-name))
            (rgb-channels (v3:zero)))

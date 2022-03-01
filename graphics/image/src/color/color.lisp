@@ -19,9 +19,14 @@
     :reader default-illuminant-name
     :accessor %default-illuminant-name)))
 
+(declaim (inline model-name))
+(defun model-name (color)
+  (declare (optimize speed))
+  (class-name (class-of color)))
+
 (u:define-printer (color stream :type nil)
   (format stream "COLOR (model: ~a, space: ~a, illuminant: ~a)~%  ~{~{~a~^: ~}~^~%  ~}"
-          (type-of color)
+          (model-name color)
           (space-name color)
           (illuminant-name color)
           (map 'list (lambda (x y) (list x (float y 1f0)))
@@ -29,7 +34,7 @@
                (channels color))))
 
 (defmethod initialize-instance :after ((instance color) &key space illuminant)
-  (let* ((model (type-of instance))
+  (let* ((model (model-name instance))
          (space (or space (default-space-name instance))))
     (u:if-found (spec (u:href (base:color-space-data base:*context*) space))
       (destructuring-bind (required-model &rest args &key ((:illuminant default-illuminant))

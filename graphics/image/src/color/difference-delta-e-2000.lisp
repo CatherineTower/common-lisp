@@ -39,7 +39,7 @@
 
 (defun delta-e-2000 (color1 color2)
   (flet ((ensure-cielab (color)
-           (if (eq (class-name (class-of color)) 'lab)
+           (if (eq (model-name color) 'lab)
                color
                (convert-color color (lab 0 0 0))))
          (a (a c)
