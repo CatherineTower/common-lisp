@@ -1,6 +1,6 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(defvar *pooling-enabled* nil)
+(defvar *pooling-enabled* t)
 
 (defun ensure-color-pool (model space)
   (declare (optimize speed))
