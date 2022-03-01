@@ -41,7 +41,7 @@
             (- (* (expt value 0.45d0) 1.099d0) 0.099d0)))
        (L*
         (if (<= value +cie-e+)
-            (* value (/ +cie-k+ 100d0))
+            (* value #.(/ +cie-k+ 100d0))
             (- (* 1.16d0 (expt (the (u:f64 0d0) value) #.(/ 3d0))) 0.16d0)))))))
 
 (defun linearize-rgb (color)
