@@ -35,9 +35,9 @@
           (reset-pool-color color))
       color)))
 
-(defun put-pool-color (color)
+(defun put-pool-color (color model space)
   (declare (optimize speed))
-  (let ((pool (ensure-color-pool (type-of color) (space-name color))))
+  (let ((pool (ensure-color-pool model space)))
     (declare (vector pool))
     (vector-push-extend color pool (array-total-size pool))
     (values)))
@@ -46,7 +46,7 @@
   `(if *pooling-enabled*
        (let ((,binding (get-pool-color ,model ,space :copy ,copy)))
          (unwind-protect (progn ,@body)
-           (put-pool-color ,binding)))
+           (put-pool-color ,binding ,model ,space)))
        (let ((,binding (make-color ,model :space ,space)))
          ,@(when copy
              `((copy-pool-color ,copy ,binding)))
