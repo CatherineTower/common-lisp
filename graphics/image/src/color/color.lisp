@@ -53,3 +53,11 @@
   (let ((illuminant-name (if default (default-illuminant-name from) (illuminant-name from))))
     (setf (%illuminant-name to) illuminant-name)
     (values)))
+
+(defun register-color-space (space-name model-name &rest args)
+  (let ((args (list* model-name :space space-name args)))
+    (setf (u:href (base:color-space-data base:*context*) space-name) args)
+    (values)))
+
+(defmacro define-color-space (name () &key (model name) (illuminant :d65) (gamma 2.2d0) coords)
+  `(register-color-space ',name ',model :illuminant ',illuminant :gamma ',gamma :coords ',coords))

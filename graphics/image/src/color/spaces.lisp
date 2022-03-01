@@ -1,13 +1,5 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(defun register-color-space (space-name model-name &rest args)
-  (let ((args (list* model-name :space space-name args)))
-    (setf (u:href (base:color-space-data base:*context*) space-name) args)
-    (values)))
-
-(defmacro define-color-space (name () &key (model name) (illuminant :d65) (gamma 2.2d0) coords)
-  `(register-color-space ',name ',model :illuminant ',illuminant :gamma ',gamma :coords ',coords))
-
 ;; Reference: http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 (define-color-space adobe-rgb ()
   :model rgb
