@@ -60,9 +60,31 @@
     (values)))
 
 (defmacro define-model (name superclasses &body body)
+  (let ((models (base:color-models base:*context*)))
+    (unless (find name models)
+      (let ((id (1+ (length models)))
+            (max 256))
+        (when (>= id max)
+          (error "Total number of color model definitions exceeded the maximum of ~d ~
+                  when trying to define color model: ~s."
+                 (1- max)
+                 name))
+        (u:appendf (base:color-models base:*context*) `(,name))
+        (setf (get name :model-id) id))))
   `(defclass ,name ,(or superclasses '(color)) ()
      (:default-initargs
       ,@(car body))))
 
 (defmacro define-color-space (name () &key (model name) (illuminant :d65) (gamma 2.2d0) coords)
+  (let ((space-list (base:color-spaces base:*context*)))
+    (unless (find name space-list)
+      (let ((id (1+ (length space-list)))
+            (max 256))
+        (when (>= id 256)
+          (error "Total number of color space definitions exceeded the maximum of ~d ~
+                  when trying to define color space: ~s."
+                 (1- max)
+                 name))
+        (u:appendf (base:color-spaces base:*context*) `(,name))
+        (setf (get name :space-id) id))))
   `(register-color-space ',name ',model :illuminant ',illuminant :gamma ',gamma :coords ',coords))
