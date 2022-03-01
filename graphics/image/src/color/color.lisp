@@ -31,7 +31,7 @@
 (defmethod initialize-instance :after ((instance color) &key space illuminant)
   (let* ((model (type-of instance))
          (space (or space (default-space-name instance))))
-    (u:if-found (spec (u:href (base:color-spaces base:*context*) space))
+    (u:if-found (spec (u:href (base:color-space-data base:*context*) space))
       (destructuring-bind (required-model &rest args &key ((:illuminant default-illuminant))
                            &allow-other-keys)
           spec
