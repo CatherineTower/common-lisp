@@ -9,10 +9,7 @@
     (declare (dynamic-extent key))
     (or (u:href pools key)
         (let ((array (make-array 2 :adjustable t :fill-pointer 0)))
-          (dotimes (i (length array))
-            (setf (aref array i) (make-color model :space space)))
-          (setf (u:href pools (copy-list key)) array)
-          array))))
+          (setf (u:href pools (copy-list key)) array)))))
 
 (declaim (inline reset-pool-color))
 (defun reset-pool-color (color)
