@@ -4,7 +4,6 @@
   ((%space-name
     :type symbol
     :reader space-name
-    :accessor %space-name
     :initarg :space)
    (%default-space-name
     :type (and symbol (not null))
