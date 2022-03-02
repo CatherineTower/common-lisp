@@ -34,9 +34,9 @@
      (:file "illuminant")
      (:file "chromatic-adaptation")
      (:file "gamma")
+     (:file "difference")
      (:file "space-utils")
-     (:file "convert")
-     (:file "difference-delta-e-2000")))
+     (:file "convert")))
    (:module "image"
     :components
     ((:file "package")

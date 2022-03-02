@@ -2,11 +2,7 @@
 
 ;;;; Reference: http://www2.ece.rochester.edu/~gsharma/ciede2000/ciede2000noteCRNA.pdf
 
-(u:define-constant +delta-e-2000/kl+ 1d0)
-(u:define-constant +delta-e-2000/kc+ 1d0)
-(u:define-constant +delta-e-2000/kh+ 1d0)
-
-(defun %delta-e-2000/delta-h (h1 h2 c1 c2)
+(defun %difference/delta-h (h1 h2 c1 c2)
   (if (= c1 c2 0d0)
       0d0
       (let ((diff (- h2 h1)))
@@ -23,7 +19,7 @@
                 0.5d0)))
            2d0))))
 
-(defun %delta-e-2000/h* (h1 h2 c1 c2)
+(defun %difference/h* (h1 h2 c1 c2)
   (let ((diff (abs (- h1 h2)))
         (sum (+ h1 h2)))
     (if (zerop (* c1 c2))
@@ -37,7 +33,7 @@
               (- sum 360)))
            0.5d0))))
 
-(defun delta-e-2000 (color1 color2)
+(defun color-difference (color1 color2)
   (flet ((ensure-cielab (color)
            (if (eq (model-name color) 'lab)
                color
@@ -63,9 +59,9 @@
                (c2 (c a2 lab2-z))
                (delta-l (- lab2-x lab1-x))
                (delta-c (- c2 c1))
-               (delta-h (%delta-e-2000/delta-h h1 h2 c1 c2))
+               (delta-h (%difference/delta-h h1 h2 c1 c2))
                (c* (* (+ c1 c2) 0.5d0))
-               (h* (%delta-e-2000/h* h1 h2 c1 c2))
+               (h* (%difference/h* h1 h2 c1 c2))
                (t* (+ (- (* 0.17d0 (cos (u:degrees->radians (- h* 30d0)))))
                       (* 0.24d0 (cos (u:degrees->radians (* h* 2))))
                       (* 0.32d0 (cos (u:degrees->radians (+ (* h* 3) 6d0))))
@@ -76,10 +72,12 @@
                (sl (1+ (/ (* l 0.015d0) (sqrt (+ l 20)))))
                (sc (1+ (* c* 0.045d0)))
                (sh (1+ (* c* t* 0.015d0)))
-               (rt (- (* (sin (u:degrees->radians (* 2 delta-theta))) rc))))
-          (sqrt (+ (expt (/ delta-l (* +delta-e-2000/kl+ sl)) 2)
-                   (expt (/ delta-c (* +delta-e-2000/kc+ sc)) 2)
-                   (expt (/ delta-h (* +delta-e-2000/kh+ sh)) 2)
+               (rt (- (* (sin (u:degrees->radians (* 2 delta-theta))) rc)))
+               (c/sc (/ delta-c sc))
+               (h/sh (/ delta-h sh)))
+          (sqrt (+ (expt (/ delta-l sl) 2)
+                   (expt c/sc 2)
+                   (expt h/sh 2)
                    (* rt
-                      (/ delta-c (* +delta-e-2000/kc+ sc))
-                      (/ delta-h (* +delta-e-2000/kh+ sh))))))))))
+                      c/sc
+                      h/sh))))))))
