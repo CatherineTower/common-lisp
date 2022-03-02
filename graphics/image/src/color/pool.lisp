@@ -1,6 +1,6 @@
 (in-package #:%mfiano.graphics.image.color)
 
-(defun ensure-color-pool (pool-index)
+(defun ensure-pool (pool-index)
   (declare (optimize speed))
   (let ((pools (or base:*worker-pools* (base:color-pools base:*context*))))
     (declare ((simple-array t (*)) pools))
@@ -21,7 +21,7 @@
 
 (defun get-pool-color (pool-index model space &key copy)
   (declare (optimize speed))
-  (let ((pool (ensure-color-pool pool-index)))
+  (let ((pool (ensure-pool pool-index)))
     (declare ((vector t) pool))
     (when (zerop (fill-pointer pool))
       (map-into pool (lambda () (make-color model :space space))))
@@ -33,7 +33,7 @@
 
 (defun put-pool-color (pool-index color)
   (declare (optimize speed))
-  (let ((pool (ensure-color-pool pool-index)))
+  (let ((pool (ensure-pool pool-index)))
     (declare ((vector t) pool))
     (vector-push-extend color pool (array-total-size pool))
     (values)))
