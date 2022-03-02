@@ -34,7 +34,7 @@
 (defun put-pool-color (pool-index color)
   (declare (optimize speed))
   (let ((pool (ensure-color-pool pool-index)))
-    (declare (vector pool))
+    (declare ((vector t) pool))
     (vector-push-extend color pool (array-total-size pool))
     (values)))
 
