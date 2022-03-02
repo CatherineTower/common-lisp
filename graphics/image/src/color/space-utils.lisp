@@ -13,12 +13,13 @@
                :collect `(%convert-color ,x ,to))))
 
 (defun find-conversion-path (from to)
+  (declare (optimize speed))
   (let ((graph (base:color-space-graph base:*context*))
         (shortest nil))
     (map nil
          (lambda (x)
            (let ((path (graph:shortest-path graph x to)))
-             (when (or (null shortest) (< (length path) (1- (length shortest))))
+             (when (or (null shortest) (< (list-length path) (1- (list-length shortest))))
                (setf shortest (list* (list from x) path)))))
          (graph:neighbors graph from))
     shortest))
