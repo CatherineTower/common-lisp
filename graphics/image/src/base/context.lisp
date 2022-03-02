@@ -12,6 +12,9 @@
   (color-pools (make-array (ash 1 16) :initial-element nil) :type (simple-array t (*)))
   (cone-responses (u:dict) :type hash-table)
   (chromatic-adaptation-transforms (u:dict #'equal) :type hash-table)
+  (chromatic-adaptation-transform-lock
+   (bt:make-lock "chromatic-adaptation-transforms")
+   :type bt:lock)
   (rgb-transforms (u:dict #'equal) :type hash-table)
   (rgb-transform-lock
    (bt:make-lock "rgb-transforms")

@@ -15,9 +15,10 @@
                             (v3:/ (m3:*v3 cone-response target-white-point)
                                   (m3:*v3 cone-response source-white-point)))
                            cone-response)))))
-      (u:if-found (transform (u:href transforms key))
-        transform
-        (setf (u:href transforms (copy-list key)) (calculate-transform))))))
+      (bt:with-lock-held ((base:chromatic-adaptation-transform-lock base:*context*))
+        (u:if-found (transform (u:href transforms key))
+          transform
+          (setf (u:href transforms (copy-list key)) (calculate-transform)))))))
 
 (defun adapt-chromaticity (color illuminant-name &key (method :bradford))
   (declare (optimize speed))

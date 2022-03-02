@@ -11,6 +11,7 @@
    #:*parallel-p*
    #:*worker-pools*
    #:chromatic-adaptation-transforms
+   #:chromatic-adaptation-transform-lock
    #:color-models
    #:color-pools
    #:color-pools
