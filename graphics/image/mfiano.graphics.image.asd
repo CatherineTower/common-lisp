@@ -17,7 +17,9 @@
     :components
     ((:file "package")
      (:file "conditions")
-     (:file "context")))
+     (:file "context")
+     (:file "worker-state")
+     (:file "thread-pool")))
    (:module "color"
     :components
     ((:file "package")

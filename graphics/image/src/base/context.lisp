@@ -1,39 +1,35 @@
 (in-package #:%mfiano.graphics.image.base)
 
-(defstruct (context
-            (:conc-name nil)
-            (:predicate nil)
-            (:copier nil))
-  (illuminants (u:dict) :type hash-table)
-  (color-models nil :type list)
-  (color-spaces nil :type list)
-  (color-space-data (u:dict) :type hash-table)
-  (color-space-graph (make-instance 'graph:digraph))
-  (color-pools (make-array (ash 1 16) :initial-element nil) :type (simple-array t (*)))
-  (cone-responses (u:dict) :type hash-table)
-  (chromatic-adaptation-transforms (u:dict #'equal) :type hash-table)
-  (rgb-transforms (u:dict #'equal) :type hash-table))
+(defclass context ()
+  ((%color-models
+    :type list
+    :accessor color-models
+    :initform nil)
+   (%color-spaces
+    :type list
+    :accessor color-spaces
+    :initform nil)
+   (%color-space-data
+    :type hash-table
+    :reader color-space-data
+    :initform (u:dict #'eq))
+   (%color-space-graph
+    :type graph:digraph
+    :reader color-space-graph
+    :initform (make-instance 'graph:digraph))
+   (%cone-responses
+    :type hash-table
+    :reader cone-responses
+    :initform (u:dict #'eq))
+   (%illuminants
+    :type hash-table
+    :reader illuminants
+    :initform (u:dict #'eq))))
 
 (u:define-printer (context stream :type nil :identity t)
   (format stream "CONTEXT"))
 
+(defun make-context ()
+  (make-instance 'context))
+
 (defvar *context* (make-context))
-
-(defvar *parallel-p* nil)
-
-(defvar *worker-pools* nil)
-
-(defun make-thread-pool (context worker-count)
-  (lp:make-kernel worker-count
-                  :name "image-worker"
-                  :context (lambda (x)
-                             (let ((*worker-pools* (make-array (ash 1 16) :initial-element nil)))
-                               (funcall x)))
-                  :bindings `((*context* . ,context))))
-
-;;; Public interface
-
-(defmacro with-threads ((&optional (count 4)) &body body)
-  `(let ((*parallel-p* t)
-         (lp:*kernel* (make-thread-pool *context* ,count)))
-     ,@body))

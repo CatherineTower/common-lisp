@@ -9,10 +9,9 @@
   (:export
    #:*context*
    #:*parallel-p*
-   #:*worker-pools*
+   #:*worker-state*
    #:chromatic-adaptation-transforms
    #:color-models
-   #:color-pools
    #:color-pools
    #:color-space-data
    #:color-space-graph

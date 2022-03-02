@@ -2,7 +2,7 @@
 
 (defun ensure-pool (pool-index)
   (declare (optimize speed))
-  (let ((pools (or base:*worker-pools* (base:color-pools base:*context*))))
+  (let ((pools (base:color-pools base:*worker-state*)))
     (declare ((simple-array t (*)) pools))
     (or (aref pools pool-index)
         (setf (aref pools pool-index) (make-array 2 :adjustable t :fill-pointer 0)))))

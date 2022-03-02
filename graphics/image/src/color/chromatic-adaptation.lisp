@@ -2,7 +2,7 @@
 
 (defun get-chromatic-adaptation-transform (method source-illuminant-name target-illuminant-name)
   (declare (optimize speed))
-  (let* ((transforms (base:chromatic-adaptation-transforms base:*context*))
+  (let* ((transforms (base:chromatic-adaptation-transforms base:*worker-state*))
          (key (list method source-illuminant-name target-illuminant-name)))
     (declare (dynamic-extent key))
     (flet ((calculate-transform ()
