@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (Apple RGB)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.0997907667105796d0 0.0727239043095458d0 0.4162813669652056d0)
         (i:convert-color

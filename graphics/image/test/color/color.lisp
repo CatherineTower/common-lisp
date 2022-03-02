@@ -4,6 +4,3 @@
 
 (p:define-test "Color > Convert"
   :parent "Color")
-
-(p:define-test "Color > Difference"
-  :parent "Color")

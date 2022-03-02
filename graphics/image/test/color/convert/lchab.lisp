@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > LCHab"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.0141773774614284d0 0.0197288255464867d0 0.2056730271393733d0)
         (i:convert-color

@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (DCI-P3+)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.1903238767955199d0 0.2217914110186268d0 0.7317511687686392d0)
         (i:convert-color

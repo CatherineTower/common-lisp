@@ -1,7 +1,8 @@
 (in-package #:mfiano.graphics.image.test)
 
-(p:define-test "Color > Difference > Delta-E 2000"
-  :parent "Color > Difference"
+(p:define-test "Color > Difference"
+  :parent "Color"
+  :compile-at :execute
   (p:with-fixtures '(*float-tolerance*)
     (setf *float-tolerance* 1d-4)
     (p:is float=

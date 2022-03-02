@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (Ekta Space PS 5)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.2778475987785322d0 0.5668716729513777d0 0.5595321876489582d0)
         (i:convert-color

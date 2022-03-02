@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (ProPhoto RGB)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.8101229374759039d0 0.5570439891980326d0 0.1601558982278273d0)
         (i:convert-color

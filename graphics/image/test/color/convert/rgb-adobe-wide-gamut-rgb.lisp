@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (Adobe Wide Gamut RGB)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.0800630380549832d0 0.0314383010133982d0 0.0109506098598647d0)
         (i:convert-color

@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (ECI RGB v2)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.2344341010019042d0 0.2346344082677029d0 0.5082984979049704d0)
         (i:convert-color

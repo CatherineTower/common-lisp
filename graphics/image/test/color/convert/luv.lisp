@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > Luv"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.6001147326277835d0 0.1678371175242143d0 0.8027960034800804d0)
         (i:convert-color

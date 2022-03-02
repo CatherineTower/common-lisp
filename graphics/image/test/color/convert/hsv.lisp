@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > HSV"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:rgb 0.5212434243086167d0 0.6051541197010493d0 0.6469162196190497d0)
         (i:convert-color

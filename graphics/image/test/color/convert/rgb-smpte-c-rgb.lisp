@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (SMPTE-C RGB)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.0823155282116541d0 0.0956155623166773d0 0.0610563915700192d0)
         (i:convert-color

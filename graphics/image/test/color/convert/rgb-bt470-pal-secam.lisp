@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (bt.470 PAL/SECAM)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.4448637887090678d0 0.2153792272076508d0 0.6664721066089240d0)
         (i:convert-color

@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > LCHuv"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 1.1163854349908506d0 0.9486691218359667d0 1.0082636025159788d0)
         (i:convert-color

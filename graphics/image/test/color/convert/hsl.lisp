@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > HSL"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:rgb 0.6796412876090989d0 0.8892663015168792d0 0.7112480160606455d0)
         (i:convert-color

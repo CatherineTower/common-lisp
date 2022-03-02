@@ -2,6 +2,7 @@
 
 (p:define-test "Color > Convert > RGB (CIE RGB)"
   :parent "Color > Convert"
+  :compile-at :execute
   (p:is color=
         (i:xyz 0.1149655022555951d0 0.0576037201157763d0 0.303681049267886d0)
         (i:convert-color
