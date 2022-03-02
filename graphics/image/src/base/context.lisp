@@ -12,7 +12,10 @@
   (color-pools (make-array (ash 1 16) :initial-element nil) :type (simple-array t (*)))
   (cone-responses (u:dict) :type hash-table)
   (chromatic-adaptation-transforms (u:dict #'equal) :type hash-table)
-  (rgb-transforms (u:dict #'equal) :type hash-table))
+  (rgb-transforms (u:dict #'equal) :type hash-table)
+  (rgb-transform-lock
+   (bt:make-lock "rgb-transforms")
+   :type bt:lock))
 
 (u:define-printer (context stream :type nil :identity t)
   (format stream "CONTEXT"))

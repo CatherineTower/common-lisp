@@ -20,6 +20,7 @@
    #:cone-responses
    #:illuminants
    #:rgb-transforms
+   #:rgb-transform-lock
    #:with-threads)
   ;; Conditions
   (:export
